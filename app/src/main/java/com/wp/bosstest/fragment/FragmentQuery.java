@@ -20,9 +20,8 @@ import com.wp.bosstest.R;
 /**
  * Created by wp on 2016/1/18.
  */
-public class FragmentHome extends Fragment {
-    private static final String TAG = "FragmentHome";
-    private int index;
+public class FragmentQuery extends Fragment {
+    private static final String TAG = "FragmentQuery";
     private long tempId;
     DownloadManager downloadManager;
     DownloadManager.Request request;
@@ -31,19 +30,21 @@ public class FragmentHome extends Fragment {
     private Button mBtnQuery;
     private Handler mHandler;
     private String mShow;
-    public static Fragment newInstance(int index) {
-        Fragment fragment = new FragmentHome(index);
+
+    public static Fragment newInstance() {
+        Fragment fragment = new FragmentQuery();
         return fragment;
     }
 
-    private FragmentHome(int index) {
+    private FragmentQuery() {
         super();
-        this.index = index;
+        Log.d(TAG, "FragmentQuery(int index)");
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "FragmentQuery onCreate(Bundle savedInstanceState)");
         downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
         request = new DownloadManager.Request(Uri.parse("http://f1.market.mi-img.com/download/AppStore/0cfcd48017925b291a1c1c29eb2f6022437417228/%E8%8A%92%E6%9E%9CTV_4.5.0_56.apk"));
         mHandler = new Myhandler();
@@ -52,27 +53,18 @@ public class FragmentHome extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "FragmentQuery onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState");
         View view = null;
-        switch (index) {
-            case 0:
-                view = inflater.inflate(R.layout.fragment_home_query, null, false);
-                break;
-            default:
-                break;
-        }
-
+        view = inflater.inflate(R.layout.fragment_query, null, false);
         return view;
     }
-
-
-
 
 
     //该方法会在所在的Activity onCreate方法后调用
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        Log.d(TAG, "FragmentQuery onActivityCreated(Bundle savedInstanceState)");
         request.setDestinationInExternalPublicDir("temp", "ceshi.apk");
         request.setVisibleInDownloadsUi(true);
 
@@ -81,8 +73,10 @@ public class FragmentHome extends Fragment {
 //        EditText input = (EditText)getActivity().findViewById(R.id.home_query_input);
         mTVshow = (TextView) getActivity().findViewById(R.id.home_query_show);
         mBtnQuery = (Button) getActivity().findViewById(R.id.home_query_btn_query);
-        insert.setOnClickListener(new MyClickLis());
-        mBtnQuery.setOnClickListener(new MyClickLis());
+
+        View.OnClickListener myClick = new MyClickLis();
+        insert.setOnClickListener(myClick);
+        mBtnQuery.setOnClickListener(myClick);
     }
 
     class MyClickLis implements View.OnClickListener {
@@ -119,7 +113,7 @@ public class FragmentHome extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if( msg.what == 0x111) {
+             if (msg.what == 0x111) {
                 mTVshow.setText(mShow);
             }
         }
@@ -128,5 +122,6 @@ public class FragmentHome extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "FragmentQuery onResunme()");
     }
 }

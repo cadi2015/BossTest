@@ -12,7 +12,8 @@ import android.util.Log;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 import com.wp.bosstest.R;
-import com.wp.bosstest.fragment.FragmentHome;
+import com.wp.bosstest.fragment.FragmentQuery;
+import com.wp.bosstest.fragment.FragmentTool;
 
 
 /**
@@ -23,7 +24,7 @@ public class MainActivity extends FragmentActivity {
 //    private TabPageIndicator mPageIndicator;
 //    private ViewPager mViewPager;
 
-    private String[] titles = {"查询"};
+    private String[] titles = {"查询", "工具"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,16 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             Log.d(TAG, "getItem(int position), position = " + position);
             Fragment fragment = null;
-            fragment = FragmentHome.newInstance(position);
+            switch(position) {
+                case 0:
+                    fragment = FragmentQuery.newInstance();
+                    break;
+                case 1:
+                    fragment = new FragmentTool();
+                    break;
+                default:
+                    break;
+            }
             return fragment;
         }
 
