@@ -30,10 +30,10 @@ public class FragmentQuery extends Fragment {
     private Button mBtnQuery;
     private Handler mHandler;
     private String mShow;
-
+    public static Fragment mFrament;
     public static Fragment newInstance() {
-        Fragment fragment = new FragmentQuery();
-        return fragment;
+        mFrament = new FragmentQuery();
+        return mFrament;
     }
 
     private FragmentQuery() {

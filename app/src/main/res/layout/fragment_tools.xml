@@ -2,6 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前环境:"
+            android:layout_centerVertical="true"
+            android:textSize="30sp"
+            android:id="@+id/tools_tv_current"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tools_tv_current"
+            android:text="test"
+            android:layout_centerVertical="true"
+            android:textSize="30sp"
+            android:id="@+id/tool_tv_current_show"/>
+    </RelativeLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -9,4 +29,11 @@
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:id="@+id/tool_btn_switch"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="一键添加.ad_show"
+        android:textSize="30sp"
+        android:layout_margin="10dp"
+        android:id="@+id/tool_btn_ad"/>
 </LinearLayout>

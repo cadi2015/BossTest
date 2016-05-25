@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">BossTest</string>
-    <string name="btn_switch_test">测试环境</string>
+    <string name="btn_switch_test">切换服务器API环境</string>
     <string name="btn_switch_production">正式环境</string>
 </resources>
