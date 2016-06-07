@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_splash_bg"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/introduction_background">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="下载管理测试appV1.0"
+        android:text="下载管理工具"
         android:gravity="center"
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:textColor="@color/color_splash_txt"/>
+        android:textColor="@color/color_splash_txt"
+        android:typeface="sans"
+        android:textStyle="bold"/>
 </RelativeLayout>

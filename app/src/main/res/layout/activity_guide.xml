@@ -1,12 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/guide_view_pager">
-
     </android.support.v4.view.ViewPager>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        tools:text="It's a Test"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/guide_tv_show"
+        android:textColor="@color/color_guide_txt"
+        android:text="@string/guide_page_0"/>
+
+    <Button
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:id="@+id/guide_btn_start"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="30dp"
+        android:textSize="22sp"
+        android:text="开始体验"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:background="@drawable/btn_start_bg"/>
 </FrameLayout>

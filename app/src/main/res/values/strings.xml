@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">BossTest</string>
+    <string name="version_name">1.2</string>
     <string name="btn_switch_test">切换服务器API环境</string>
     <string name="btn_switch_production">正式环境</string>
+    <string name="btn_bt">添加BT测试文件</string>
+    <string name="guide_page_0">路可以慢慢走</string>
+    <string name="guide_page_1">哪怕曾经跌倒</string>
+    <string name="guide_page_2">无论道路艰难</string>
+    <string name="guide_page_3">终将战胜一切</string>
 </resources>

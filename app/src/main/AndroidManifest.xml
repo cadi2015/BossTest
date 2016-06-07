@@ -1,9 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wp.bosstest">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wp.bosstest"
+    android:versionName="@string/version_name"
+    android:versionCode="20160607">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -22,7 +26,12 @@
         </activity>
 
         <activity android:name=".activity.MainActivity"
-            android:theme="@style/StyledIndicators">
+            android:theme="@style/StyledIndicators"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <activity android:name=".activity.GuideActivity">
         </activity>
 
     </application>

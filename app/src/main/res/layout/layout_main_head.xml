@@ -5,5 +5,5 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="测试app，建设中……"/>
+        android:text="测试app，建设中, 请多指教"/>
 </LinearLayout>

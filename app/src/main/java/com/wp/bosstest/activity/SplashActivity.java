@@ -1,6 +1,8 @@
 package com.wp.bosstest.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -15,11 +17,12 @@ import com.wp.bosstest.fragment.FragmentSplash;
  * Created by wp on 2016/1/12.
  */
 public class SplashActivity extends FragmentActivity {
-
+    private SharedPreferences mSharedPre;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        init();
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = new FragmentSplash();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -29,11 +32,17 @@ public class SplashActivity extends FragmentActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                if (mSharedPre.getBoolean("is_first", true)) {
+                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                } else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                }
                 SplashActivity.this.finish();
             }
         }, 500);
-
     }
 
+    private void init() {
+        mSharedPre = getSharedPreferences("boss_config", Context.MODE_PRIVATE);
+    }
 }
