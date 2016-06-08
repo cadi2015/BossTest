@@ -37,19 +37,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="@string/btn_switch_test"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/tool_btn_ad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="20sp"
             android:layout_margin="10dp"
             android:id="@+id/tool_btn_bt"
             android:text="@string/btn_bt"/>

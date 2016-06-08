@@ -1,38 +1,33 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.bosstest"
-    android:versionName="@string/version_name"
-    android:versionCode="20160607">
+    android:versionCode="20160608"
+    android:versionName="@string/version_name">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-        >
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
-                <action
-                    android:name="android.intent.action.MAIN"/>
-                <category
-                    android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainActivity"
-            android:theme="@style/StyledIndicators"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/StyledIndicators"></activity>
 
 
-        <activity android:name=".activity.GuideActivity">
-        </activity>
+        <activity android:name=".activity.GuideActivity"></activity>
 
     </application>
 

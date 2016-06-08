@@ -227,14 +227,14 @@ public class FragmentTool extends Fragment {
         }
         String[] fileNames = null;
         try {
-            fileNames = assetManager.list("");
+            fileNames = assetManager.list("bt");
         } catch (IOException e) {
             e.printStackTrace();
         }
         for (String name : fileNames) {
             try {
                 Log.d(TAG, "assets name = " + name);
-                InputStream inputStream = assetManager.open(name);
+                InputStream inputStream = assetManager.open("bt" + File.separator + name);
                 File outFile = new File(btDir, name);
                 byte[] bytes = new byte[1024]; //每次读取到内存1kb 先整个byte数组对象
                 int length; //将输入字节流撸到byte数组对象（该数组的持有的每一个元素是byte）
