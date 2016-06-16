@@ -1,6 +1,9 @@
 package com.wp.bosstest.fragment;
 
+import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,15 +25,11 @@ import com.wp.bosstest.R;
  */
 public class FragmentQuery extends Fragment {
     private static final String TAG = "FragmentQuery";
-    private long tempId;
     private View mRootView;
-    DownloadManager downloadManager;
-    DownloadManager.Request request;
-    DownloadManager.Query query;
-    private TextView mTVshow;
     private Button mBtnQuery;
-    private String mShow;
+    private Activity mActivity;
     public static Fragment mFrament;
+
     public static Fragment newInstance() {
         mFrament = new FragmentQuery();
         return mFrament;
@@ -45,8 +44,6 @@ public class FragmentQuery extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "FragmentQuery onCreate(Bundle savedInstanceState)");
-        downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-        request = new DownloadManager.Request(Uri.parse("http://f1.market.mi-img.com/download/AppStore/0cfcd48017925b291a1c1c29eb2f6022437417228/%E8%8A%92%E6%9E%9CTV_4.5.0_56.apk"));
     }
 
 
@@ -63,40 +60,32 @@ public class FragmentQuery extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "FragmentQuery onActivityCreated(Bundle savedInstanceState)");
-        request.setDestinationInExternalPublicDir("temp", "ceshi.apk");
-        request.setVisibleInDownloadsUi(true);
+        setupViews();
+        init();
+    }
 
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        Button insert = (Button) getActivity().findViewById(R.id.home_query_btn_insert);
-        mTVshow = (TextView) getActivity().findViewById(R.id.home_query_show);
-        mBtnQuery = (Button) getActivity().findViewById(R.id.home_query_btn_query);
+    private void setupViews() {
+        mBtnQuery = (Button) mRootView.findViewById(R.id.home_query_btn_query);
 
-        View.OnClickListener myClick = new MyClickLis();
-        insert.setOnClickListener(myClick);
-        mBtnQuery.setOnClickListener(myClick);
+        MyClickLis myClickLis = new MyClickLis();
+        mBtnQuery.setOnClickListener(myClickLis);
+    }
+
+    private void init() {
+        mActivity = getActivity();
     }
 
     class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.home_query_btn_insert:
-                    tempId = downloadManager.enqueue(request);
-
-                    Log.d(TAG, "tempId = " + tempId);
-                    break;
                 case R.id.home_query_btn_query:
-                    query = new DownloadManager.Query().setFilterById(tempId);
-                    Cursor c = downloadManager.query(query);
-                    c.moveToFirst();
-                    String temp = c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME));
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("local_name : " + temp + "\n");
-                    sb.append("id : " + getColumnString(c, DownloadManager.COLUMN_ID));
-                    sb.append("Uri:" + c.getString(c.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)) + "\n");
-                    sb.append("下载状态：" + c.getString(c.getColumnIndex(DownloadManager.COLUMN_STATUS)) + "\n");
-                    mShow = sb.toString();
-                    mTVshow.setText(mShow);
+                    String temp = "ed2k://|file| \n" +
+                            "\n" +
+                            "[迅雷下载www.DY123.cc]真心英雄.BD1280高清国粤双语中字.mp4|1191888666|8D05E0620D46BF13289AB32DF1821F28|h=FFRMNFIUREQRDY6ONW3HZM3TCXRT4RKT|/";
+                    ClipboardManager clipboardManager = (ClipboardManager) mActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clipData  = ClipData.newPlainText("simple", temp);
+                    clipboardManager.setPrimaryClip(clipData);
                     break;
                 default:
                     break;

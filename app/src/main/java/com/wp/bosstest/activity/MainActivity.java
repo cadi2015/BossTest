@@ -25,7 +25,7 @@ public class MainActivity extends FragmentActivity {
 //    private TabPageIndicator mPageIndicator;
 //    private ViewPager mViewPager;
 
-    private String[] titles = {"查询", "工具", "设备"};
+    private String[] titles = {"任务", "工具", "设备"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

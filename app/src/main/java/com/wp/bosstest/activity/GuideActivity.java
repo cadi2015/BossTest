@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.utils.AppInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,7 @@ public class GuideActivity extends FragmentActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("boss_config", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.putBoolean("is_first", false);
+            editor.putInt("version_code", AppInfo.getVersionCode(getApplicationContext()));
             editor.commit();
             startActivity(new Intent(GuideActivity.this, MainActivity.class));
             GuideActivity.this.finish();

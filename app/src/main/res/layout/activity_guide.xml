@@ -21,7 +21,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/guide_tv_show"
-        android:textColor="@color/color_guide_txt"
+        android:textColor="@color/color_guide_txt_white"
         android:text="@string/guide_page_0"/>
 
     <Button
@@ -34,5 +34,6 @@
         android:text="开始体验"
         android:textStyle="bold"
         android:visibility="gone"
-        android:background="@drawable/btn_start_bg"/>
+        android:background="@null"
+        android:textColor="@color/color_guide_txt_white"/>
 </FrameLayout>

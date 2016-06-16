@@ -5,5 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_splash_bg">#FF4081</color>
     <color name="color_splash_txt">#F5D8D8</color>
-    <color name="color_guide_txt">#1F0000</color>
+    <color name="color_guide_txt_white">#FFFFFF</color>
 </resources>
