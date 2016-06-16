@@ -236,7 +236,7 @@ public class FragmentTool extends Fragment {
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
             Log.d(TAG, "******** onProgressUpdate(Object[]) values) *********");
-            Toast.makeText(mContext, "拷贝完成，文件在SD根目录", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "拷贝完成，bt文件在SD卡根目录", Toast.LENGTH_LONG).show();
             mBtnBt.setClickable(true);
             mBtnBt.setEnabled(true);
 //            mProBarBt.setVisibility(View.VISIBLE);

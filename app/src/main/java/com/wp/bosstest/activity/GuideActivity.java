@@ -35,6 +35,8 @@ public class GuideActivity extends FragmentActivity {
     };
     private TextView mTvShow;
     private Button mBtnStart;
+    private ImageView mIvPrev;
+    private ImageView mIvNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,34 +52,36 @@ public class GuideActivity extends FragmentActivity {
     private class MyOnPageLis implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            Log.d(TAG, "^^^^^onPageScrolled(int position, float positionOffset, int positionOffsetPixels)^^^^^^");
         }
 
         @Override
         public void onPageSelected(int position) {
+            Log.d(TAG, "onPageSelected(int position), position = " + position);
             switch (position) {
                 case 0:
                     mTvShow.setText(R.string.guide_page_0);
+                    mIvPrev.setVisibility(View.GONE);
                     break;
                 case 1:
                     mTvShow.setText(R.string.guide_page_1);
+                    mIvPrev.setVisibility(View.VISIBLE);
                     break;
                 case 2:
                     mTvShow.setText(R.string.guide_page_2);
+                    mIvNext.setVisibility(View.VISIBLE);
                     break;
                 case 3:
                     mTvShow.setText(R.string.guide_page_3);
                     mBtnStart.setVisibility(View.VISIBLE);
+                    mIvNext.setVisibility(View.GONE);
                     break;
                 default:
                     break;
             }
-            Log.d(TAG, "^^^^^^onPageSelected(int position)^^^^^^");
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            Log.d(TAG, "^^^^^^^^onPageScrollStateChanged(int state)^^^^^^^^^ state = " + state );
         }
     }
 
@@ -87,6 +91,8 @@ public class GuideActivity extends FragmentActivity {
         mBtnStart = (Button) findViewById(R.id.guide_btn_start);
         mBtnStart.setOnClickListener(new MyClickLis());
         mBg = new ImageView[imageIds.length];
+        mIvPrev = (ImageView) findViewById(R.id.guide_iv_prev);
+        mIvNext = (ImageView) findViewById(R.id.guide_iv_next);
         List<View> mViews = new ArrayList<View>();
         for (int i = 0; i < mBg.length; i++) {
             mBg[i] = new ImageView(this);

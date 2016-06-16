@@ -90,14 +90,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/btn_txt_size"
-            android:layout_margin="10dp"
             android:id="@+id/tool_btn_browser_download_list"
             android:text="浏览器调起下载管理列表(忽略排序）"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/btn_txt_size"
-            android:layout_margin="10dp"
             android:id="@+id/tool_btn_market_download_list"
             android:text="应用商店调起下载管理列表"/>
 

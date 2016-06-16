@@ -13,7 +13,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentPhone;
-import com.wp.bosstest.fragment.FragmentQuery;
+import com.wp.bosstest.fragment.FragmentTask;
 import com.wp.bosstest.fragment.FragmentTool;
 
 
@@ -51,7 +51,7 @@ public class MainActivity extends FragmentActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = FragmentQuery.newInstance();
+                    fragment = FragmentTask.newInstance();
                     break;
                 case 1:
                     fragment = new FragmentTool();

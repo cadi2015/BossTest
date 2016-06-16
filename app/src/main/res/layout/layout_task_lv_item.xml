@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="16sp"
+    android:id="@+id/layout_task_tv_show"
+    tools:text="试的我只是用来测试的我只是用来测试的我只是用来测试的我只是用来测试的我只是用来测试的"
+    android:ellipsize="end"
+    android:maxLines="2"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="9dp"
+    android:paddingBottom="9dp">
+</TextView>
