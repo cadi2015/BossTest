@@ -79,7 +79,9 @@ public class FragmentTask extends Fragment {
                 "http://bt.box.n0808.com/FB/FE/FB5260D4444945B4DC604D09A640B6AE6DF5BFFE.torrent", "ed2k://|file|[迅雷下载www.DY123.cc]真心英雄.BD1280高清国粤双语中字.mp4|1191888666|8D05E0620D46BF13289AB32DF1821F28|h=FFRMNFIUREQRDY6ONW3HZM3TCXRT4RKT|/"
                 , "thunder://QUFmdHA6Ly81NToxMjM0QGY0LmdibC56dWliZW4uY29tOjY4MjEvMjAxNS8wNS8xMi96dWliZW7K1rv6tefTsHp1aWJlbi5jb23Rp9CjMjAxNS0wNVtoZDQ4MHBdLm1wNFpa"
                 , "magnet:?xt=urn:btih:E8507F9F4CB0BDD2A3D236326F063C7131B0344B"
-                , "https://app.233.com/android/examda_150718.26_2.1.4.apk"};
+                , "https://app.233.com/android/examda_150718.26_2.1.4.apk"
+                , "http://f4.market.mi-img.com/download/ThemeMarket/0c54474ebb3494bae05320082c722a5cb10fe7a0c/%E6%B0%A7PD-1.0.0.2.mtz"
+                , "http://www.ciicbj.com.cn/admin/upload/documents/40/40932bdb-a588-4efa-be69-a95333d29c05/住房公积金提取申请书.doc"};
         mlvShowUrl.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.layout_task_lv_item, temp));
         mlvShowUrl.setOnItemClickListener(new MyLvOnItemLis());
     }

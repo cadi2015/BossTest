@@ -22,8 +22,6 @@ import com.wp.bosstest.fragment.FragmentTool;
  */
 public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
-//    private TabPageIndicator mPageIndicator;
-//    private ViewPager mViewPager;
 
     private String[] titles = {"任务", "工具", "设备"};
 

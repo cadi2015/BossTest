@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fafafa">
+    android:background="#fafafa"
+    android:padding="4dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center" >
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/tools_tv_current"
@@ -23,91 +24,136 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="当前环境:"
-                android:textSize="@dimen/btn_txt_size" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <TextView
                 android:id="@+id/tool_tv_current_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/tools_tv_current"
-                android:textSize="@dimen/tv_txt_size"
-                tools:text="模拟"
-                android:layout_marginLeft="10dp"/>
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?android:attr/textColorPrimary"
+                tools:text="模拟" />
+
             <Button
                 android:id="@+id/tool_btn_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_toStartOf="@id/tool_tv_current_show"
                 android:text="@string/btn_switch_test"
-                android:textSize="@dimen/btn_txt_size"
-                android:layout_toRightOf="@id/tool_tv_current_show"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary" />
         </RelativeLayout>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <Button
                 android:id="@+id/tool_btn_ad"
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/btn_txt_size"
-                tools:text="一键删除.ad_show"
                 android:layout_centerVertical="true"
-                android:gravity="left|center_vertical"/>
+                android:gravity="left|center_vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="?android:attr/textColorPrimary"
+                tools:text="删除.ad_show" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/tool_btn_ad"
-                >
+                android:layout_toRightOf="@id/tool_btn_ad">
+
                 <Button
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/btn_txt_size"
                     android:id="@+id/tool_btn_bt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:gravity="left|center_vertical"
                     android:text="@string/btn_bt"
-                    android:gravity="left|center_vertical"/>
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="?android:attr/textColorPrimary" />
+
                 <ProgressBar
+                    android:id="@+id/tool_pro_bar_bt"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:id="@+id/tool_pro_bar_bt"
-                    android:visibility="gone"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="20dp"/>
+                    android:layout_marginRight="6dp"
+                    android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/btn_txt_size"
             android:id="@+id/tool_btn_browser_download_list"
-            android:text="浏览器调起下载管理列表(忽略排序）"/>
-        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/btn_txt_size"
-            android:id="@+id/tool_btn_market_download_list"
-            android:text="应用商店调起下载管理列表"/>
+            android:gravity="left|center_vertical"
+            android:text="浏览器调起下载管理列表(忽略排序）"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary" />
 
-        <TextView
-            android:id="@+id/tool_tv_ui_info"
+        <Button
+            android:id="@+id/tool_btn_market_download_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|left"
+            android:text="应用商店调起下载管理列表"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:text="Ui信息"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+            <TextView
+                android:id="@+id/tool_tv_ui_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="7dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/colorAccent"
+                tools:text="我是调试用的"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            android:lineSpacingExtra="6dp"/>
-
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:text="Dp信息"
+                android:layout_gravity="left|center_vertical"
+                android:gravity="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                />
         <TextView
             android:id="@+id/tool_tv_dp_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:lineSpacingExtra="7dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:lineSpacingExtra="6dp"/>
+            tools:text="我也是调试用的"
+            android:layout_marginLeft="5dp"/>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

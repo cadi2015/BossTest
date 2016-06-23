@@ -51,12 +51,12 @@ public class FragmentPhone extends Fragment {
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
         int screenHeight = dm.heightPixels;
-        list.add(getMap("DeviceId(imei): ", deviceId));
-        list.add(getMap("Android Version: ", Build.VERSION.RELEASE));
+        list.add(getMap("DeviceId(imei) :", deviceId));
+        list.add(getMap("Android Version :", Build.VERSION.RELEASE));
         list.add(getMap("Device :", Build.DEVICE));
-        list.add(getMap("Model: ", Build.MODEL));
-        list.add(getMap("Screen Width: ", String.valueOf(screenWidth)));
-        list.add(getMap("Scrren Height: ", String.valueOf(screenHeight)));
+        list.add(getMap("Model :", Build.MODEL));
+        list.add(getMap("Screen Width :", String.valueOf(screenWidth)));
+        list.add(getMap("Scrren Height :", String.valueOf(screenHeight)));
         return list;
     }
 

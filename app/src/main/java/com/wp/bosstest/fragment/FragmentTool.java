@@ -66,9 +66,9 @@ public class FragmentTool extends Fragment {
         }
 
         if (fileIsExists(mRootPath + File.separator + ".dlprovider" + File.separator + ".ad_show")) {
-            mBtnAd.setText("一键删除.ad_show");
+            mBtnAd.setText("删除.ad_show");
         } else {
-            mBtnAd.setText("一键添加.ad_show");
+            mBtnAd.setText("添加.ad_show");
         }
 
         StringBuilder uiSb = new StringBuilder();
@@ -80,24 +80,24 @@ public class FragmentTool extends Fragment {
             PackageInfo dpInfo = packageManager.getPackageInfo("com.android.providers.downloads", PackageManager.GET_PERMISSIONS);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String uiLastTime = dateFormat.format(new Date(uiInfo.lastUpdateTime));
-            uiSb.append("ui版本号：" + uiInfo.versionName + "\n");
-            uiSb.append("versionCode: " + uiInfo.versionCode + "\n");
-            uiSb.append("包名: " + uiInfo.packageName + "\n");
-            uiSb.append("最后安装时间: " + uiLastTime + "\n");
-            uiSb.append("进程名称：" + uiInfo.applicationInfo.processName + "\n");
-            uiSb.append("应用数据路径：" + uiInfo.applicationInfo.dataDir + "\n");
-            uiSb.append("安装apk路径：" + uiInfo.applicationInfo.publicSourceDir + "\n");
+            uiSb.append("ui版本号 :" + uiInfo.versionName + "\n");
+            uiSb.append("versionCode :" + uiInfo.versionCode + "\n");
+            uiSb.append("包名 :" + uiInfo.packageName + "\n");
+            uiSb.append("最后安装时间 :" + uiLastTime + "\n");
+            uiSb.append("进程名称 :" + uiInfo.applicationInfo.processName + "\n");
+            uiSb.append("本地数据路径 :" + uiInfo.applicationInfo.dataDir + "\n");
+            uiSb.append("安装apk路径 :" + uiInfo.applicationInfo.publicSourceDir + "\n");
             mTvUiInfo.setText(uiSb.toString());
 
             String dpLastTime = dateFormat.format(new Date(dpInfo.lastUpdateTime));
 
-            dpSb.append("dp版本号: " + dpInfo.versionName + "\n");
-            dpSb.append("versionCode: " + dpInfo.versionCode + "\n");
-            dpSb.append("包名：" + dpInfo.packageName + "\n");
-            dpSb.append("最后安装时间: " + dpLastTime + "\n");
-            dpSb.append("进程名称：" + dpInfo.applicationInfo.processName + "\n");
-            dpSb.append("应用数据路径：" + dpInfo.applicationInfo.dataDir + "\n");
-            dpSb.append("安装apk路径: " + dpInfo.applicationInfo.publicSourceDir +"\n");
+            dpSb.append("dp版本号 :" + dpInfo.versionName + "\n");
+            dpSb.append("versionCode :" + dpInfo.versionCode + "\n");
+            dpSb.append("包名 :" + dpInfo.packageName + "\n");
+            dpSb.append("最后安装时间 :" + dpLastTime + "\n");
+            dpSb.append("进程名称 :" + dpInfo.applicationInfo.processName + "\n");
+            dpSb.append("本地数据路径 :" + dpInfo.applicationInfo.dataDir + "\n");
+            dpSb.append("安装apk路径 :" + dpInfo.applicationInfo.publicSourceDir +"\n");
             mTvDpInfo.setText(dpSb.toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -182,7 +182,7 @@ public class FragmentTool extends Fragment {
                             try {
                                 if (ad_show.createNewFile()) {
                                     Toast.makeText(mContext, "创建成功", Toast.LENGTH_SHORT).show();
-                                    mBtnAd.setText("一键删除.ad_show");
+                                    mBtnAd.setText("删除.ad_show");
                                 }
                             } catch (IOException e) {
                                 e.printStackTrace();
@@ -190,7 +190,7 @@ public class FragmentTool extends Fragment {
                         } else {
                             if (ad_show.delete()) {
                                 Toast.makeText(mContext, ".ad_show文件删除成功", Toast.LENGTH_SHORT).show();
-                                mBtnAd.setText("一键添加.ad_show");
+                                mBtnAd.setText("添加.ad_show");
                             }
                         }
                     }

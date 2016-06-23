@@ -43,6 +43,7 @@ public class FragmentTaskDetail extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated(View view, Bundle savedInstanceState)");
         init();
         setUpViews();
     }
