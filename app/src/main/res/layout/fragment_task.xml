@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fafafa">
     <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/task_lv_show_url"
+        android:footerDividersEnabled="true">
+    </ListView>
+
+    <include
+        layout="@layout/layout_task_lv_footer"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/task_lv_show_url">
-    </ListView>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"/>
 </RelativeLayout>
