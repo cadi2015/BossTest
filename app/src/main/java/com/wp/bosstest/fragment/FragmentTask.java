@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,6 +40,9 @@ public class FragmentTask extends Fragment {
         return mFrament;
     }
 
+    /**
+     * 有bug，不是public，Fragment重新创建时，会抛出异常
+     */
     public FragmentTask() {
         super();
         Log.d(TAG, "FragmentTask(int index)");
@@ -102,7 +103,7 @@ public class FragmentTask extends Fragment {
             TextView tv = (TextView) view;
             ClipData clipData = ClipData.newPlainText("simple", tv.getText().toString());
             mClipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(mActivity, "复制成功，请去下载管理新建中使用吧", Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.copy_success, Toast.LENGTH_LONG).show();
             Log.d(TAG, "onItemClick position = " + position);
             Log.d(TAG, "onItemClick parent = " + parent);
             Log.d(TAG, "onItemClick id = " + id);

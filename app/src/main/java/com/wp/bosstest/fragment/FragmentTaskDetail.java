@@ -89,7 +89,7 @@ public class FragmentTaskDetail extends Fragment {
             Log.d(TAG, "view = " + view);
             ClipData clipData = ClipData.newPlainText("simple", tv.getText().toString());
             mClipboardManager.setPrimaryClip(clipData);
-            Toast.makeText(mContext, "复制成功，请去下载管理内进行使用", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, R.string.copy_success, Toast.LENGTH_LONG).show();
         }
     }
 

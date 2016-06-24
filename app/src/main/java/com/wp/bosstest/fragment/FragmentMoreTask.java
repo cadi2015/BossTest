@@ -73,6 +73,7 @@ public class FragmentMoreTask extends Fragment {
                     Intent intentThunder = new Intent();
                     intentThunder.setAction(IntentAction.TASK_DETAIL_ACTION_THUNDER);
                     startActivity(intentThunder);
+                    break;
                 case R.id.more_task_tv_ftp:
                     Intent intentFtp = new Intent();
                     intentFtp.setAction(IntentAction.TASK_DETAIL_ACTION_FTP);
