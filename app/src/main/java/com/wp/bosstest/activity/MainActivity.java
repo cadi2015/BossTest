@@ -37,6 +37,13 @@ public class MainActivity extends FragmentActivity {
         pageIndicator.setViewPager(viewPager);
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState(Bundle outState)");
+    }
+
     private class CustomAdapter extends FragmentPagerAdapter implements IconPagerAdapter { //FragmentPagerAdapter扩展自PagerAdapter   is a 的关系哦 亲
 
         public CustomAdapter(FragmentManager fm) {

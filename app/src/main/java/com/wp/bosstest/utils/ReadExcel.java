@@ -2,15 +2,10 @@ package com.wp.bosstest.utils;
 
 import android.content.Context;
 import android.util.Log;
-
-
-import com.wp.bosstest.R;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;

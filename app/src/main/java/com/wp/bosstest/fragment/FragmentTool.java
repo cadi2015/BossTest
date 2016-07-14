@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,6 +44,7 @@ public class FragmentTool extends Fragment {
     private ProgressBar mProBarBt;
     private Button mBtnBrowserDownloadList;
     private Button mBtnMarketDownloadList;
+    private Button mBtnSwitMarketPre;
     private String mRootPath;
     private Context mContext;
 
@@ -71,6 +73,10 @@ public class FragmentTool extends Fragment {
             mBtnAd.setText("添加.ad_show");
         }
 
+        if( fileIsExists(mRootPath + File.separator + "market_staging")) {
+            mBtnSwitMarketPre.setText("自升级删除preView环境");
+        }
+
         StringBuilder uiSb = new StringBuilder();
         StringBuilder dpSb = new StringBuilder();
         PackageManager packageManager = mContext.getPackageManager();
@@ -97,7 +103,7 @@ public class FragmentTool extends Fragment {
             dpSb.append("最后安装时间 :" + dpLastTime + "\n");
             dpSb.append("进程名称 :" + dpInfo.applicationInfo.processName + "\n");
             dpSb.append("本地数据路径 :" + dpInfo.applicationInfo.dataDir + "\n");
-            dpSb.append("安装apk路径 :" + dpInfo.applicationInfo.publicSourceDir +"\n");
+            dpSb.append("安装apk路径 :" + dpInfo.applicationInfo.publicSourceDir + "\n");
             mTvDpInfo.setText(dpSb.toString());
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -126,12 +132,14 @@ public class FragmentTool extends Fragment {
         mTvUiInfo = (TextView) mRootView.findViewById(R.id.tool_tv_ui_info);
         mTvDpInfo = (TextView) mRootView.findViewById(R.id.tool_tv_dp_info);
         mProBarBt = (ProgressBar) mRootView.findViewById(R.id.tool_pro_bar_bt);
+        mBtnSwitMarketPre = (Button) mRootView.findViewById(R.id.tool_btn_market_switch_pre);
         View.OnClickListener myClick = new MyBtnClick();
         mBtnSwit.setOnClickListener(myClick);
         mBtnAd.setOnClickListener(myClick);
         mBtnBt.setOnClickListener(myClick);
         mBtnBrowserDownloadList.setOnClickListener(myClick);
         mBtnMarketDownloadList.setOnClickListener(myClick);
+        mBtnSwitMarketPre.setOnClickListener(myClick);
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -207,19 +215,56 @@ public class FragmentTool extends Fragment {
                     startActivity(broIntent);
                     break;
                 case R.id.tool_btn_market_download_list:
-                    Intent  marIntent= new Intent();
+                    Intent marIntent = new Intent();
                     marIntent.setAction("android.intent.action.VIEW_DOWNLOADS");
                     startActivity(marIntent);
+                    break;
+                case R.id.tool_btn_market_switch_pre:
+                    if (createFile(mRootPath, "market_staging")) {
+                        mBtnSwitMarketPre.setText("自升级删除preView环境");
+                    } else {
+                        removeFile(mRootPath, "market_staging");
+                        mBtnSwitMarketPre.setText("自升级添加preView环境");
+                    }
+                    break;
                 default:
                     break;
             }
         }
     }
 
-    private  class MyTask extends AsyncTask {
+    private boolean createFile(String path, String name) {
+        boolean createSuccess = false;
+        File file = new File(path, name);
+        if (file.exists()) {
+            Toast.makeText(mContext, name + "存在，即将删除……", Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                createSuccess = file.createNewFile();
+                Toast.makeText(mContext, name + "创建成功", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return createSuccess;
+    }
+
+    private boolean removeFile(String path, String name) {
+        boolean removeSuccess = false;
+        File file = new File(path, name);
+        if (fileIsExists(path + File.separator + name)) {
+            removeSuccess = file.delete();
+            Toast.makeText(mContext, name + "成功删除", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(mContext, name + "不存在", Toast.LENGTH_SHORT).show();
+        }
+        return removeSuccess;
+    }
+
+    private class MyTask extends AsyncTask {
         @Override
         protected Object doInBackground(Object... params) {
-            Log.d(TAG," ******** doInBackground (Object[] params)*********");
+            Log.d(TAG, " ******** doInBackground (Object[] params)*********");
             copyBtToSdcard("测试bt种子文件");
             publishProgress();
             return null;
@@ -242,8 +287,6 @@ public class FragmentTool extends Fragment {
 //            mProBarBt.setVisibility(View.VISIBLE);
         }
     }
-
-
 
 
     private void copyBtToSdcard(String dir) {

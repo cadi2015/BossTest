@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/task_detail_lv"
         android:divider="@color/colorPrimary"
-        android:dividerHeight="1dp">
+        android:dividerHeight="1dp"
+        android:fastScrollEnabled="true">
     </ListView>
 </RelativeLayout>
