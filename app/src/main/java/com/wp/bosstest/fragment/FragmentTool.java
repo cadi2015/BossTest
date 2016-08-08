@@ -45,8 +45,11 @@ public class FragmentTool extends Fragment {
     private Button mBtnBrowserDownloadList;
     private Button mBtnMarketDownloadList;
     private Button mBtnSwitMarketPre;
+    private Button mBtnFileTest;
     private String mRootPath;
     private Context mContext;
+    private String mService_test;
+    private String mService_online;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,11 +63,14 @@ public class FragmentTool extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated(View view, Bundle savedInstanceState)");
         mRootPath = Environment.getExternalStorageDirectory().getPath();
+        Log.d(TAG, "mRootPath = " + mRootPath);
         mContext = getActivity();
+        mService_test = getString(R.string.btn_switch_production_test);
+        mService_online = getString(R.string.btn_switch_production_online);
         if (fileIsExists(mRootPath + File.separator + ".dlprovider" + File.separator + ".is_api_test")) {
-            mTvShow.setText("测试");
+            mTvShow.setText(mService_test);
         } else {
-            mTvShow.setText("正式");
+            mTvShow.setText(mService_online);
         }
 
         if (fileIsExists(mRootPath + File.separator + ".dlprovider" + File.separator + ".ad_show")) {
@@ -73,7 +79,7 @@ public class FragmentTool extends Fragment {
             mBtnAd.setText("添加.ad_show");
         }
 
-        if( fileIsExists(mRootPath + File.separator + "market_staging")) {
+        if (fileIsExists(mRootPath + File.separator + "market_staging")) {
             mBtnSwitMarketPre.setText("自升级删除preView环境");
         }
 
@@ -109,7 +115,10 @@ public class FragmentTool extends Fragment {
             e.printStackTrace();
             Log.d(TAG, "找不到指定包的info信息");
         }
+        showAlertDialog();
+    }
 
+    private void showAlertDialog() {
 
     }
 
@@ -140,6 +149,8 @@ public class FragmentTool extends Fragment {
         mBtnBrowserDownloadList.setOnClickListener(myClick);
         mBtnMarketDownloadList.setOnClickListener(myClick);
         mBtnSwitMarketPre.setOnClickListener(myClick);
+        mBtnFileTest = (Button) mRootView.findViewById(R.id.tool_btn_file_test);
+        mBtnFileTest.setOnClickListener(myClick);
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -164,13 +175,13 @@ public class FragmentTool extends Fragment {
                         if (haveTestApiFile) {
                             Toast.makeText(mContext, "切换正式环境成功", Toast.LENGTH_SHORT).show();
                             apiTestFile.delete();
-                            mTvShow.setText("正式");
+                            mTvShow.setText(mService_online);
                         } else {
                             File is_api_test = new File(dlFile + File.separator + ".is_api_test");
                             if (!is_api_test.exists()) {
                                 try {
                                     is_api_test.createNewFile();
-                                    mTvShow.setText("测试");
+                                    mTvShow.setText(mService_test);
                                     Toast.makeText(mContext, "切换测试环境成功", Toast.LENGTH_SHORT).show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
@@ -227,9 +238,26 @@ public class FragmentTool extends Fragment {
                         mBtnSwitMarketPre.setText("自升级添加preView环境");
                     }
                     break;
+                case R.id.tool_btn_file_test:
+                    if (createDic(mRootPath, ".fileexplorer")) {
+                        createFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
+                        createFile(mRootPath + File.separator + ".fileexplorer", ".log");
+                    }
+                    break;
                 default:
                     break;
             }
+        }
+    }
+
+
+    private boolean createDic(String path, String name) {
+        File file = new File(path, name);
+        if (file.exists()) {
+            return false;
+        } else {
+            file.mkdir();
+            return true;
         }
     }
 
@@ -237,7 +265,7 @@ public class FragmentTool extends Fragment {
         boolean createSuccess = false;
         File file = new File(path, name);
         if (file.exists()) {
-            Toast.makeText(mContext, name + "存在，即将删除……", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, name + "文件存在", Toast.LENGTH_SHORT).show();
         } else {
             try {
                 createSuccess = file.createNewFile();
@@ -284,7 +312,6 @@ public class FragmentTool extends Fragment {
             Toast.makeText(mContext, "拷贝完成，bt文件在SD卡根目录", Toast.LENGTH_LONG).show();
             mBtnBt.setClickable(true);
             mBtnBt.setEnabled(true);
-//            mProBarBt.setVisibility(View.VISIBLE);
         }
     }
 

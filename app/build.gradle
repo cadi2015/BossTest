@@ -8,8 +8,8 @@ android {
         applicationId "com.wp.bosstest"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 20160624
-        versionName "1.2.5.1"
+        versionCode 20160808
+        versionName "1.3"
     }
     buildTypes {
         release {

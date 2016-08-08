@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
@@ -80,6 +81,18 @@ public class FragmentTaskDetail extends Fragment {
         mLvShow = (ListView) mRootView.findViewById(R.id.task_detail_lv);
         mLvShow.setAdapter(new MyListAdapter(mListOfExcel));
         mLvShow.setOnItemClickListener(new MyOnItemClickLis());
+        mLvShow.setOnScrollListener(new MyOnScrLis());
+    }
+
+    private class MyOnScrLis implements AbsListView.OnScrollListener {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            Log.d(TAG, "scrollState = " + scrollState);
+        }
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            Log.d(TAG, "firstViewsibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
+        }
     }
 
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {

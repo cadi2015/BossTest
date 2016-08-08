@@ -23,7 +23,7 @@ import com.wp.bosstest.fragment.FragmentTool;
 public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
 
-    private String[] titles = {"任务", "工具", "设备"};
+    private String[] titles = {"工具", "任务", "设备"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +56,11 @@ public class MainActivity extends FragmentActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = FragmentTask.newInstance();
+                    fragment = new FragmentTool();
+
                     break;
                 case 1:
-                    fragment = new FragmentTool();
+                    fragment = FragmentTask.newInstance();
                     break;
                 case 2:
                     fragment = new FragmentPhone();
@@ -84,7 +85,17 @@ public class MainActivity extends FragmentActivity {
         @Override
         public int getIconResId(int i) {
             Log.d(TAG, "getIconResId(int i), i = " + i);
-            return R.mipmap.icon_app_store;
+            switch (i) {
+                case 0:
+                    return R.drawable.tab_tool;
+                case 1:
+                    return R.drawable.tab_donwload;
+                case 2:
+                    return R.drawable.tab_phone;
+                default:
+                    break;
+            }
+            return  -1;
         }
     }
 }

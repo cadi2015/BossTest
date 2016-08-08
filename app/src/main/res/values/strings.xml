@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">BossTest</string>
     <string name="version_name">1.2.1</string>
-    <string name="btn_switch_test">切换服务器API环境</string>
-    <string name="btn_switch_production">正式环境</string>
+    <string name="btn_switch_test">切换</string>
+    <string name="btn_switch_production_test">测试</string>
+    <string name="btn_switch_production_online">正式</string>
     <string name="btn_bt">添加BT测试文件</string>
-    <string name="guide_page_0">挑战无处不在</string>
-    <string name="guide_page_1">哪怕曾经跌倒</string>
-    <string name="guide_page_2">不要轻言放弃</string>
-    <string name="guide_page_3">努力终将实现</string>
+    <string name="guide_page_0">自由复制下载链接</string>
+    <string name="guide_page_1">一键添加Bt种子</string>
+    <string name="guide_page_2">查看Ui与Dp包信息</string>
+    <string name="guide_page_3">设备信息任意看</string>
     <string name="more_resource">更多资源</string>
     <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
 </resources>

@@ -42,6 +42,8 @@ public class FragmentPhone extends Fragment {
         SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), getData(), R.layout.layout_phone_lv_item, new String[]{"title", "content"},
                 new int[]{R.id.layout_phone_title, R.id.layout_phone_content});
         mListView.setAdapter(simpleAdapter);
+        mListView.setClickable(false);
+        mListView.setEnabled(false);
     }
 
     private List<Map<String, String>> getData() {
@@ -51,12 +53,18 @@ public class FragmentPhone extends Fragment {
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
         int screenHeight = dm.heightPixels;
+        float screenDensity = dm.density;
+        int screenDensityDpi = dm.densityDpi;
+        float screenScaledDensity = dm.scaledDensity;
         list.add(getMap("DeviceId(imei) :", deviceId));
         list.add(getMap("Android Version :", Build.VERSION.RELEASE));
         list.add(getMap("Device :", Build.DEVICE));
         list.add(getMap("Model :", Build.MODEL));
         list.add(getMap("Screen Width :", String.valueOf(screenWidth)));
-        list.add(getMap("Scrren Height :", String.valueOf(screenHeight)));
+        list.add(getMap("Screen Height :", String.valueOf(screenHeight)));
+        list.add(getMap("Screen Density :", String.valueOf(screenDensity)));
+        list.add(getMap("Screen DensityDpi :", String.valueOf(screenDensityDpi)));
+        list.add(getMap("Screen ScaledDensity :", String.valueOf(screenScaledDensity)));
         return list;
     }
 
@@ -72,7 +80,6 @@ public class FragmentPhone extends Fragment {
     private void setupViews() {
         mListView = (ListView)mRootView.findViewById(R.id.phone_lv_show);
     }
-
 
 
     private void init() {

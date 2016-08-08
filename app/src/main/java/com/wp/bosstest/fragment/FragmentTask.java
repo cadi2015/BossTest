@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -31,13 +32,13 @@ public class FragmentTask extends Fragment {
     private ListView mlvShowUrl;
     private LinearLayout mLinearLayoutMore;
     ClipboardManager mClipboardManager;
-    public static Fragment mFrament;
+    public static Fragment mFragment;
 
     public static Fragment newInstance() {
-        if (mFrament == null) {
-            mFrament = new FragmentTask();
+        if (mFragment == null) {
+            mFragment = new FragmentTask();
         }
-        return mFrament;
+        return mFragment;
     }
 
     /**
@@ -87,6 +88,8 @@ public class FragmentTask extends Fragment {
         mlvShowUrl.setOnItemClickListener(new MyLvOnItemLis());
     }
 
+
+
     private class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -109,6 +112,8 @@ public class FragmentTask extends Fragment {
             Log.d(TAG, "onItemClick id = " + id);
             Log.d(TAG, "onItemClick listView = " + mlvShowUrl);
         }
+
+
     }
 
     private void init() {
