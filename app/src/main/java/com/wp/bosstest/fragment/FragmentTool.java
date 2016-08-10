@@ -46,6 +46,7 @@ public class FragmentTool extends Fragment {
     private Button mBtnMarketDownloadList;
     private Button mBtnSwitMarketPre;
     private Button mBtnFileTest;
+    private Button mBtnFilePre;
     private String mRootPath;
     private Context mContext;
     private String mService_test;
@@ -92,6 +93,7 @@ public class FragmentTool extends Fragment {
             PackageInfo dpInfo = packageManager.getPackageInfo("com.android.providers.downloads", PackageManager.GET_PERMISSIONS);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String uiLastTime = dateFormat.format(new Date(uiInfo.lastUpdateTime));
+            uiSb.append("应用名称 :" + uiInfo.applicationInfo.loadLabel(packageManager).toString() + "\n");
             uiSb.append("ui版本号 :" + uiInfo.versionName + "\n");
             uiSb.append("versionCode :" + uiInfo.versionCode + "\n");
             uiSb.append("包名 :" + uiInfo.packageName + "\n");
@@ -102,7 +104,7 @@ public class FragmentTool extends Fragment {
             mTvUiInfo.setText(uiSb.toString());
 
             String dpLastTime = dateFormat.format(new Date(dpInfo.lastUpdateTime));
-
+            dpSb.append("应用名称 :" + dpInfo.applicationInfo.loadLabel(packageManager).toString() + "\n");
             dpSb.append("dp版本号 :" + dpInfo.versionName + "\n");
             dpSb.append("versionCode :" + dpInfo.versionCode + "\n");
             dpSb.append("包名 :" + dpInfo.packageName + "\n");
@@ -150,7 +152,9 @@ public class FragmentTool extends Fragment {
         mBtnMarketDownloadList.setOnClickListener(myClick);
         mBtnSwitMarketPre.setOnClickListener(myClick);
         mBtnFileTest = (Button) mRootView.findViewById(R.id.tool_btn_file_test);
+        mBtnFilePre = (Button) mRootView.findViewById(R.id.tool_btn_file_pre);
         mBtnFileTest.setOnClickListener(myClick);
+        mBtnFilePre.setOnClickListener(myClick);
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -239,10 +243,20 @@ public class FragmentTool extends Fragment {
                     }
                     break;
                 case R.id.tool_btn_file_test:
-                    if (createDic(mRootPath, ".fileexplorer")) {
-                        createFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
-                        createFile(mRootPath + File.separator + ".fileexplorer", ".log");
+                    createDic(mRootPath, ".fileexplorer");
+                    if (fileIsExists(mRootPath + File.separator + ".fileexplorer" + File.separator + ".ra2serverpre")) {
+                        removeFile(mRootPath + File.separator + ".fileexplorer", ".ra2serverpre");
                     }
+                    createFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
+                    createFile(mRootPath + File.separator + ".fileexplorer", ".log");
+                    break;
+                case R.id.tool_btn_file_pre:
+                    createDic(mRootPath, ".fileexplorer");
+                    if (fileIsExists(mRootPath + File.separator + ".fileexplorer" + File.separator + ".ra2servertest")) {
+                        removeFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
+                    }
+                    createFile(mRootPath + File.separator + ".fileexplorer", ".ra2serverpre");
+                    createFile(mRootPath + File.separator + ".fileexplorer", ".log");
                     break;
                 default:
                     break;
@@ -265,7 +279,7 @@ public class FragmentTool extends Fragment {
         boolean createSuccess = false;
         File file = new File(path, name);
         if (file.exists()) {
-            Toast.makeText(mContext, name + "文件存在", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, name + "已经存在", Toast.LENGTH_SHORT).show();
         } else {
             try {
                 createSuccess = file.createNewFile();

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.utils.AppInfo;
+import com.wp.bosstest.utils.SharedHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,10 +108,10 @@ public class GuideActivity extends FragmentActivity {
     private class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SharedPreferences sharedPreferences = getSharedPreferences("boss_config", Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SharedHelper.SHARED_PRE_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor= sharedPreferences.edit();
-            editor.putBoolean("is_first", false);
-            editor.putInt("version_code", AppInfo.getVersionCode(getApplicationContext()));
+            editor.putBoolean(SharedHelper.GUIDE_KEY_IS_FIRST, false);
+            editor.putInt(SharedHelper.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
             editor.commit();
             startActivity(new Intent(GuideActivity.this, MainActivity.class));
             GuideActivity.this.finish();

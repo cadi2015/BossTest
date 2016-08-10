@@ -128,11 +128,19 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="文件管理一键切换测试环境"
+            android:text="文件管理一键切换Test环境"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:gravity="left|center_vertical"
             android:id="@+id/tool_btn_file_test"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="文件管理一键切换Pre环境"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:gravity="left|center_vertical"
+            android:id="@+id/tool_btn_file_pre"/>
 
         <View
             android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="BossTest\nv1.3"
+        android:text="@string/version_name"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:textColor="@color/color_splash_txt"
