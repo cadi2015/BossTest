@@ -10,15 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.utils.AppInfo;
-import com.wp.bosstest.utils.SharedHelper;
+import com.wp.bosstest.config.SharedConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,10 +106,10 @@ public class GuideActivity extends FragmentActivity {
     private class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SharedPreferences sharedPreferences = getSharedPreferences(SharedHelper.SHARED_PRE_NAME, Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getSharedPreferences(SharedConstant.SHARED_PRE_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor= sharedPreferences.edit();
-            editor.putBoolean(SharedHelper.GUIDE_KEY_IS_FIRST, false);
-            editor.putInt(SharedHelper.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
+            editor.putBoolean(SharedConstant.GUIDE_KEY_IS_FIRST, false);
+            editor.putInt(SharedConstant.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
             editor.commit();
             startActivity(new Intent(GuideActivity.this, MainActivity.class));
             GuideActivity.this.finish();

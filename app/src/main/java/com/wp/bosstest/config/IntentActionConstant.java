@@ -1,9 +1,9 @@
-package com.wp.bosstest.utils;
+package com.wp.bosstest.config;
 
 /**
  * Created by cadi on 2016/6/22.
  */
-public class IntentAction {
+public class IntentActionConstant {
     public static final String TASK_DETAIL_ACTION_HTTP = "boss.action.task.detail.http";
     public static final String TASK_DETAIL_ACTION_ED2K = "boss.action.task.detail.ed2k";
     public static final String TASK_DETAIL_ACTION_THUNDER = "boss.action.task.detail.thunder";

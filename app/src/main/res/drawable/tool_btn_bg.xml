@@ -3,5 +3,11 @@
     <item
         android:state_pressed="true" android:drawable="@drawable/tool_btn_bg_press"/>
 
+    <item
+        android:state_focused="true" android:drawable="@drawable/tool_btn_bg_press"/>
+
+    <item
+        android:state_selected="true" android:drawable="@drawable/tool_btn_bg_press" />
+
     <item android:drawable="@drawable/tool_btn_bg_nor"/>
 </selector>

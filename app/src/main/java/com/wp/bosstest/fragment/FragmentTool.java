@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.graphics.Paint;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -45,8 +44,6 @@ public class FragmentTool extends Fragment {
     private Button mBtnBrowserDownloadList;
     private Button mBtnMarketDownloadList;
     private Button mBtnSwitMarketPre;
-    private Button mBtnFileTest;
-    private Button mBtnFilePre;
     private String mRootPath;
     private Context mContext;
     private String mService_test;
@@ -151,10 +148,6 @@ public class FragmentTool extends Fragment {
         mBtnBrowserDownloadList.setOnClickListener(myClick);
         mBtnMarketDownloadList.setOnClickListener(myClick);
         mBtnSwitMarketPre.setOnClickListener(myClick);
-        mBtnFileTest = (Button) mRootView.findViewById(R.id.tool_btn_file_test);
-        mBtnFilePre = (Button) mRootView.findViewById(R.id.tool_btn_file_pre);
-        mBtnFileTest.setOnClickListener(myClick);
-        mBtnFilePre.setOnClickListener(myClick);
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -241,22 +234,6 @@ public class FragmentTool extends Fragment {
                         removeFile(mRootPath, "market_staging");
                         mBtnSwitMarketPre.setText("自升级添加preView环境");
                     }
-                    break;
-                case R.id.tool_btn_file_test:
-                    createDic(mRootPath, ".fileexplorer");
-                    if (fileIsExists(mRootPath + File.separator + ".fileexplorer" + File.separator + ".ra2serverpre")) {
-                        removeFile(mRootPath + File.separator + ".fileexplorer", ".ra2serverpre");
-                    }
-                    createFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
-                    createFile(mRootPath + File.separator + ".fileexplorer", ".log");
-                    break;
-                case R.id.tool_btn_file_pre:
-                    createDic(mRootPath, ".fileexplorer");
-                    if (fileIsExists(mRootPath + File.separator + ".fileexplorer" + File.separator + ".ra2servertest")) {
-                        removeFile(mRootPath + File.separator + ".fileexplorer", ".ra2servertest");
-                    }
-                    createFile(mRootPath + File.separator + ".fileexplorer", ".ra2serverpre");
-                    createFile(mRootPath + File.separator + ".fileexplorer", ".log");
                     break;
                 default:
                     break;

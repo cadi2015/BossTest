@@ -7,11 +7,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/task_lv_show_url"
-        >
+        android:layout_above="@+id/task_include_more">
     </ListView>
-
-
     <include
+        android:id="@+id/task_include_more"
         layout="@layout/layout_task_lv_footer"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"

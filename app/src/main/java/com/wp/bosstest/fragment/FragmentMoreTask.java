@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
-import com.wp.bosstest.utils.IntentAction;
+import com.wp.bosstest.config.IntentActionConstant;
 
 /**
  * Created by cadi on 2016/6/20.
@@ -61,27 +61,27 @@ public class FragmentMoreTask extends Fragment {
             switch (v.getId()) {
                 case R.id.more_task_tv_http:
                     Intent intentHttp = new Intent();
-                    intentHttp.setAction(IntentAction.TASK_DETAIL_ACTION_HTTP);
+                    intentHttp.setAction(IntentActionConstant.TASK_DETAIL_ACTION_HTTP);
                     startActivity(intentHttp);
                     break;
                 case R.id.more_task_tv_ed2k:
                     Intent intentEd2k = new Intent();
-                    intentEd2k.setAction(IntentAction.TASK_DETAIL_ACTION_ED2K);
+                    intentEd2k.setAction(IntentActionConstant.TASK_DETAIL_ACTION_ED2K);
                     startActivity(intentEd2k);
                     break;
                 case R.id.more_task_tv_thunder:
                     Intent intentThunder = new Intent();
-                    intentThunder.setAction(IntentAction.TASK_DETAIL_ACTION_THUNDER);
+                    intentThunder.setAction(IntentActionConstant.TASK_DETAIL_ACTION_THUNDER);
                     startActivity(intentThunder);
                     break;
                 case R.id.more_task_tv_ftp:
                     Intent intentFtp = new Intent();
-                    intentFtp.setAction(IntentAction.TASK_DETAIL_ACTION_FTP);
+                    intentFtp.setAction(IntentActionConstant.TASK_DETAIL_ACTION_FTP);
                     startActivity(intentFtp);
                     break;
                 case R.id.more_task_tv_magnet:
                     Intent intentMagnet = new Intent();
-                    intentMagnet.setAction(IntentAction.TASK_DETAIL_ACTION_MAGNET);
+                    intentMagnet.setAction(IntentActionConstant.TASK_DETAIL_ACTION_MAGNET);
                     startActivity(intentMagnet);
                     break;
                 default:

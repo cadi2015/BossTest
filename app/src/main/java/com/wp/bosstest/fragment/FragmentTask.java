@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -60,6 +59,8 @@ public class FragmentTask extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "FragmentTask onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState");
         mRootView = inflater.inflate(R.layout.fragment_task, null, false);
+        init();
+        setupViews();
         return mRootView;
     }
 
@@ -69,8 +70,6 @@ public class FragmentTask extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "FragmentTask onActivityCreated(Bundle savedInstanceState)");
-        init();
-        setupViews();
     }
 
     private void setupViews() {

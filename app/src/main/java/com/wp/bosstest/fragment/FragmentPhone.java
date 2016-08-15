@@ -1,11 +1,14 @@
 package com.wp.bosstest.fragment;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -29,6 +32,7 @@ public class FragmentPhone extends Fragment {
     private ListView mListView;
     private TelephonyManager mTelManager;
     private Activity mActivity;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_phone, container, false);
         setupViews();
@@ -37,7 +41,7 @@ public class FragmentPhone extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view,  Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(getActivity(), getData(), R.layout.layout_phone_lv_item, new String[]{"title", "content"},
                 new int[]{R.id.layout_phone_title, R.id.layout_phone_content});
@@ -48,7 +52,13 @@ public class FragmentPhone extends Fragment {
 
     private List<Map<String, String>> getData() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        String deviceId =  mTelManager.getDeviceId();
+        String deviceId;
+        if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+           deviceId = "没有权限";
+        } else {
+            deviceId = mTelManager.getDeviceId();
+        }
+
         DisplayMetrics dm = new DisplayMetrics();
         mActivity.getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenWidth = dm.widthPixels;
@@ -68,7 +78,7 @@ public class FragmentPhone extends Fragment {
         return list;
     }
 
-    private Map<String, String> getMap(String title, String content){
+    private Map<String, String> getMap(String title, String content) {
         Map<String, String> map = new HashMap<>();
         map.put("title", title);
         map.put("content", content);
@@ -76,9 +86,8 @@ public class FragmentPhone extends Fragment {
     }
 
 
-
     private void setupViews() {
-        mListView = (ListView)mRootView.findViewById(R.id.phone_lv_show);
+        mListView = (ListView) mRootView.findViewById(R.id.phone_lv_show);
     }
 
 

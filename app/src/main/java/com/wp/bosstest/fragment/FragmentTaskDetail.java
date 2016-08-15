@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wp.bosstest.R;
-import com.wp.bosstest.utils.IntentAction;
+import com.wp.bosstest.config.IntentActionConstant;
 import com.wp.bosstest.utils.ReadExcel;
 
 import java.util.List;
@@ -60,15 +60,15 @@ public class FragmentTaskDetail extends Fragment {
     private int selectRaw(Intent intent) {
         if (intent != null) {
             switch (intent.getAction()) {
-                case IntentAction.TASK_DETAIL_ACTION_HTTP:
+                case IntentActionConstant.TASK_DETAIL_ACTION_HTTP:
                     return R.raw.http;
-                case IntentAction.TASK_DETAIL_ACTION_ED2K:
+                case IntentActionConstant.TASK_DETAIL_ACTION_ED2K:
                     return R.raw.ed2k;
-                case IntentAction.TASK_DETAIL_ACTION_THUNDER:
+                case IntentActionConstant.TASK_DETAIL_ACTION_THUNDER:
                     return R.raw.thunder;
-                case IntentAction.TASK_DETAIL_ACTION_FTP:
+                case IntentActionConstant.TASK_DETAIL_ACTION_FTP:
                     return R.raw.ftp;
-                case IntentAction.TASK_DETAIL_ACTION_MAGNET:
+                case IntentActionConstant.TASK_DETAIL_ACTION_MAGNET:
                     return R.raw.magnet;
                 default:
                     break;
