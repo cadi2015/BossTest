@@ -34,10 +34,11 @@ public class FragmentMainDownloadManager extends Fragment {
         TabPageIndicator pageIndicator = (TabPageIndicator) mRootView.findViewById(R.id.main_fragment_download_manager_indicator);
         ViewPager viewPager = (ViewPager) mRootView.findViewById(R.id.main_fragment_download_manager_pager);
         viewPager.setAdapter(new CustomAdapter(getChildFragmentManager()));
-        viewPager.addOnPageChangeListener(new MyPageChangeLis());
+        pageIndicator.setOnPageChangeListener(new MyPageChangeLis());
         pageIndicator.setViewPager(viewPager);
         return mRootView;
     }
+
 
     @Override
     public void onActivityCreated( Bundle savedInstanceState) {

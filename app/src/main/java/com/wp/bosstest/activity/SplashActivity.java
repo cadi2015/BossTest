@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentSplash;
+import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.AppInfo;
 
 /**
@@ -37,16 +38,22 @@ public class SplashActivity extends FragmentActivity {
             @Override
             public void run() {
                 if (mSharedPre.getBoolean("is_first", true)|| AppInfo.getVersionCode(getApplicationContext()) > mSharedPre.getInt("version_code", 0)) {
+                    initDb();
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
                 } else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }
                 SplashActivity.this.finish();
             }
-        }, 500);
+        }, 400);
     }
 
     private void init() {
         mSharedPre = getSharedPreferences("boss_config", Context.MODE_PRIVATE);
+    }
+
+    private void initDb() {
+        SqliteManager sqliteManager = new SqliteManager();
+        sqliteManager.fromAssetsCopyDB(this);
     }
 }

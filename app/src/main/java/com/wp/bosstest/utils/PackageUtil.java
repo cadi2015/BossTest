@@ -38,8 +38,8 @@ public class PackageUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uiLastTime = dateFormat.format(new Date(info.lastUpdateTime));
         sb.append("应用名称 :" + info.applicationInfo.loadLabel(packageManager).toString() + "\n");
-        sb.append("ui版本号 :" + info.versionName + "\n");
-        sb.append("versionCode :" + info.versionCode + "\n");
+        sb.append("版本号 :" + info.versionName + "\n");
+        sb.append("VersionCode :" + info.versionCode + "\n");
         sb.append("包名 :" + info.packageName + "\n");
         sb.append("最后安装时间 :" + uiLastTime + "\n");
         sb.append("进程名称 :" + info.applicationInfo.processName + "\n");

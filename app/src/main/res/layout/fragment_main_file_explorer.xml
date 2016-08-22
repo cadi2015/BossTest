@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/white_bg">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,10 +13,16 @@
         android:textColor="@color/colorAccent"
         tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的"
         android:id="@+id/main_fragment_file_explorer_tv_show_package"/>
+    <include
+        layout="@layout/view_divider_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"/>
     <Button
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="文件管理一键切换Test环境"
+        android:text="一键切换Test环境"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:gravity="left|center_vertical"
@@ -23,7 +30,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="文件管理一键切换Pre环境"
+        android:text="一键切换Pre环境"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:gravity="left|center_vertical"
@@ -31,9 +38,14 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="文件管理一键切换Online环境"
+        android:text="一键切换Online环境"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:gravity="left|center_vertical"
         android:id="@+id/main_fragment_file_explorer_btn_file_online"/>
+    <include
+        layout="@layout/view_divider_blue"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>
