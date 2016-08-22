@@ -2,10 +2,12 @@ package com.wp.bosstest.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -135,7 +137,7 @@ public class FragmentMainFileExplorer extends Fragment {
                     }
                     createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_TEST_NAME);
                     createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_LOG_NAME);
-                    Snackbar.make(mBtnFileOnline, "切换Test环境成功", Snackbar.LENGTH_SHORT).show();
+                    createSnackBar(mBtnFileOnline, "切换Test环境成功").show();
                     break;
                 case R.id.main_fragment_file_explorer_btn_file_pre:
                     createDic(FileConstant.ROOT_PATH, FileConstant.FILE_SERVER_DIR_NAME);
@@ -144,16 +146,23 @@ public class FragmentMainFileExplorer extends Fragment {
                     }
                     createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_PRE_NAME);
                     createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_LOG_NAME);
-                    Snackbar.make(mBtnFileOnline, "切换Pre环境成功", Snackbar.LENGTH_SHORT).show();
+                    createSnackBar(mBtnFileOnline, "切换Pre环境成功").show();
                     break;
                 case R.id.main_fragment_file_explorer_btn_file_online:
                     removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_TEST_NAME);
                     removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_PRE_NAME);
-                    Snackbar.make(mBtnFileOnline, "切换Online环境成功", Snackbar.LENGTH_SHORT).show();
+                    createSnackBar(mBtnFileOnline, "切换Online环境成功").show();
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    private Snackbar createSnackBar(View view, String text) {
+        Snackbar temp = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
+        temp.getView().setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
+        temp.setActionTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
+        return temp;
     }
 }

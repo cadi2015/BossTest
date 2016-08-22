@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class FragmentPerformance extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_performance, null);
+        Log.d(TAG, "mRootView = " + mRootView);
         init();
         initWorking();
         setupViews();
@@ -62,24 +64,30 @@ public class FragmentPerformance extends Fragment {
 
     private void setupViews() {
         mSeekBar = (SeekBar) mRootView.findViewById(R.id.performance_seek_bar);
+        mSeekBar.setProgress(20);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
+        Log.d(TAG, "SeekBar current progress  = " + mSeekBar.getProgress());
         mTvInsert.setText(getString(R.string.performance_tv_task, mSeekBar.getProgress()));
-        mSeekBar.setFocusable(true);
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.performance_progress_bar);
         mTvInsert.setOnClickListener(new MyClickLis());
         mSeekBar.setOnSeekBarChangeListener(new MySeekBarLis());
-
+        Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
     }
 
     private class MySeekBarLis implements SeekBar.OnSeekBarChangeListener {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+            Log.d(TAG, "onPregressChanged(SeekBar seekBar, int progress, boolean fromUser)");
+            Log.d(TAG, "onPregressChanged(SeekBar seekBar, int progress, boolean fromUser) fromUser = " + fromUser);
+            if (!fromUser) {
+                int index = seekBar.getProgress();
+                mTvInsert.setText(getString(R.string.performance_tv_task, index));
+            }
         }
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
+            Log.d(TAG, "onStartTrackingTouch(SeekBar seekBar)");
         }
 
         @Override
@@ -101,7 +109,7 @@ public class FragmentPerformance extends Fragment {
                 mProgressBar.setVisibility(View.VISIBLE);
                 postTask(index);
             } else {
-                Snackbar.make(mTvInsert, "任务不能为0", Snackbar.LENGTH_SHORT).show();
+                makeSnackbar(mTvInsert, "任务不能为0", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -140,7 +148,7 @@ public class FragmentPerformance extends Fragment {
             Log.d(TAG, "workingHandler at Thread" + Thread.currentThread().getName());
             Bundle bundle = msg.getData();
             int taskCount = bundle.getInt("TaskCount");
-            Snackbar.make(mTvInsert, "插入" + taskCount + "条任务" + "完成", Snackbar.LENGTH_SHORT).show();
+            makeSnackbar(mTvInsert, "插入" + taskCount + "条任务" + "完成", Snackbar.LENGTH_SHORT).show();
             mMainHandler.sendEmptyMessage(0x111);
         }
     }
@@ -165,6 +173,7 @@ public class FragmentPerformance extends Fragment {
 
     private boolean insertDownloadTask(int count) {
         boolean success = false;
+        int alreadyInsertCount = 0;
         SQLiteDatabase database = mContext.openOrCreateDatabase(SqliteManager.DB_NAME, Context.MODE_PRIVATE, null);
         String tableName = getRandomTable();
         Log.d(TAG, "tableName = " + tableName);
@@ -185,6 +194,11 @@ public class FragmentPerformance extends Fragment {
 
         if (totalTask < count) {
             count = totalTask;
+        } else {
+            Random random = new Random();
+            int randomPosition = random.nextInt(totalTask - count);
+            c.moveToPosition(randomPosition);
+            Log.d(TAG, "c.moveToPostion = " + randomPosition);
         }
 
         while (c.moveToNext()) {
@@ -192,7 +206,8 @@ public class FragmentPerformance extends Fragment {
             uri = Uri.parse(url);
             request = new DownloadManager.Request(uri);
             mDownloadManger.enqueue(request);
-            if (c.getPosition() == count - 1) {
+            alreadyInsertCount++;
+            if (alreadyInsertCount == count) {
                 success = true;
                 break;
             }
@@ -234,5 +249,11 @@ public class FragmentPerformance extends Fragment {
                 break;
         }
         return table;
+    }
+
+    private Snackbar makeSnackbar(View view, String text, int duration) {
+        Snackbar temp = Snackbar.make(view, text, duration);
+        temp.getView().setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
+        return temp;
     }
 }

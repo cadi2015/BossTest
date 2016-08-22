@@ -57,7 +57,7 @@ public class FragmentPhone extends Fragment {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         String deviceId;
         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-           deviceId = "没有权限";
+            deviceId = "没有权限";
         } else {
             deviceId = mTelManager.getDeviceId();
         }
@@ -71,6 +71,7 @@ public class FragmentPhone extends Fragment {
         float screenScaledDensity = dm.scaledDensity;
         list.add(getMap("DeviceId(imei) :", deviceId));
         list.add(getMap("Android Version :", Build.VERSION.RELEASE));
+        list.add(getMap("Api Level :", String.valueOf(Build.VERSION.SDK_INT)));
         list.add(getMap("Device :", Build.DEVICE));
         list.add(getMap("Model :", Build.MODEL));
         list.add(getMap("Screen Width :", String.valueOf(screenWidth)));
