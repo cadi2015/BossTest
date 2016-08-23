@@ -60,27 +60,33 @@
 
             <Button
                 android:id="@+id/tool_btn_ad"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:paddingLeft="@dimen/btn_padding_left_and_right"
+                android:paddingRight="@dimen/btn_padding_left_and_right"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/btn_tool_txt_size"
                 android:textColor="?android:attr/textColorPrimary"
                 tools:text="删除.ad_show"
-                android:gravity="left"/>
+                android:gravity="center"
+                android:background="@drawable/btn_bg"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginTop="4dp">
 
                 <Button
                     android:id="@+id/tool_btn_bt"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/btn_padding_left_and_right"
+                    android:paddingRight="@dimen/btn_padding_left_and_right"
                     android:layout_centerVertical="true"
                     android:gravity="left|center_vertical"
                     android:text="@string/btn_bt"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:background="@drawable/btn_bg"
+                    android:textSize="@dimen/btn_tool_txt_size"
                     android:textColor="?android:attr/textColorPrimary" />
 
                 <ProgressBar
@@ -88,35 +94,48 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/tool_btn_bt"
+                    android:layout_centerVertical="true"
                     style="?android:attr/progressBarStyleSmall"/>
             </RelativeLayout>
 
         <Button
+            android:layout_marginTop="4dp"
             android:id="@+id/tool_btn_browser_download_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
+            android:background="@drawable/btn_bg"
             android:text="浏览器调起下载管理列表(忽略排序）"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="@dimen/btn_tool_txt_size"
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
             android:id="@+id/tool_btn_market_download_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|left"
+            android:layout_marginTop="4dp"
             android:text="应用商店调起下载管理列表"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/btn_bg"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
+            android:textSize="@dimen/btn_tool_txt_size"
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="自升级切换preview环境"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/btn_bg"
+            android:textSize="@dimen/btn_tool_txt_size"
+            android:layout_marginTop="4dp"
             android:textColor="?android:attr/textColorPrimary"
             android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
             android:id="@+id/tool_btn_market_switch_pre"/>
 
         <View

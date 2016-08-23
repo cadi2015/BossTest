@@ -1,15 +1,18 @@
 package com.wp.bosstest.fragment;
 
 import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.activity.WebActivity;
 import com.wp.bosstest.config.IntentActionConstant;
 
 /**
@@ -23,6 +26,7 @@ public class FragmentMoreTask extends Fragment {
     private TextView mTvThunder;
     private TextView mTvFtp;
     private TextView mTvMagnet;
+    private RelativeLayout mRlMp4;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +52,13 @@ public class FragmentMoreTask extends Fragment {
         mTvThunder = (TextView) mRootView.findViewById(R.id.more_task_tv_thunder);
         mTvFtp = (TextView) mRootView.findViewById(R.id.more_task_tv_ftp);
         mTvMagnet = (TextView) mRootView.findViewById(R.id.more_task_tv_magnet);
+        mRlMp4 = (RelativeLayout) mRootView.findViewById(R.id.more_task_rl_mp4);
         mTvHttp.setOnClickListener(lis);
         mTvEd2k.setOnClickListener(lis);
         mTvThunder.setOnClickListener(lis);
         mTvFtp.setOnClickListener(lis);
         mTvMagnet.setOnClickListener(lis);
+        mRlMp4.setOnClickListener(lis);
     }
 
     private class MyBtnLis implements View.OnClickListener {
@@ -83,6 +89,12 @@ public class FragmentMoreTask extends Fragment {
                     Intent intentMagnet = new Intent();
                     intentMagnet.setAction(IntentActionConstant.TASK_DETAIL_ACTION_MAGNET);
                     startActivity(intentMagnet);
+                    break;
+                case R.id.more_task_rl_mp4:
+                    Intent intent = new Intent();
+                    ComponentName name = new ComponentName(getActivity(), WebActivity.class);
+                    intent.setComponent(name);
+                    startActivity(intent);
                     break;
                 default:
                     break;

@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.bosstest"
-    android:versionCode="20160822"
+    android:versionCode="20160823"
     android:versionName="@string/version_name">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,7 +44,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.TaskDetailActivity">
+        <activity
+            android:name=".activity.TaskDetailActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="boss.action.task.detail.http" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -66,13 +68,15 @@
             </intent-filter>
 
             <intent-filter>
-                <action
-                    android:name="boss.action.task.detail.magnet"/>
-                <category
-                    android:name="android.intent.category.DEFAULT"/>
+                <action android:name="boss.action.task.detail.magnet" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
+
+        <activity
+            android:name=".activity.WebActivity"
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>

@@ -9,12 +9,15 @@
         android:layout_marginTop="100dp">
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/http_bg"
+            android:layout_height="105dp"
             android:layout_marginLeft="30dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/http_bg"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:text="Http"
                 android:gravity="bottom|center_horizontal"
                 android:textSize="14sp"
@@ -26,12 +29,15 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/thunder_bg"
+            android:layout_height="105dp"
             android:layout_centerHorizontal="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/thunder_bg"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:text="Thunder"
                 android:textSize="14sp"
                 android:gravity="bottom|center_horizontal"
@@ -43,13 +49,16 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ed2k_bg"
+            android:layout_height="105dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="30dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ed2k_bg"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:gravity="bottom|center_horizontal"
                 android:text="Ed2k"
                 android:textColor="@color/colorPrimary"
@@ -67,12 +76,15 @@
         android:layout_centerInParent="true">
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ftp_bg"
+            android:layout_height="105dp"
             android:layout_marginLeft="60dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ftp_bg"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:text="Ftp"
                 android:textColor="@color/colorPrimary"
                 android:gravity="bottom|center_horizontal"
@@ -84,13 +96,16 @@
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/magnet_bg"
+            android:layout_height="105dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="60dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/magnet_bg"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:text="Magnet"
                 android:layout_gravity="bottom"
                 android:gravity="bottom|center_horizontal"
@@ -98,6 +113,72 @@
                 android:id="@+id/more_task_tv_magnet"
                 android:layout_margin="3dp"/>
         </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="90dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="105dp"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/more_task_rl_mp4"
+            android:layout_centerVertical="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/web_view_mp4_bg"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="浏览器吊起任务"
+                android:textColor="@color/colorPrimary"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="12sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="105dp"
+            android:layout_centerHorizontal="true">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/web_view_middle"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="建设中……"
+                android:textColor="@color/colorPrimary"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="105dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/web_view_other_bg"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/colorPrimary"
+                android:text="建设中…………"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="btn_txt_size">16sp</dimen>
+    <dimen name="btn_tool_txt_size">13sp</dimen>
+    <dimen name="btn_padding_left_and_right">10dp</dimen>
     <dimen name="tv_txt_size">20sp</dimen>
 </resources>
