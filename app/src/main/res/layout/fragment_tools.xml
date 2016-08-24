@@ -72,13 +72,13 @@
                 android:background="@drawable/btn_bg"/>
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp">
 
                 <Button
                     android:id="@+id/tool_btn_bt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/btn_padding_left_and_right"
                     android:paddingRight="@dimen/btn_padding_left_and_right"
@@ -94,8 +94,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:layout_toRightOf="@id/tool_btn_bt"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
                     style="?android:attr/progressBarStyleSmall"/>
             </RelativeLayout>
 
@@ -126,9 +126,22 @@
             android:textColor="?android:attr/textColorPrimary" />
 
         <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="应用商店自升级切换preview环境"
+        android:background="@drawable/btn_bg"
+        android:textSize="@dimen/btn_tool_txt_size"
+        android:layout_marginTop="4dp"
+        android:textColor="?android:attr/textColorPrimary"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/btn_padding_left_and_right"
+        android:paddingRight="@dimen/btn_padding_left_and_right"
+        android:id="@+id/tool_btn_market_switch_pre"/>
+
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自升级切换preview环境"
+            android:text="截取Miui日志(*#*#284#*#*)拨号后生成"
             android:background="@drawable/btn_bg"
             android:textSize="@dimen/btn_tool_txt_size"
             android:layout_marginTop="4dp"
@@ -136,7 +149,7 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/btn_padding_left_and_right"
             android:paddingRight="@dimen/btn_padding_left_and_right"
-            android:id="@+id/tool_btn_market_switch_pre"/>
+            android:id="@+id/tool_btn_make_log"/>
 
         <View
             android:layout_width="match_parent"

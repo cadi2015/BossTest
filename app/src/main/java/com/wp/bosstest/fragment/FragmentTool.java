@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +26,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,6 +47,7 @@ public class FragmentTool extends Fragment {
     private Button mBtnBrowserDownloadList;
     private Button mBtnMarketDownloadList;
     private Button mBtnSwitMarketPre;
+    private Button mBtnMakeLog;
     private String mRootPath;
     private Context mContext;
     private String mService_test;
@@ -78,7 +82,7 @@ public class FragmentTool extends Fragment {
         }
 
         if (fileIsExists(mRootPath + File.separator + "market_staging")) {
-            mBtnSwitMarketPre.setText("自升级删除preView环境");
+            mBtnSwitMarketPre.setText("应用商店自升级删除preView环境");
         }
 
         StringBuilder uiSb = new StringBuilder();
@@ -141,6 +145,7 @@ public class FragmentTool extends Fragment {
         mTvDpInfo = (TextView) mRootView.findViewById(R.id.tool_tv_dp_info);
         mProBarBt = (ProgressBar) mRootView.findViewById(R.id.tool_pro_bar_bt);
         mBtnSwitMarketPre = (Button) mRootView.findViewById(R.id.tool_btn_market_switch_pre);
+        mBtnMakeLog = (Button) mRootView.findViewById(R.id.tool_btn_make_log);
         View.OnClickListener myClick = new MyBtnClick();
         mBtnSwit.setOnClickListener(myClick);
         mBtnAd.setOnClickListener(myClick);
@@ -148,6 +153,7 @@ public class FragmentTool extends Fragment {
         mBtnBrowserDownloadList.setOnClickListener(myClick);
         mBtnMarketDownloadList.setOnClickListener(myClick);
         mBtnSwitMarketPre.setOnClickListener(myClick);
+        mBtnMakeLog.setOnClickListener(myClick);
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -229,11 +235,14 @@ public class FragmentTool extends Fragment {
                     break;
                 case R.id.tool_btn_market_switch_pre:
                     if (createFile(mRootPath, "market_staging")) {
-                        mBtnSwitMarketPre.setText("自升级删除preView环境");
+                        mBtnSwitMarketPre.setText("应用商店自升级删除preView环境");
                     } else {
                         removeFile(mRootPath, "market_staging");
-                        mBtnSwitMarketPre.setText("自升级添加preView环境");
+                        mBtnSwitMarketPre.setText("应用商店自升级添加preView环境");
                     }
+                    break;
+                case R.id.tool_btn_make_log:
+                    callPhoneMakeLog();
                     break;
                 default:
                     break;
@@ -241,6 +250,17 @@ public class FragmentTool extends Fragment {
         }
     }
 
+    private void callPhoneMakeLog() {
+        String phoneNumber = "*#*#284#*#*";
+        try {
+            phoneNumber = URLEncoder.encode(phoneNumber, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            Log.d(TAG, "不支持encode………………");
+        }
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+        startActivity(intent);
+    }
 
     private boolean createDic(String path, String name) {
         File file = new File(path, name);
