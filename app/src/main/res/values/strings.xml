@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">BossTest</string>
-    <string name="version_name">BossTest\nv1.4.4</string>
+    <string name="version_name">BossTest\nv1.4.5</string>
     <string name="version_code">20160819</string>
     <string name="btn_switch_test">切换</string>
-    <string name="btn_switch_production_test">测试</string>
-    <string name="btn_switch_production_online">正式</string>
+    <string name="btn_switch_production_test">Test</string>
+    <string name="btn_switch_production_pre">Pre</string>
+    <string name="btn_switch_production_online">Online</string>
     <string name="btn_bt">添加BT测试文件</string>
     <string name="guide_page_0">自由复制下载链接</string>
     <string name="guide_page_1">一键添加Bt种子</string>

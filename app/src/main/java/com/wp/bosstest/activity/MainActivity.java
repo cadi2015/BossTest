@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentMainDownloadManager;
 import com.wp.bosstest.fragment.FragmentMainFileExplorer;
@@ -31,7 +33,6 @@ public class MainActivity extends FragmentActivity {
         init();
         setupViews();
     }
-
 
     private void setupViews() {
         mDrawer = (DrawerLayout) findViewById(R.id.main_drawer);

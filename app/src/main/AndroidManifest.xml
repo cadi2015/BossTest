@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.bosstest"
-    android:versionCode="20160824"
+    android:versionCode="20160907"
     android:versionName="@string/version_name">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
 
+        <!--android:theme="@style/StyledIndicators"-->
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
@@ -38,7 +39,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
 
-        <activity android:name=".activity.MoreTaskActivity">
+        <activity
+            android:name=".activity.MoreTaskActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="boss.action.more.task" />
                 <category android:name="android.intent.category.DEFAULT" />

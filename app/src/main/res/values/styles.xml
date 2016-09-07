@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme.parent="Theme.AppCompat.Light.DarkActionBar" -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--@android:style/Theme.Light.NoTitleBar       @android:style/Theme.Holo.Light.DarkActionBar         -->
+    <!--@android:style/Theme.Light.NoTitleBar       @android:style/Theme.Holo.Light.DarkActionBar      parent="Theme.AppCompat.Light.DarkActionBar"   -->
 
     <style name="StyledIndicators" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>

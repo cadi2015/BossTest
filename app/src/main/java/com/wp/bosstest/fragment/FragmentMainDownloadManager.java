@@ -26,6 +26,11 @@ public class FragmentMainDownloadManager extends Fragment {
         Log.d(TAG, "FragmentMainDownloadManager()");
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d(TAG, "onSaveInstanceState(Bundle outState)");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

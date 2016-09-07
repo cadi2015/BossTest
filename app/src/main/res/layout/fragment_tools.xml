@@ -141,6 +141,20 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="添加下载库slog.config"
+            android:textAllCaps="false"
+            android:layout_marginTop="4dp"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/btn_bg"
+            android:textColor="?android:attr/textColorPrimary"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
+            android:textSize="@dimen/btn_tool_txt_size"
+            android:id="@+id/tool_btn_slog_config"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="截取Miui日志(*#*#284#*#*)拨号后生成"
             android:background="@drawable/btn_bg"
             android:textSize="@dimen/btn_tool_txt_size"
@@ -169,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
-                android:text="Ui信息"
+                android:text="Ui包信息"
                 android:layout_gravity="left|center_vertical"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
@@ -177,9 +191,9 @@
                 android:id="@+id/tool_tv_ui_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="7dp"
+                android:lineSpacingExtra="@dimen/package_info_tv_line_space"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorBlack"
                 tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
@@ -192,7 +206,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="2"
-                android:text="Dp信息"
+                android:text="Dp包信息"
                 android:layout_gravity="left|center_vertical"
                 android:gravity="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"
@@ -201,9 +215,9 @@
             android:id="@+id/tool_tv_dp_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="7dp"
+            android:lineSpacingExtra="@dimen/package_info_tv_line_space"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorBlack"
             tools:text="我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的"
             android:layout_marginLeft="5dp"/>
         </LinearLayout>

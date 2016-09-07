@@ -3,6 +3,7 @@ package com.wp.bosstest.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
@@ -37,14 +38,16 @@ public class PackageUtil {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String uiLastTime = dateFormat.format(new Date(info.lastUpdateTime));
-        sb.append("应用名称 :" + info.applicationInfo.loadLabel(packageManager).toString() + "\n");
-        sb.append("版本号 :" + info.versionName + "\n");
-        sb.append("VersionCode :" + info.versionCode + "\n");
-        sb.append("包名 :" + info.packageName + "\n");
-        sb.append("最后安装时间 :" + uiLastTime + "\n");
-        sb.append("进程名称 :" + info.applicationInfo.processName + "\n");
-        sb.append("本地数据路径 :" + info.applicationInfo.dataDir + "\n");
-        sb.append("安装apk路径 :" + info.applicationInfo.publicSourceDir + "\n");
+        sb.append("1.)应用名称 :" + info.applicationInfo.loadLabel(packageManager).toString() + "\n");
+        sb.append("2.)版本号 :" + info.versionName + "\n");
+        sb.append("3.)VersionCode :" + info.versionCode + "\n");
+        sb.append("4.)包名 :" + info.packageName + "\n");
+        sb.append("5.)最后安装时间 :" + uiLastTime + "\n");
+        sb.append("6.)进程名称 :" + info.applicationInfo.processName + "\n");
+        sb.append("7.)本地数据路径 :" + info.applicationInfo.dataDir + "\n");
+        sb.append("8.)安装apk路径 :" + info.applicationInfo.publicSourceDir + "\n");
+        sb.append("9.)Application类名: " + info.applicationInfo.className + "\n");
+
         return sb.toString();
     }
 

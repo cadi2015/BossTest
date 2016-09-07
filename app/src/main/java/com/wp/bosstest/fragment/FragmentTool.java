@@ -5,11 +5,19 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.utils.PackageUtil;
+import com.wp.bosstest.utils.SpannableUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,8 +46,11 @@ import java.util.Date;
  */
 public class FragmentTool extends Fragment {
     private static final String TAG = "FragmentTool";
+    private static final String SERVICE_TEST_NAME = ".is_api_test";
+    private static final String SERVICE_PRE_NAME = ".is_api_pre";
+    private static final String SERVICE_DIR_NAME = ".dlprovider";
     private View mRootView;
-    private Button mBtnSwit;
+    private Button mBtnSwitch;
     private Button mBtnBt;
     private TextView mTvShow;
     private TextView mTvUiInfo;
@@ -46,12 +59,16 @@ public class FragmentTool extends Fragment {
     private ProgressBar mProBarBt;
     private Button mBtnBrowserDownloadList;
     private Button mBtnMarketDownloadList;
-    private Button mBtnSwitMarketPre;
+    private Button mBtnSwitchMarketPre;
     private Button mBtnMakeLog;
+    private Button mBtnSlogConfig;
     private String mRootPath;
     private Context mContext;
     private String mService_test;
+    private String mService_pre;
     private String mService_online;
+    private boolean isServiceTest = false;
+    private boolean isServicePre = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,52 +85,40 @@ public class FragmentTool extends Fragment {
         Log.d(TAG, "mRootPath = " + mRootPath);
         mContext = getActivity();
         mService_test = getString(R.string.btn_switch_production_test);
+        mService_pre = getString(R.string.btn_switch_production_pre);
         mService_online = getString(R.string.btn_switch_production_online);
-        if (fileIsExists(mRootPath + File.separator + ".dlprovider" + File.separator + ".is_api_test")) {
+        if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_TEST_NAME)) {
+            isServiceTest = true;
             mTvShow.setText(mService_test);
+        } else if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_PRE_NAME)) {
+            isServicePre = true;
+            mTvShow.setText(mService_pre);
         } else {
             mTvShow.setText(mService_online);
         }
 
-        if (fileIsExists(mRootPath + File.separator + ".dlprovider" + File.separator + ".ad_show")) {
+        if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + ".ad_show")) {
             mBtnAd.setText("删除.ad_show");
         } else {
             mBtnAd.setText("添加.ad_show");
         }
 
         if (fileIsExists(mRootPath + File.separator + "market_staging")) {
-            mBtnSwitMarketPre.setText("应用商店自升级删除preView环境");
+            mBtnSwitchMarketPre.setText("应用商店自升级删除preView环境");
         }
 
-        StringBuilder uiSb = new StringBuilder();
-        StringBuilder dpSb = new StringBuilder();
         PackageManager packageManager = mContext.getPackageManager();
 
         try {
             PackageInfo uiInfo = packageManager.getPackageInfo("com.android.providers.downloads.ui", PackageManager.GET_PERMISSIONS);
             PackageInfo dpInfo = packageManager.getPackageInfo("com.android.providers.downloads", PackageManager.GET_PERMISSIONS);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String uiLastTime = dateFormat.format(new Date(uiInfo.lastUpdateTime));
-            uiSb.append("应用名称 :" + uiInfo.applicationInfo.loadLabel(packageManager).toString() + "\n");
-            uiSb.append("ui版本号 :" + uiInfo.versionName + "\n");
-            uiSb.append("versionCode :" + uiInfo.versionCode + "\n");
-            uiSb.append("包名 :" + uiInfo.packageName + "\n");
-            uiSb.append("最后安装时间 :" + uiLastTime + "\n");
-            uiSb.append("进程名称 :" + uiInfo.applicationInfo.processName + "\n");
-            uiSb.append("本地数据路径 :" + uiInfo.applicationInfo.dataDir + "\n");
-            uiSb.append("安装apk路径 :" + uiInfo.applicationInfo.publicSourceDir + "\n");
-            mTvUiInfo.setText(uiSb.toString());
-
-            String dpLastTime = dateFormat.format(new Date(dpInfo.lastUpdateTime));
-            dpSb.append("应用名称 :" + dpInfo.applicationInfo.loadLabel(packageManager).toString() + "\n");
-            dpSb.append("dp版本号 :" + dpInfo.versionName + "\n");
-            dpSb.append("versionCode :" + dpInfo.versionCode + "\n");
-            dpSb.append("包名 :" + dpInfo.packageName + "\n");
-            dpSb.append("最后安装时间 :" + dpLastTime + "\n");
-            dpSb.append("进程名称 :" + dpInfo.applicationInfo.processName + "\n");
-            dpSb.append("本地数据路径 :" + dpInfo.applicationInfo.dataDir + "\n");
-            dpSb.append("安装apk路径 :" + dpInfo.applicationInfo.publicSourceDir + "\n");
-            mTvDpInfo.setText(dpSb.toString());
+            PackageUtil packageUtil = PackageUtil.getInstance(mContext);
+            String uiStr = packageUtil.getPackageMessages(uiInfo);
+            String dpStr = packageUtil.getPackageMessages(dpInfo);
+            SpannableString uiSpan = SpannableUtils.setTextColorDefault(mContext, uiStr, uiStr.indexOf("5.)"), uiStr.indexOf("6.)"), R.color.colorRed);
+            SpannableString dpSpan = SpannableUtils.setTextColorDefault(mContext, dpStr, dpStr.indexOf("5.)"), dpStr.indexOf("6.)"), R.color.colorRed);
+            mTvUiInfo.setText(uiSpan);
+            mTvDpInfo.setText(dpSpan);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             Log.d(TAG, "找不到指定包的info信息");
@@ -135,25 +140,45 @@ public class FragmentTool extends Fragment {
     }
 
     private void initViews() {
-        mBtnSwit = (Button) mRootView.findViewById(R.id.tool_btn_switch);
+        mBtnSwitch = (Button) mRootView.findViewById(R.id.tool_btn_switch);
         mTvShow = (TextView) mRootView.findViewById(R.id.tool_tv_current_show);
         mBtnAd = (Button) mRootView.findViewById(R.id.tool_btn_ad);
         mBtnBt = (Button) mRootView.findViewById(R.id.tool_btn_bt);
         mBtnBrowserDownloadList = (Button) mRootView.findViewById(R.id.tool_btn_browser_download_list);
         mBtnMarketDownloadList = (Button) mRootView.findViewById(R.id.tool_btn_market_download_list);
+        mBtnSlogConfig = (Button) mRootView.findViewById(R.id.tool_btn_slog_config);
         mTvUiInfo = (TextView) mRootView.findViewById(R.id.tool_tv_ui_info);
         mTvDpInfo = (TextView) mRootView.findViewById(R.id.tool_tv_dp_info);
         mProBarBt = (ProgressBar) mRootView.findViewById(R.id.tool_pro_bar_bt);
-        mBtnSwitMarketPre = (Button) mRootView.findViewById(R.id.tool_btn_market_switch_pre);
+        mBtnSwitchMarketPre = (Button) mRootView.findViewById(R.id.tool_btn_market_switch_pre);
         mBtnMakeLog = (Button) mRootView.findViewById(R.id.tool_btn_make_log);
         View.OnClickListener myClick = new MyBtnClick();
-        mBtnSwit.setOnClickListener(myClick);
+        mBtnSwitch.setOnClickListener(myClick);
         mBtnAd.setOnClickListener(myClick);
         mBtnBt.setOnClickListener(myClick);
         mBtnBrowserDownloadList.setOnClickListener(myClick);
         mBtnMarketDownloadList.setOnClickListener(myClick);
-        mBtnSwitMarketPre.setOnClickListener(myClick);
+        mBtnSwitchMarketPre.setOnClickListener(myClick);
         mBtnMakeLog.setOnClickListener(myClick);
+        mBtnSlogConfig.setOnClickListener(myClick);
+    }
+
+    private enum ServiceApi {
+        Test, Pre, Online
+    }
+
+    private ServiceApi getCurrentServiceApi() {
+        ServiceApi temp;
+        if (isServiceTest) {
+            temp = ServiceApi.Test;
+            return temp;
+        } else if (isServicePre) {
+            temp = ServiceApi.Pre;
+            return temp;
+        } else {
+            temp = ServiceApi.Online;
+            return temp;
+        }
     }
 
     private class MyBtnClick implements View.OnClickListener {
@@ -161,45 +186,42 @@ public class FragmentTool extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tool_btn_switch:
+                    ServiceApi currentApi = getCurrentServiceApi();
                     Log.d(TAG, "rootPath = " + mRootPath);
-                    String logName = ".is_api_test";
-                    File dlFile = new File(mRootPath + File.separator + ".dlprovider");
+                    File dlFile = new File(mRootPath + File.separator + SERVICE_DIR_NAME);
                     Log.d(TAG, ".dlprovider = " + dlFile);
-                    boolean haveTestApiFile = false;
                     if (dlFile.isDirectory() && dlFile.exists()) {
-                        File apiTestFile = null;
-                        for (File f : dlFile.listFiles()) {
-                            if (f.getName().equals(logName)) {
-                                haveTestApiFile = true;
-                                apiTestFile = f;
-                                break;
+                        if (currentApi == ServiceApi.Test) {
+                            if (createFile(dlFile.getPath(), SERVICE_PRE_NAME)) {
+                                makeSnackBar(mBtnSwitch, "切换Pre环境成功").show();
+                                isServicePre = true;
+                                mTvShow.setText(mService_pre);
+                                removeFile(dlFile.getPath(), SERVICE_TEST_NAME);
+                                isServiceTest = false;
                             }
-                        }
-                        if (haveTestApiFile) {
-                            Toast.makeText(mContext, "切换正式环境成功", Toast.LENGTH_SHORT).show();
-                            apiTestFile.delete();
-                            mTvShow.setText(mService_online);
-                        } else {
-                            File is_api_test = new File(dlFile + File.separator + ".is_api_test");
-                            if (!is_api_test.exists()) {
-                                try {
-                                    is_api_test.createNewFile();
-                                    mTvShow.setText(mService_test);
-                                    Toast.makeText(mContext, "切换测试环境成功", Toast.LENGTH_SHORT).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
+                        } else if (currentApi == ServiceApi.Pre) {
+                            if (removeFile(dlFile.getPath(), SERVICE_PRE_NAME)) {
+                                makeSnackBar(mBtnSwitch, "切换Online环境成功").show();
+                                isServicePre = false;
+                                isServiceTest = false;
+                                mTvShow.setText(mService_online);
                             }
-                        }
+                        } else if (currentApi == ServiceApi.Online) {
+                            if (createFile(dlFile.getPath(), SERVICE_TEST_NAME)) {
+                                makeSnackBar(mBtnSwitch, "切换Test环境成功").show();
+                                isServiceTest = true;
+                                mTvShow.setText(mService_test);
+                            }
 
+                        }
                     } else {
                         Toast.makeText(mContext, ".dlprovider目录不存在", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.tool_btn_ad:
                     Log.d(TAG, "click------tool_btn_ad-----");
-                    if (fileIsExists(mRootPath + File.separator + ".dlprovider")) {
-                        File ad_show = new File(mRootPath + File.separator + ".dlprovider" + File.separator + ".ad_show");
+                    if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME)) {
+                        File ad_show = new File(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + ".ad_show");
                         if (!ad_show.exists()) {
                             try {
                                 if (ad_show.createNewFile()) {
@@ -221,7 +243,7 @@ public class FragmentTool extends Fragment {
                     mBtnBt.setClickable(false);
                     mBtnBt.setEnabled(false);
                     mProBarBt.setVisibility(View.VISIBLE);
-                    new MyTask().execute(); //这里采用异步copy，不然ui线程直接anr了
+                    new MyTask().execute(); //这里采用非ui线程进行copy行为，不然ui线程直接anr了
                     break;
                 case R.id.tool_btn_browser_download_list:
                     Intent broIntent = new Intent();
@@ -235,14 +257,20 @@ public class FragmentTool extends Fragment {
                     break;
                 case R.id.tool_btn_market_switch_pre:
                     if (createFile(mRootPath, "market_staging")) {
-                        mBtnSwitMarketPre.setText("应用商店自升级删除preView环境");
+                        Toast.makeText(mContext, "创建成功", Toast.LENGTH_SHORT).show();
+                        mBtnSwitchMarketPre.setText("应用商店自升级删除preView环境");
                     } else {
-                        removeFile(mRootPath, "market_staging");
-                        mBtnSwitMarketPre.setText("应用商店自升级添加preView环境");
+                        if (removeFile(mRootPath, "market_staging")) {
+                            Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
+                        }
+                        mBtnSwitchMarketPre.setText("应用商店自升级添加preView环境");
                     }
                     break;
                 case R.id.tool_btn_make_log:
                     callPhoneMakeLog();
+                    break;
+                case R.id.tool_btn_slog_config:
+                    createFile(mRootPath, "slog.config");
                     break;
                 default:
                     break;
@@ -280,7 +308,6 @@ public class FragmentTool extends Fragment {
         } else {
             try {
                 createSuccess = file.createNewFile();
-                Toast.makeText(mContext, name + "创建成功", Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -289,13 +316,12 @@ public class FragmentTool extends Fragment {
     }
 
     private boolean removeFile(String path, String name) {
-        boolean removeSuccess = false;
+        boolean removeSuccess;
         File file = new File(path, name);
         if (fileIsExists(path + File.separator + name)) {
             removeSuccess = file.delete();
-            Toast.makeText(mContext, name + "成功删除", Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(mContext, name + "不存在", Toast.LENGTH_SHORT).show();
+            removeSuccess = false;
         }
         return removeSuccess;
     }
@@ -304,8 +330,8 @@ public class FragmentTool extends Fragment {
         @Override
         protected Object doInBackground(Object... params) {
             Log.d(TAG, " ******** doInBackground (Object[] params)*********");
-            copyBtToSdcard("测试bt种子文件");
-            publishProgress();
+            int count = copyBtToSdcard("测试bt种子文件");
+            publishProgress(count);
             return null;
         }
 
@@ -319,17 +345,26 @@ public class FragmentTool extends Fragment {
         @Override
         protected void onProgressUpdate(Object... values) {
             super.onProgressUpdate(values);
+            Log.d(TAG, "values = " + values[0]);
             Log.d(TAG, "******** onProgressUpdate(Object[]) values) *********");
-            Toast.makeText(mContext, "拷贝完成，bt文件在SD卡根目录", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "拷贝" + values[0] + "个bt文件完成,请在SD卡根目录使用", Toast.LENGTH_LONG).show();
             mBtnBt.setClickable(true);
             mBtnBt.setEnabled(true);
         }
     }
 
+    private Snackbar makeSnackBar(View view, String showMessage) {
+        Snackbar temp = Snackbar.make(view, showMessage, Snackbar.LENGTH_SHORT);
+        View bgView = temp.getView();
+        bgView.setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
+        return temp;
+    }
 
-    private void copyBtToSdcard(String dir) {
+
+    private int copyBtToSdcard(String dir) {
         AssetManager assetManager = mContext.getAssets();
         File btDir = new File(mRootPath + File.separator + dir);
+        int successFileCount = 0;
         if (!btDir.exists()) {
             btDir.mkdir();
         }
@@ -344,20 +379,21 @@ public class FragmentTool extends Fragment {
                 Log.d(TAG, "assets name = " + name);
                 InputStream inputStream = assetManager.open("bt" + File.separator + name); //先把文件整成输入字节流
                 File outFile = new File(btDir, name);
-                byte[] bytes = new byte[1024]; //每次读取到内存1kb 先整个byte数组对象用来持有byte
+                byte[] bytes = new byte[1024]; //每次读取到内存1kb 先整个byte数组对象(buffer)用来持有byte
                 int length; //将输入字节流撸到byte数组对象（该数组的持有的每一个元素是byte）
                 OutputStream outputStream = new FileOutputStream(outFile); //整个输出字节流到文件
-                while ((length = inputStream.read(bytes)) > 0) { // 程序从输入字节流中读取到byte数组里,
-                    outputStream.write(bytes, 0, length); //然后写byte数组里写入到输出字节流里，直接再到文件里
+                while ((length = inputStream.read(bytes)) > 0) { // 程序从输入字节流中读取到byte数组里（buffer），每次读取1024字节
+                    outputStream.write(bytes, 0, length); //然后byte数组(buffer)写入到输出字节流里，直接再到文件里
                 }
                 inputStream.close();
                 outputStream.flush();
                 outputStream.close();
+                successFileCount++;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
+        return successFileCount;
     }
 
 }

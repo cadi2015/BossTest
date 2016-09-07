@@ -1,6 +1,9 @@
 package com.wp.bosstest.config;
 
 import android.os.Environment;
+import android.util.Log;
+
+import com.wp.bosstest.utils.LogHelper;
 
 import java.io.File;
 
@@ -8,6 +11,7 @@ import java.io.File;
  * Created by cadi on 2016/8/13.
  */
 public class FileConstant {
+    public static final String TAG = LogHelper.makeTag(FileConstant.class);
     public static final String ROOT_PATH;
     public static final String FILE_SERVER_DIR_NAME;
     public static final String FILE_SERVER_TEST_NAME;
@@ -20,6 +24,7 @@ public class FileConstant {
     public static final String FILE_LOG_PATH;
     static {
         ROOT_PATH = Environment.getExternalStorageDirectory().getPath();
+        Log.d(TAG, "ROOT_PATH = " + ROOT_PATH);
         SEP = File.separator;
         FILE_SERVER_DIR_NAME = ".fileexplorer";
         FILE_SERVER_TEST_NAME = ".ra2servertest";

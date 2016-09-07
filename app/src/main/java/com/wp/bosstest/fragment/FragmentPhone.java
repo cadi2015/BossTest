@@ -48,8 +48,6 @@ public class FragmentPhone extends Fragment {
         mListView.setAdapter(simpleAdapter);
         mListView.setClickable(false);
         mListView.setEnabled(false);
-//        boolean isAgree = ActivityCompat.shouldShowRequestPermissionRationale(mActivity, Manifest.permission.READ_PHONE_STATE);
-//        ActivityCompat.requestPermissions(mActivity, new String[]{Manifest.permission.READ_PHONE_STATE}, 102 );
     }
 
     private List<Map<String, String>> getData() {

@@ -9,7 +9,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <TextView
             android:id="@+id/main_fragment_file_explorer_tv_hint"
@@ -25,10 +26,10 @@
             android:id="@+id/main_fragment_file_explorer_tv_show_package"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/main_fragment_file_explorer_tv_hint"
-            android:lineSpacingExtra="7dp"
+            android:lineSpacingExtra="@dimen/package_info_tv_line_space"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorAccent"
             tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的" />

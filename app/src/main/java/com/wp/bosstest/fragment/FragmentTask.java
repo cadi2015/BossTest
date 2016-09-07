@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import com.wp.bosstest.R;
 
+import org.w3c.dom.Text;
+
 /**
  * Created by wp on 2016/1/18.
  */
@@ -74,6 +76,8 @@ public class FragmentTask extends Fragment {
 
     private void setupViews() {
         mlvShowUrl = (ListView) mRootView.findViewById(R.id.task_lv_show_url);
+        LinearLayout lvHeaderView = (LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.layout_task_lv_header, null);
+        mlvShowUrl.addHeaderView(lvHeaderView, null, false);
         mLinearLayoutMore = (LinearLayout)mRootView.findViewById(R.id.layout_task_footer_ll);
         mLinearLayoutMore.setOnClickListener(new MyClickLis());
         String[] temp = {"http://bt.2tu.cc/5EE49B5834F061E86754764810EA899202E62EE2/[迅雷下载www.2tu.cc]致美丽的你EP04.rmvb", "ftp://dygod3:dygod3@y069.dydytt.net:6261/美女的诞生/[阳光电影-www.ygdy8.com]美女的诞生-01.rmvb",

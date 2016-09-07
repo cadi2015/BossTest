@@ -94,7 +94,7 @@ public class GuideActivity extends FragmentActivity {
         mBg = new ImageView[imageIds.length];
         mIvPrev = (ImageView) findViewById(R.id.guide_iv_prev);
         mIvNext = (ImageView) findViewById(R.id.guide_iv_next);
-        List<View> mViews = new ArrayList<View>();
+        List<View> mViews = new ArrayList<>();
         for (int i = 0; i < mBg.length; i++) {
             mBg[i] = new ImageView(this);
             mBg[i].setImageResource(imageIds[i]);

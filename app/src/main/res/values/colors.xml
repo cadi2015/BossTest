@@ -3,6 +3,7 @@
     <color name="white_bg">#fafafa</color>
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#ED0A0A</color>
+    <color name="colorGreen">#53FB00</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>

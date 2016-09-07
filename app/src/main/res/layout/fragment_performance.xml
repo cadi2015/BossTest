@@ -6,59 +6,92 @@
     android:layout_height="match_parent"
     android:background="@color/white_bg"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="4dp">
 
-    <RelativeLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="强度:"
-            android:textSize="15sp"
-            android:id="@+id/performance_tv_hint"
-            android:layout_centerVertical="true"
-            android:textColor="@color/colorRed"/>
-        <SeekBar
-            android:id="@+id/performance_seek_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:max="200"
-            android:paddingLeft="10dp"
-            android:layout_toRightOf="@id/performance_tv_hint"
-            android:layout_centerVertical="true"/>
-    </RelativeLayout>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="220dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        card_view:cardBackgroundColor="@color/colorRed"
-        card_view:cardCornerRadius="20dp"
-        card_view:cardPreventCornerOverlap="true">
-
-        <TextView
-            android:id="@+id/performance_tv_insert"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/color_guide_txt_white"
-            android:textSize="19sp"
-            tools:text="测试用的文案" />
+            android:orientation="vertical"
+            >
 
-        <ProgressBar
-            android:id="@+id/performance_progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:visibility="gone" />
-    </android.support.v7.widget.CardView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <include
-        layout="@layout/view_divider_blue"
+                <TextView
+                    android:id="@+id/performance_tv_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="强度:"
+                    android:textColor="@color/colorRed"
+                    android:textSize="15sp" />
+
+                <SeekBar
+                    android:id="@+id/performance_seek_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@id/performance_tv_hint"
+                    android:max="300"
+                    android:paddingLeft="10dp" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="220dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                card_view:cardBackgroundColor="@color/colorRed"
+                card_view:cardCornerRadius="20dp"
+                card_view:cardPreventCornerOverlap="true">
+
+                <TextView
+                    android:id="@+id/performance_tv_insert"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_guide_txt_white"
+                    android:textSize="19sp"
+                    tools:text="测试用的文案" />
+
+                <ProgressBar
+                    android:id="@+id/performance_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:visibility="gone" />
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/performance_btn_remove_failed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/performance_btn_remove_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="删除所有无效任务"
+                android:textColor="@color/color_guide_txt_white"
+                android:textSize="18sp" />
+            <include
+                layout="@layout/view_divider_blue"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

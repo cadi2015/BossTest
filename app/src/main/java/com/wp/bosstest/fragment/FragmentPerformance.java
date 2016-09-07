@@ -2,7 +2,9 @@ package com.wp.bosstest.fragment;
 
 
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -20,11 +22,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.receiver.DownloadTaskReceiver;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.LogHelper;
 
@@ -44,15 +48,17 @@ public class FragmentPerformance extends Fragment {
     private Handler mMainHandler;
     private SeekBar mSeekBar;
     private ProgressBar mProgressBar;
+    private BroadcastReceiver mReceiver;
+    private Button mBtnRemoveFailed;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_performance, null);
+        Log.d(TAG, "onCreateView at Thread " + Thread.currentThread().getName());
         Log.d(TAG, "mRootView = " + mRootView);
         init();
         initWorking();
         setupViews();
-        Log.d(TAG, "onCreateView at Thread " + Thread.currentThread().getName());
         return mRootView;
     }
 
@@ -60,10 +66,12 @@ public class FragmentPerformance extends Fragment {
         mContext = getActivity();
         mDownloadManger = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         mMainHandler = new MainHandler();
+        mReceiver = new DownloadTaskReceiver();
     }
 
     private void setupViews() {
         mSeekBar = (SeekBar) mRootView.findViewById(R.id.performance_seek_bar);
+        mBtnRemoveFailed = (Button) mRootView.findViewById(R.id.performance_btn_remove_failed);
         mSeekBar.setProgress(20);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
         Log.d(TAG, "SeekBar current progress  = " + mSeekBar.getProgress());
@@ -71,7 +79,45 @@ public class FragmentPerformance extends Fragment {
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.performance_progress_bar);
         mTvInsert.setOnClickListener(new MyClickLis());
         mSeekBar.setOnSeekBarChangeListener(new MySeekBarLis());
+        mBtnRemoveFailed.setOnClickListener(new MyBtnCikLis());
+
         Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
+    }
+
+    private class MyBtnCikLis implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            removeFailedDownloadTask();
+        }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated(Bundle savedInstanceState)");
+        registerReceiver();
+    }
+
+    private void registerReceiver() {
+        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        mContext.registerReceiver(mReceiver, intentFilter);
+    }
+
+    private void unregisterReceiver() {
+        mContext.unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop()");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver();
+        Log.d(TAG, "onDestroy()");
     }
 
     private class MySeekBarLis implements SeekBar.OnSeekBarChangeListener {
@@ -109,7 +155,7 @@ public class FragmentPerformance extends Fragment {
                 mProgressBar.setVisibility(View.VISIBLE);
                 postTask(index);
             } else {
-                makeSnackbar(mTvInsert, "任务不能为0", Snackbar.LENGTH_SHORT).show();
+                makeSnackBar(mTvInsert, "任务不能为0", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -148,7 +194,7 @@ public class FragmentPerformance extends Fragment {
             Log.d(TAG, "workingHandler at Thread" + Thread.currentThread().getName());
             Bundle bundle = msg.getData();
             int taskCount = bundle.getInt("TaskCount");
-            makeSnackbar(mTvInsert, "插入" + taskCount + "条任务" + "完成", Snackbar.LENGTH_SHORT).show();
+            makeSnackBar(mTvInsert, "插入" + taskCount + "条任务" + "完成", Snackbar.LENGTH_SHORT).show();
             mMainHandler.sendEmptyMessage(0x111);
         }
     }
@@ -218,6 +264,29 @@ public class FragmentPerformance extends Fragment {
         return success;
     }
 
+    private void removeFailedDownloadTask() {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterByStatus(DownloadManager.STATUS_FAILED);
+        Cursor cursorFailed = mDownloadManger.query(query);
+        int failedCount = cursorFailed.getCount();
+        long[] ids = new long[failedCount];
+        int index = 0;
+        while (cursorFailed.moveToNext()) {
+            int downloadId = cursorFailed.getInt(cursorFailed.getColumnIndex(DownloadManager.COLUMN_ID));
+            ids[index] = downloadId;
+            index++;
+        }
+        Log.d(TAG, "cursorFailed count = " + cursorFailed.getCount());
+        if (failedCount != 0) {
+            int temp = mDownloadManger.remove(ids);
+            Log.d(TAG, "temp = " + temp);
+            makeSnackBar(mBtnRemoveFailed, "成功删除" + temp + "条失败任务", Snackbar.LENGTH_SHORT).show();
+        } else {
+            makeSnackBar(mBtnRemoveFailed, "不好意思，现在没有失败的任务可供删除", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+
     private String getRandomTable() {
         String table;
         Random random = new Random();
@@ -251,9 +320,11 @@ public class FragmentPerformance extends Fragment {
         return table;
     }
 
-    private Snackbar makeSnackbar(View view, String text, int duration) {
+    private Snackbar makeSnackBar(View view, String text, int duration) {
         Snackbar temp = Snackbar.make(view, text, duration);
-        temp.getView().setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
+        View snackBarParent = temp.getView();
+        snackBarParent.setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
         return temp;
     }
+
 }
