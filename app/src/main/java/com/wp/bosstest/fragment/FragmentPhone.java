@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.premnirmal.Magnet.Magnet;
 import com.wp.bosstest.R;
 
 import java.util.ArrayList;

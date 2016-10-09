@@ -8,8 +8,8 @@ android {
         applicationId "com.wp.bosstest"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 20160907
-        versionName "1.4.5"
+        versionCode 20160929
+        versionName "1.4.6"
     }
     buildTypes {
         release {
@@ -27,4 +27,5 @@ dependencies {
     compile files('src/main/libs/jxl.jar')
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.premnirmal.magnet:library:1.1.5'
 }

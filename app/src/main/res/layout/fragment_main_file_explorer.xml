@@ -70,7 +70,7 @@
         <Button
             android:id="@+id/main_fragment_file_explorer_btn_file_test"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
             android:layout_marginTop="5dp"
             android:background="@drawable/btn_bg"
             android:gravity="left|center"
@@ -84,7 +84,7 @@
     <Button
         android:id="@+id/main_fragment_file_explorer_btn_file_pre"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/btn_tool_height"
         android:layout_marginTop="5dp"
         android:background="@drawable/btn_bg"
         android:gravity="center|left"
@@ -97,7 +97,7 @@
     <Button
         android:id="@+id/main_fragment_file_explorer_btn_file_online"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/btn_tool_height"
         android:layout_marginTop="5dp"
         android:background="@drawable/btn_bg"
         android:gravity="left|center"

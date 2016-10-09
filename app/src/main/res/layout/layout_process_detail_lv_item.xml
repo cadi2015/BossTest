@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_bg"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/layout_process_detail_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|left"
+        android:gravity="center|left"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        tools:text="进程ID"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical">
+        <TextView
+            android:id="@+id/layout_process_detail_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|right"
+            android:textSize="16sp"
+            tools:text="com.tencent.mm\ncom.android.downloads"
+            android:textColor="@color/colorBlack"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+</FrameLayout>

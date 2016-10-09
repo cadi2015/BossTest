@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/white_bg"
     android:orientation="vertical"
-    android:padding="4dp">
+    >
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:paddingTop="5dp"
+        android:paddingBottom="100dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,7 +21,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
 
                 <TextView
                     android:id="@+id/performance_tv_hint"
@@ -42,14 +45,19 @@
                     android:paddingLeft="10dp" />
             </RelativeLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="220dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_horizontal"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:gravity="center">
+            <android.support.v7.widget.CardView
+                android:layout_width="190dp"
+                android:layout_height="38dp"
+                android:layout_centerVertical="true"
                 card_view:cardBackgroundColor="@color/colorRed"
                 card_view:cardCornerRadius="20dp"
-                card_view:cardPreventCornerOverlap="true">
+                card_view:cardPreventCornerOverlap="true"
+                android:id="@+id/performance_cv_insert">
 
                 <TextView
                     android:id="@+id/performance_tv_insert"
@@ -57,7 +65,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="@color/color_guide_txt_white"
-                    android:textSize="19sp"
+                    android:textSize="14sp"
                     tools:text="测试用的文案" />
 
                 <ProgressBar
@@ -68,30 +76,47 @@
                     android:visibility="gone" />
             </android.support.v7.widget.CardView>
 
-            <Button
-                android:id="@+id/performance_btn_remove_failed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                <android.support.v7.widget.CardView
+                    android:layout_width="140dp"
+                    android:layout_height="38dp"
+                    android:layout_centerVertical="true"
+                    card_view:cardBackgroundColor="@color/colorAccent"
+                    card_view:cardCornerRadius="20dp"
+                    card_view:cardPreventCornerOverlap="true"
+                    android:layout_toRightOf="@id/performance_cv_insert"
+                    android:layout_marginLeft="5dp">
+            <TextView
+                android:id="@+id/performance_tv_remove_failed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@drawable/performance_btn_remove_bg"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:text="删除所有无效任务"
                 android:textColor="@color/color_guide_txt_white"
-                android:textSize="18sp" />
+                android:textSize="14sp"
+                />
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
             <include
                 layout="@layout/view_divider_blue"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:paddingLeft="10dp"
+                    tools:text="UI进程与DP进程内存信息"
+                    android:gravity="left|center_vertical"
+                    android:background="@drawable/temp_bg"
+                    android:id="@+id/performance_btn_process_msg"
+                    android:text="UI与DP进程状态与内存占用"/>
+            </RelativeLayout>
         </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
-
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

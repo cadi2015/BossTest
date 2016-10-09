@@ -9,7 +9,7 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
+/** 这个单例模式是线程不安全的，在多线程时，将不能正常工作，待优化中
  * Created by cadi on 2016/8/12.
  */
 public class PackageUtil {
@@ -47,7 +47,6 @@ public class PackageUtil {
         sb.append("7.)本地数据路径 :" + info.applicationInfo.dataDir + "\n");
         sb.append("8.)安装apk路径 :" + info.applicationInfo.publicSourceDir + "\n");
         sb.append("9.)Application类名: " + info.applicationInfo.className + "\n");
-
         return sb.toString();
     }
 

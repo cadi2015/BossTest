@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:paddingLeft="@dimen/btn_padding_left_and_right"
                 android:paddingRight="@dimen/btn_padding_left_and_right"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/btn_tool_height"
                 android:layout_marginTop="5dp"
                 android:textSize="@dimen/btn_tool_txt_size"
                 android:textColor="?android:attr/textColorPrimary"
@@ -72,14 +72,15 @@
                 android:background="@drawable/btn_bg"/>
 
             <RelativeLayout
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="4dp"
+                android:paddingRight="10dp">
 
                 <Button
                     android:id="@+id/tool_btn_bt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/btn_tool_height"
                     android:paddingLeft="@dimen/btn_padding_left_and_right"
                     android:paddingRight="@dimen/btn_padding_left_and_right"
                     android:layout_centerVertical="true"
@@ -95,7 +96,8 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@id/tool_btn_bt"
+                    android:layout_marginLeft="10dp"
                     style="?android:attr/progressBarStyleSmall"/>
             </RelativeLayout>
 
@@ -103,7 +105,7 @@
             android:layout_marginTop="4dp"
             android:id="@+id/tool_btn_browser_download_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/btn_padding_left_and_right"
             android:paddingRight="@dimen/btn_padding_left_and_right"
@@ -115,7 +117,7 @@
         <Button
             android:id="@+id/tool_btn_market_download_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
             android:gravity="center_vertical|left"
             android:layout_marginTop="4dp"
             android:text="应用商店调起下载管理列表"
@@ -127,7 +129,7 @@
 
         <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/btn_tool_height"
         android:text="应用商店自升级切换preview环境"
         android:background="@drawable/btn_bg"
         android:textSize="@dimen/btn_tool_txt_size"
@@ -140,7 +142,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
             android:text="添加下载库slog.config"
             android:textAllCaps="false"
             android:layout_marginTop="4dp"
@@ -154,7 +156,7 @@
 
         <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
             android:text="截取Miui日志(*#*#284#*#*)拨号后生成"
             android:background="@drawable/btn_bg"
             android:textSize="@dimen/btn_tool_txt_size"

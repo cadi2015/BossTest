@@ -5,6 +5,10 @@ package com.wp.bosstest.utils;
  */
 public class LogHelper {
     public static String makeTag(Class className) {
-        return className.getSimpleName();
+        return makeTag(className.getSimpleName());
+    }
+
+    public static String makeTag(String className) {
+        return className;
     }
 }

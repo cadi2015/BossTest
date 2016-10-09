@@ -4,6 +4,7 @@ package com.wp.bosstest.fragment;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +29,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.activity.ProcessDetailActivity;
 import com.wp.bosstest.receiver.DownloadTaskReceiver;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.LogHelper;
@@ -49,8 +51,8 @@ public class FragmentPerformance extends Fragment {
     private SeekBar mSeekBar;
     private ProgressBar mProgressBar;
     private BroadcastReceiver mReceiver;
-    private Button mBtnRemoveFailed;
-
+    private TextView mTvRemoveFailed;
+    private Button mBtnProcessMsg;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_performance, null);
@@ -71,23 +73,34 @@ public class FragmentPerformance extends Fragment {
 
     private void setupViews() {
         mSeekBar = (SeekBar) mRootView.findViewById(R.id.performance_seek_bar);
-        mBtnRemoveFailed = (Button) mRootView.findViewById(R.id.performance_btn_remove_failed);
+        mTvRemoveFailed = (TextView) mRootView.findViewById(R.id.performance_tv_remove_failed);
+        mBtnProcessMsg = (Button) mRootView.findViewById(R.id.performance_btn_process_msg);
         mSeekBar.setProgress(20);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
         Log.d(TAG, "SeekBar current progress  = " + mSeekBar.getProgress());
         mTvInsert.setText(getString(R.string.performance_tv_task, mSeekBar.getProgress()));
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.performance_progress_bar);
+        MyBtnCikLis myBtnCikLis = new MyBtnCikLis();
         mTvInsert.setOnClickListener(new MyClickLis());
         mSeekBar.setOnSeekBarChangeListener(new MySeekBarLis());
-        mBtnRemoveFailed.setOnClickListener(new MyBtnCikLis());
-
+        mTvRemoveFailed.setOnClickListener(myBtnCikLis);
+        mBtnProcessMsg.setOnClickListener(myBtnCikLis);
         Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
     }
 
     private class MyBtnCikLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            removeFailedDownloadTask();
+            switch (v.getId()) {
+                case R.id.performance_tv_remove_failed:
+                    removeFailedDownloadTask();
+                    break;
+                case R.id.performance_btn_process_msg:
+                    Log.d(TAG, "MyBtnCik, btn_process_msg");
+                    Intent intent = new Intent(mContext, ProcessDetailActivity.class);
+                    startActivity(intent);
+                    break;
+            }
         }
     }
 
@@ -280,9 +293,9 @@ public class FragmentPerformance extends Fragment {
         if (failedCount != 0) {
             int temp = mDownloadManger.remove(ids);
             Log.d(TAG, "temp = " + temp);
-            makeSnackBar(mBtnRemoveFailed, "成功删除" + temp + "条失败任务", Snackbar.LENGTH_SHORT).show();
+            makeSnackBar(mTvRemoveFailed, "成功删除" + temp + "条失败任务", Snackbar.LENGTH_SHORT).show();
         } else {
-            makeSnackBar(mBtnRemoveFailed, "不好意思，现在没有失败的任务可供删除", Snackbar.LENGTH_LONG).show();
+            makeSnackBar(mTvRemoveFailed, "不好意思，现在没有失败的任务可供删除", Snackbar.LENGTH_LONG).show();
         }
     }
 

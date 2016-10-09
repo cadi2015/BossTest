@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.bosstest"
-    android:versionCode="20160907"
+    android:versionCode="20160929"
     android:versionName="@string/version_name">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -80,6 +80,11 @@
         <activity
             android:name=".activity.WebActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".activity.ProcessDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
     </application>
 
