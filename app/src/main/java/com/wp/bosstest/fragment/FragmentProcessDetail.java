@@ -1,24 +1,35 @@
 package com.wp.bosstest.fragment;
 
+import android.annotation.TargetApi;
 import android.app.ActivityManager;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Debug;
-import android.text.format.Formatter;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.adapter.ProcessMsgAdapter;
+import com.wp.bosstest.service.MonitorService;
 import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.PermissionUtil;
+import com.wp.bosstest.utils.ProcessUtil;
+import com.wp.bosstest.utils.RootUtil;
 
-import java.text.DecimalFormat;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 
@@ -28,19 +39,21 @@ import java.util.List;
 
 public class FragmentProcessDetail extends Fragment {
     private String TAG = LogHelper.makeTag(FragmentProcessDetail.class);
-    private static final String UI_PROCESS_NAME = "android.process.mediaUI";
-    private static final String DP_PROCESS_NAME = "android.process.media";
+    private static final int REQUEST_CODE_PERMISSION = 110;
     private View mRootView;
     private Context mContext;
     private TextView mTvSystemMemMsg;
     private TextView mTvMemTitle;
-    private ActivityManager mActivityManager;
     private ListView mLvDpMsg;
     private ListView mLvUiMsg;
     private LayoutInflater mLayoutInflater;
     private boolean isAdded = true;
-    private View  mUiLvHeader;
+    private View mUiLvHeader;
     private View mDpLvHeader;
+    private Button mBtnStartMonitor;
+    private Button mBtnStopMonitor;
+    private Intent intentMonitor;
+    private TextView mTvPermissionHint;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +64,50 @@ public class FragmentProcessDetail extends Fragment {
         return mRootView;
     }
 
+    //普通内部类的，可以称作为对象内部类的，实例对象的内部类，与静态内部类的区别当然是是否需要外部类的实例对象了，呵呵，静态的当然不用了，类成员用鸡巴毛实例对象
+    private class BtnStartClickLis implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            PackageManager pm = mContext.getPackageManager();
+            boolean alertPermission = PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SYSTEM_ALERT_WINDOW", mContext.getPackageName());
+            Log.d(TAG, "alertWindowPermission = " + alertPermission);
+
+            Log.d(TAG, "BtnStartClickLis, onClick(View v)");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
+                startActivityForResult(intent, REQUEST_CODE_PERMISSION);
+                Toast.makeText(mContext, getString(R.string.permission_err), Toast.LENGTH_LONG).show();
+            } else {
+                mContext.startService(intentMonitor);
+                getActivity().finish();
+            }
+        }
+    }
+
+    private class BtnStopClickLis implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "BtnStopClickLis, onClick(View v)");
+            mContext.stopService(intentMonitor);
+            getActivity().finish();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "FragmentProcessDetail, onActivityResult(int requestCode, int resultCode, Intent data)");
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (!Settings.canDrawOverlays(mContext)) {
+                Toast.makeText(mContext, "您还没开启权限啊，必须手动开启权限啊", Toast.LENGTH_LONG).show();
+            } else {
+                mContext.startService(intentMonitor);
+                getActivity().finish();
+            }
+        }
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -58,107 +115,46 @@ public class FragmentProcessDetail extends Fragment {
         standAlone();
     }
 
-    /**
-     * @param processName
-     * @return uid, pid, totalPss Of Array
-     */
-    private String[] getRunningProcessInfo(String processName) {
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcessInfoList = mActivityManager.getRunningAppProcesses();
-        Log.d(TAG, "runningProcessList size = " + runningAppProcessInfoList.size());
-        int temp = 0;
-        int pid = 0;
-        int uid = 0;
-        int totalPss;
-        int processType = 0;
-        String[] packageList = null;
-        for (ActivityManager.RunningAppProcessInfo item : runningAppProcessInfoList) {
-            Log.d(TAG, (temp++) + "、processName = " + item.processName + ", uid = " + item.uid + ", pid = " + item.pid);
-            if (item.processName.equals(processName)) {
-                uid = item.uid;
-                pid = item.pid;
-                processType = item.importance;
-                packageList = item.pkgList;
-                Log.d(TAG, "current importance = " + item.importance);
-                Log.d(TAG, "current pid = " + pid);
-                Log.d(TAG, "current packageList Size = " + packageList.length);
-                break;
-            }
-        }
-        int[] pids = {pid};
-        Debug.MemoryInfo[] memoryInfo = mActivityManager.getProcessMemoryInfo(pids);
-        Debug.MemoryInfo currentMemInfo = memoryInfo[0];
-        Log.d(TAG, "TotalPss = " + currentMemInfo.getTotalPss() + "KB");
-        totalPss = currentMemInfo.getTotalPss();
-        float totalPssFloat = (float) totalPss;
-        DecimalFormat df = new DecimalFormat("0.00"); //保留两位小数 嘿嘿
-        String processTypeStr = getProcessType(processType);
-        StringBuilder packageNames = new StringBuilder();
-        if (packageList != null) {
-            for (int i = 0; i < packageList.length; i++) {
-                packageNames.append(packageList[i]);
-                if (i != packageList.length - 1) {
-                    packageNames.append("\n");
-                }
-            }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume()");
+        boolean isRunning = isServiceRunning(mContext.getPackageName() + ".service.MonitorService");
+        Log.d(TAG, "service is Running = " + isRunning);
+        mBtnStartMonitor.setVisibility(isRunning ? View.GONE : View.VISIBLE);
+        mBtnStopMonitor.setVisibility(isRunning ? View.VISIBLE : View.GONE);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            mTvPermissionHint.setVisibility(View.VISIBLE);
+            mTvPermissionHint.setText(getString(R.string.permission_warning, Build.VERSION.RELEASE));
         } else {
-            packageNames.append("无");
+            mTvPermissionHint.setVisibility(View.VISIBLE);
+            mTvPermissionHint.setText(getString(R.string.permission_six_error, Build.VERSION.RELEASE));
         }
-        String[] currentProcessStr = {"" + uid, "" + pid, df.format(totalPssFloat / 1024) + "MB", processTypeStr, packageNames.toString()};
-        Log.d(TAG, "TotalPrivateDirty = " + currentMemInfo.getTotalPrivateDirty() + "KB");
-        Log.d(TAG, "TotalPrivteClean = " + currentMemInfo.getTotalPrivateClean() + "KB");
-        Log.d(TAG, "TotalSharedDirty = " + currentMemInfo.getTotalSharedDirty() + "KB");
-        Log.d(TAG, "TotalSharedClean = " + currentMemInfo.getTotalSharedClean() + "KB");
-        return currentProcessStr;
-    }
-
-    private String getProcessType(int processImportance) {
-        String typeStr;
-        switch (processImportance) {
-            case ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND:
-                typeStr = "前台进程";
-                break;
-            case ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND:
-                typeStr = "后台进程";
-                break;
-            case ActivityManager.RunningAppProcessInfo.IMPORTANCE_VISIBLE:
-                typeStr = "可见进程";
-                break;
-            case ActivityManager.RunningAppProcessInfo.IMPORTANCE_SERVICE:
-                typeStr = "服务进程";
-                break;
-            case ActivityManager.RunningAppProcessInfo.IMPORTANCE_EMPTY:
-                typeStr = "空进程";
-                break;
-            default:
-                typeStr = "无";
-                break;
-        }
-        return typeStr;
     }
 
 
-    private String getSystemMemMsg() {
-        String memString;
-        ActivityManager.MemoryInfo saveMemoryInfo = new ActivityManager.MemoryInfo();
-        mActivityManager.getMemoryInfo(saveMemoryInfo);
-        StringBuilder sbSystemMemMsg = new StringBuilder();
-        long availMemSize = saveMemoryInfo.availMem;
-        boolean isLowMem = saveMemoryInfo.lowMemory;
-        long totalMemSize = saveMemoryInfo.totalMem;
-        long thresholdSize = saveMemoryInfo.threshold;
-        String availMemStr = formatFileSize(availMemSize);
-        String totalMemStr = formatFileSize(totalMemSize);
-        String thresholdStr = formatFileSize(thresholdSize);
-        sbSystemMemMsg.append(availMemStr + "\n");
-        sbSystemMemMsg.append(totalMemStr + "\n");
-        sbSystemMemMsg.append(thresholdStr + "\n");
-        sbSystemMemMsg.append(isLowMem);
-        memString = sbSystemMemMsg.toString();
-        return memString;
+    private boolean isServiceRunning(String serviceClassName) {
+        boolean isRunning = false;
+        int maxNum = 100;
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(maxNum);
+
+        if (serviceList == null || serviceList.size() <= 0) {
+            return false;  //加入容错
+        }
+
+        for (ActivityManager.RunningServiceInfo serviceInfo : serviceList) {
+            String serviceName = serviceInfo.service.getClassName();
+            if (serviceName.equals(serviceClassName)) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
     }
 
     private void standAlone() { //为了home键的问题，做到实时刷新，装个13
-        mTvSystemMemMsg.setText(getSystemMemMsg());
+        mTvSystemMemMsg.setText(ProcessUtil.getSystemMemMsg());
         if (isAdded) {
             mUiLvHeader = mLayoutInflater.inflate(R.layout.layout_process_detail_lv_header, null);
             TextView uiHeaderTitle = (TextView) mUiLvHeader.findViewById(R.id.layout_process_detail_lv_header_tv_title);
@@ -166,7 +162,7 @@ public class FragmentProcessDetail extends Fragment {
             mLvUiMsg.addHeaderView(mUiLvHeader, null, false);
         }
 
-        TextView uiHeaderState  = (TextView) mUiLvHeader.findViewById(R.id.layout_process_detail_lv_header_tv_state);
+        TextView uiHeaderState = (TextView) mUiLvHeader.findViewById(R.id.layout_process_detail_lv_header_tv_state);
 
         if (isAdded) {
             mDpLvHeader = mLayoutInflater.inflate(R.layout.layout_process_detail_lv_header, null);
@@ -177,8 +173,8 @@ public class FragmentProcessDetail extends Fragment {
 
         TextView dpHeaderState = (TextView) mDpLvHeader.findViewById(R.id.layout_process_detail_lv_header_tv_state);
 
-        String[] uiProcessMsg = getRunningProcessInfo(UI_PROCESS_NAME);
-        String[] dpProcessMsg = getRunningProcessInfo(DP_PROCESS_NAME);
+        String[] uiProcessMsg = ProcessUtil.getRunningProcessInfo(ProcessUtil.UI_PROCESS_NAME);
+        String[] dpProcessMsg = ProcessUtil.getRunningProcessInfo(ProcessUtil.DP_PROCESS_NAME);
         if (Integer.valueOf(uiProcessMsg[0]) == 0) {
             uiHeaderState.setVisibility(View.VISIBLE);
         } else {
@@ -203,16 +199,21 @@ public class FragmentProcessDetail extends Fragment {
         mTvMemTitle.setText(Build.MODEL + "内存信息");
         mLvUiMsg = (ListView) mRootView.findViewById(R.id.process_detail_lv_ui);
         mLvDpMsg = (ListView) mRootView.findViewById(R.id.process_detail_lv_dp);
-    }
-
-    private String formatFileSize(long bytes) {
-        return Formatter.formatFileSize(mContext, bytes);
+        mBtnStartMonitor = (Button) mRootView.findViewById(R.id.process_detail_btn_start_monitor);
+        mBtnStopMonitor = (Button) mRootView.findViewById(R.id.process_detail_btn_stop_monitor);
+        mTvPermissionHint = (TextView) mRootView.findViewById(R.id.process_detail_tv_hint);
+        mBtnStartMonitor.setOnClickListener(new BtnStartClickLis());
+        mBtnStopMonitor.setOnClickListener(new BtnStopClickLis());
     }
 
     private void init() {
         mContext = getActivity();
-        mActivityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
+        intentMonitor = new Intent(mContext, MonitorService.class);
+        PermissionUtil.verifyStoragePermissions(getActivity());
+//        if (RootUtil.getRootAhth() == false) {    //root权限拿了也没用，真他妈的醉了
+//            RootUtil.upgradeRootPermission(getActivity().getPackageCodePath());
+//        }
     }
 
 }

@@ -5,4 +5,7 @@
     <dimen name="btn_padding_left_and_right">10dp</dimen>
     <dimen name="tv_txt_size">20sp</dimen>
     <dimen name="package_info_tv_line_space">9dp</dimen>
+
+    <dimen name="default_padding_bottom">55dp</dimen>
+    <dimen name="magnet_txt_msg">10dp</dimen>
 </resources>

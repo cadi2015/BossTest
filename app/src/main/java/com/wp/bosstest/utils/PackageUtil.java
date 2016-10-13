@@ -27,7 +27,7 @@ public class PackageUtil {
         packageManager = context.getPackageManager();
     }
 
-    public static PackageUtil getInstance(Context context) {
+    public static synchronized PackageUtil getInstance(Context context) {
         if (packageUtil == null) {
             packageUtil = new PackageUtil(context);
         }

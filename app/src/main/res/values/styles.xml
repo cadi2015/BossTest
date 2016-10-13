@@ -69,4 +69,14 @@
         <item name="fadeDelay">1000</item>
     </style>
 
+
+
+    <style name="MagnetMsgSty">
+        <item name="android:textSize">@dimen/magnet_txt_msg</item>
+        <item name="android:textColor">@color/color_guide_txt_white</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">3dp</item>
+    </style>
+
 </resources>

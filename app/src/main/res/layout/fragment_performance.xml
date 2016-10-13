@@ -111,11 +111,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:paddingLeft="10dp"
-                    tools:text="UI进程与DP进程内存信息"
                     android:gravity="left|center_vertical"
                     android:background="@drawable/temp_bg"
                     android:id="@+id/performance_btn_process_msg"
-                    android:text="UI与DP进程状态与内存占用"/>
+                    android:text="UI与DP进程信息(Memory、Cpu、实时监控)"
+                    android:textAllCaps="false"/>
             </RelativeLayout>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

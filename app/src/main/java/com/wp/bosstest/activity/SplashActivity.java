@@ -11,16 +11,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentSplash;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.AppInfo;
+import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.RootUtil;
 
 /**
  * Created by wp on 2016/1/12.
  */
 public class SplashActivity extends FragmentActivity {
+    private static final String TAG  = LogHelper.makeTag(SplashActivity.class);
     private SharedPreferences mSharedPre;
 
     @Override
@@ -56,4 +60,7 @@ public class SplashActivity extends FragmentActivity {
         SqliteManager sqliteManager = new SqliteManager();
         sqliteManager.fromAssetsCopyDB(this);
     }
+
+
+
 }

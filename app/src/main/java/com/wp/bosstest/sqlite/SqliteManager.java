@@ -51,7 +51,7 @@ public class SqliteManager {
             String dbPath = DATA_ROOT_PATH + DB_ROOT_PATH;
             File dbDir = new File(dbPath);
             if (!dbDir.exists()) {
-                boolean isSuccess = dbDir.mkdir(); //纯属狗屎运，app在初始化的时候创建了/data/data/<packageName>，不然我的databases绝对会黄掉
+                boolean isSuccess = dbDir.mkdir(); //纯属狗屎运，app在初始化Application的时候创建了/data/data/<packageName>，不然我的databases绝对会黄掉
                 Log.d(TAG, "File isSuccess = " + isSuccess);
             }
             InputStream inputFile = context.getAssets().open(DB_ASSETS_DIR + File.separator + DB_NAME);

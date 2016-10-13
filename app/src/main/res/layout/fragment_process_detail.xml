@@ -2,12 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/color_process_detail_bg">
+    android:background="@color/color_process_detail_bg"
+    tools:context=".activity.ProcessDetailActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -16,6 +19,7 @@
             android:dividerHeight="1px"
             >
         </ListView>
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,5 +67,32 @@
                 android:layout_gravity="end"
                 android:paddingRight="20dp"/>
         </FrameLayout>
+        <Button
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="开启实时监控"
+            android:textSize="15sp"
+            android:textColor="@color/color_guide_txt_white"
+            android:id="@+id/process_detail_btn_start_monitor"
+            android:background="@color/colorRed"/>
+        <Button
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="停止实时监控"
+            android:textSize="15sp"
+            android:textColor="@color/color_guide_txt_white"
+            android:id="@+id/process_detail_btn_stop_monitor"
+            android:background="@color/colorRed"/>
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="@color/colorRed"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:id="@+id/process_detail_tv_hint"/>
     </LinearLayout>
 </FrameLayout>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BossTest</string>
-    <string name="version_name">BossTest\nv1.4.6</string>
+    <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
+    <string name="version_name">BossTest\nv1.4.7</string>
     <string name="version_code">20160929</string>
     <string name="btn_switch_test">切换</string>
     <string name="btn_switch_production_test">Test</string>
@@ -12,6 +13,12 @@
     <string name="guide_page_2">查看Ui与Dp包信息</string>
     <string name="guide_page_3">设备信息任意看</string>
     <string name="more_resource">更多下载资源</string>
-    <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
     <string name="performance_tv_task">插入%1$d条任务</string>
+    <string name="permission_err">当前版本为6.0或以上, 必须手动开启权限“允许在其他应用上层显示”开启才行</string>
+    <string name="permission_warning">重要提示:本机为%1$s版本,MIUI限制了悬浮窗权限，必须先手工开启……开启方法：安全中心->应用权限管理->BossTest->显示悬浮窗->选择允许</string>
+    <string name="permission_six_error">小提示：当前为Android%1$s版本,因系统限制,暂时无法获取内置app实时Cpu值</string>
+    <string name="ui_memory_msg">内存 %1$s</string>
+    <string name="dp_memory_msg">内存 %1$s</string>
+    <string name="ui_cpu_time">Cpu %1$s%%</string>
+    <string name="dp_cpu_time">Cpu %1$s%%</string>
 </resources>

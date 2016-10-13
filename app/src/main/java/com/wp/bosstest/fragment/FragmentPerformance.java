@@ -178,7 +178,7 @@ public class FragmentPerformance extends Fragment {
             mWorkingThread = new HandlerThread("taskWorking"); //工作线程
             mWorkingThread.start();
         }
-        mWorkingHandler = new WorkingHandler(mWorkingThread.getLooper());//Handler的post方法总结，将Runnable发送给绑定的线程运行（如果在ui线程，就发给ui线程，如果在工作线程，就发给工作线程）
+        mWorkingHandler = new WorkingHandler(mWorkingThread.getLooper());//Handler的post方法总结，将Runnable发送给绑定的线程运行（如果在ui线程，就发给ui线程，如果在工作线程，就发给工作线程） //其实就是将handler与线程绑定,HandlerThread,一个Looper的线程实例对象
     }
 
     private class MainHandler extends Handler {
