@@ -1,11 +1,14 @@
 package com.wp.bosstest.fragment;
 
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -19,21 +22,33 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.activity.ProcessDetailActivity;
+import com.wp.bosstest.config.SharedConstant;
 import com.wp.bosstest.receiver.DownloadTaskReceiver;
+import com.wp.bosstest.service.FpsService;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.PermissionUtil;
+import com.wp.bosstest.utils.ProcessUtil;
+import com.wp.bosstest.utils.ShellUtils;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -53,6 +68,37 @@ public class FragmentPerformance extends Fragment {
     private BroadcastReceiver mReceiver;
     private TextView mTvRemoveFailed;
     private Button mBtnProcessMsg;
+    private Button mBtnFpsStart;
+    private Button mBtnFpsStop;
+    private Button mBtnLogLib;
+    private Button mBtnCleanData;
+    private Intent mIntentFps;
+    private TextView mTvShowLog;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach(Context context)");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate( Bundle savedInstanceState)");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isRunning = ProcessUtil.isServiceRunning(mContext.getPackageName() + ".service.FpsService");
+        Log.d(TAG, "isRunning = " + isRunning);
+        if (isRunning) {
+            mBtnFpsStop.setVisibility(View.VISIBLE);
+        } else {
+            mBtnFpsStart.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_performance, null);
@@ -69,28 +115,40 @@ public class FragmentPerformance extends Fragment {
         mDownloadManger = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         mMainHandler = new MainHandler();
         mReceiver = new DownloadTaskReceiver();
+        mIntentFps = new Intent();
+        mIntentFps.setClass(mContext, FpsService.class);
     }
 
     private void setupViews() {
         mSeekBar = (SeekBar) mRootView.findViewById(R.id.performance_seek_bar);
         mTvRemoveFailed = (TextView) mRootView.findViewById(R.id.performance_tv_remove_failed);
         mBtnProcessMsg = (Button) mRootView.findViewById(R.id.performance_btn_process_msg);
-        mSeekBar.setProgress(20);
+        mBtnFpsStart = (Button) mRootView.findViewById(R.id.performance_btn_fps_start);
+        mBtnFpsStop = (Button) mRootView.findViewById(R.id.performance_btn_fps_stop);
+        mBtnLogLib = (Button) mRootView.findViewById(R.id.performance_btn_log_lib);
+        mBtnCleanData = (Button) mRootView.findViewById(R.id.performance_btn_clean_data);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
+        mTvShowLog = (TextView) mRootView.findViewById(R.id.performance_tv_show_log);
+        mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
         Log.d(TAG, "SeekBar current progress  = " + mSeekBar.getProgress());
-        mTvInsert.setText(getString(R.string.performance_tv_task, mSeekBar.getProgress()));
+        mTvInsert.setText(getString(R.string.performance_tv_task, mSeekBar.getProgress() + 1));
         mProgressBar = (ProgressBar) mRootView.findViewById(R.id.performance_progress_bar);
         MyBtnCikLis myBtnCikLis = new MyBtnCikLis();
         mTvInsert.setOnClickListener(new MyClickLis());
         mSeekBar.setOnSeekBarChangeListener(new MySeekBarLis());
         mTvRemoveFailed.setOnClickListener(myBtnCikLis);
         mBtnProcessMsg.setOnClickListener(myBtnCikLis);
+        mBtnFpsStart.setOnClickListener(myBtnCikLis);
+        mBtnFpsStop.setOnClickListener(myBtnCikLis);
+        mBtnLogLib.setOnClickListener(myBtnCikLis);
+        mBtnCleanData.setOnClickListener(myBtnCikLis);
         Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
     }
 
     private class MyBtnCikLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            final SharedPreferences sp = mContext.getSharedPreferences(SharedConstant.SHARED_PRE_NAME, Context.MODE_PRIVATE);
             switch (v.getId()) {
                 case R.id.performance_tv_remove_failed:
                     removeFailedDownloadTask();
@@ -100,9 +158,99 @@ public class FragmentPerformance extends Fragment {
                     Intent intent = new Intent(mContext, ProcessDetailActivity.class);
                     startActivity(intent);
                     break;
+                case R.id.performance_btn_fps_start:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false)) || !(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_FLOAT_WINDOW, false))) {
+                        createDiaLog(sp, "需要Root权限与悬浮窗权限，必须手工开启", 0);
+                    } else {
+                        ComponentName componentName;
+                        componentName = mContext.startService(mIntentFps);
+                        Log.d(TAG, "ComponentName = " + componentName.getClassName());
+                        mBtnFpsStart.setVisibility(View.GONE);
+                        mBtnFpsStop.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case R.id.performance_btn_fps_stop:
+                    mContext.stopService(mIntentFps);
+                    mBtnFpsStop.setVisibility(View.GONE);
+                    mBtnFpsStart.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.performance_btn_log_lib:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要Root权限，必须手工开启", 1);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d(TAG, "ShellUtils is root = " + ShellUtils.checkRootPermission());
+                                List<String> command = new ArrayList<>();
+                                command.add("logcat -d -s DownloadManager | grep libVersion");
+                                ShellUtils.CommandResult result = ShellUtils.execCommand(command, true);
+                                String resultStr = result.successMsg;
+                                Message message = new Message();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("content", resultStr);
+                                message.setData(bundle);
+                                mMainHandler.sendMessage(message);
+                            }
+                        }
+                        ).start();
+                    }
+                    break;
+                case R.id.performance_btn_clean_data:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要Root权限，必须手工开启", 1);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ShellUtils.CommandResult resultUi = ShellUtils.execCommand("pm clear com.android.providers.downloads.ui", true);
+                                ShellUtils.CommandResult resultDp = ShellUtils.execCommand("pm clear com.android.providers.downloads", true);
+                                Log.d(TAG, "clear data result successMsg = " + resultUi.successMsg);
+                                Log.d(TAG, "clear data result errorMsg= " + resultUi.errorMsg);
+                                mMainHandler.sendEmptyMessage(0x222);
+                            }
+                        }).start();
+                    }
+                    break;
+                default:
+                    break;
             }
         }
     }
+
+
+    private void createDiaLog(final SharedPreferences sp, String tips, final int type) {
+        AlertDialog.Builder diaBuilder = new AlertDialog.Builder(mContext);
+        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+        View view = layoutInflater.inflate(R.layout.dialog_layout_tips, null);
+        TextView tipsContent = (TextView) view.findViewById(R.id.dialog_tv_content);
+        tipsContent.setText(tips);
+        CheckBox checkBox = (CheckBox) view.findViewById(R.id.dialog_cb_select);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = sp.edit();
+                Log.d(TAG, "is Checked = " + isChecked);
+                if (isChecked == true) {
+                    editor.putBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, true);
+                    if (type == 0) {
+                        editor.putBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_FLOAT_WINDOW, true);
+                    }
+                    editor.apply();
+                } else {
+                    editor.putBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false);
+                    if (type == 0) {
+                        editor.putBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_FLOAT_WINDOW, false);
+                    }
+                    editor.apply();
+                }
+            }
+        });
+        Log.d(TAG, "is root = " + PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath()));
+        diaBuilder.setView(view).setTitle("温馨提示");
+        diaBuilder.create().show();
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -138,10 +286,9 @@ public class FragmentPerformance extends Fragment {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             Log.d(TAG, "onPregressChanged(SeekBar seekBar, int progress, boolean fromUser)");
             Log.d(TAG, "onPregressChanged(SeekBar seekBar, int progress, boolean fromUser) fromUser = " + fromUser);
-            if (!fromUser) {
-                int index = seekBar.getProgress();
-                mTvInsert.setText(getString(R.string.performance_tv_task, index));
-            }
+            Log.d(TAG, "onPregressChanged(…………）, int progress = " + progress);
+            int index = progress + 1;
+            mTvInsert.setText(getString(R.string.performance_tv_task, index));
         }
 
         @Override
@@ -151,7 +298,7 @@ public class FragmentPerformance extends Fragment {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            int index = seekBar.getProgress();
+            int index = seekBar.getProgress() + 1;
             mTvInsert.setText(getString(R.string.performance_tv_task, index));
         }
     }
@@ -159,7 +306,7 @@ public class FragmentPerformance extends Fragment {
     private class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            int index = mSeekBar.getProgress();
+            int index = mSeekBar.getProgress() + 1;
             Log.d(TAG, "seekBar progress = " + index);
             if (index != 0) {
                 mTvInsert.setTextColor(ContextCompat.getColor(mContext, R.color.color_txt_enable_gray));
@@ -191,6 +338,22 @@ public class FragmentPerformance extends Fragment {
                 mTvInsert.setEnabled(true);
                 mTvInsert.setClickable(true);
                 mProgressBar.setVisibility(View.GONE);
+            } else if (msg.what == 0x222) {
+                Toast.makeText(mContext, "Ui:" + "success" + "\nDp:" + "success", Toast.LENGTH_SHORT).show();
+            } else {
+                if (msg.getData() != null) {
+                    Log.d(TAG, "msg = " + msg.getData());
+                    Bundle bundle = msg.getData();
+                    String result = bundle.getString("content");
+                    if (result == null || result.isEmpty()) {
+                        Toast.makeText(mContext, "试着把dp的进程结束运行，然后再打开ui，保证有你想要的", Toast.LENGTH_LONG).show();
+                    } else {
+                        int startIndex = result.lastIndexOf("libVersion");
+                        String subStr = result.substring(startIndex);
+                        mTvShowLog.setText(subStr);
+                        mTvShowLog.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     }
@@ -335,7 +498,9 @@ public class FragmentPerformance extends Fragment {
 
     private Snackbar makeSnackBar(View view, String text, int duration) {
         Snackbar temp = Snackbar.make(view, text, duration);
-        View snackBarParent = temp.getView();
+        View snackBarParent = temp.getView(); //SnackBar的View
+        TextView message = (TextView) snackBarParent.findViewById(R.id.snackbar_text);
+        message.setTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
         snackBarParent.setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
         return temp;
     }

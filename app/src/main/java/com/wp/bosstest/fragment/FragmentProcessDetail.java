@@ -23,13 +23,10 @@ import com.wp.bosstest.R;
 import com.wp.bosstest.adapter.ProcessMsgAdapter;
 import com.wp.bosstest.service.MonitorService;
 import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.PackageUtil;
 import com.wp.bosstest.utils.PermissionUtil;
 import com.wp.bosstest.utils.ProcessUtil;
-import com.wp.bosstest.utils.RootUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
 
 
@@ -54,6 +51,7 @@ public class FragmentProcessDetail extends Fragment {
     private Button mBtnStopMonitor;
     private Intent intentMonitor;
     private TextView mTvPermissionHint;
+    PackageManager mPackageManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,10 +66,8 @@ public class FragmentProcessDetail extends Fragment {
     private class BtnStartClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            PackageManager pm = mContext.getPackageManager();
-            boolean alertPermission = PackageManager.PERMISSION_GRANTED == pm.checkPermission("android.permission.SYSTEM_ALERT_WINDOW", mContext.getPackageName());
+            boolean alertPermission = PackageManager.PERMISSION_GRANTED == mPackageManager.checkPermission("android.permission.SYSTEM_ALERT_WINDOW", mContext.getPackageName());
             Log.d(TAG, "alertWindowPermission = " + alertPermission);
-
             Log.d(TAG, "BtnStartClickLis, onClick(View v)");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getActivity().getPackageName()));
@@ -79,6 +75,8 @@ public class FragmentProcessDetail extends Fragment {
                 Toast.makeText(mContext, getString(R.string.permission_err), Toast.LENGTH_LONG).show();
             } else {
                 mContext.startService(intentMonitor);
+                Intent intent = mPackageManager.getLaunchIntentForPackage(PackageUtil.UiPackageName);
+                startActivity(intent);
                 getActivity().finish();
             }
         }
@@ -103,6 +101,8 @@ public class FragmentProcessDetail extends Fragment {
                 Toast.makeText(mContext, "您还没开启权限啊，必须手动开启权限啊", Toast.LENGTH_LONG).show();
             } else {
                 mContext.startService(intentMonitor);
+                Intent intent = mPackageManager.getLaunchIntentForPackage(PackageUtil.UiPackageName);
+                startActivity(intent);
                 getActivity().finish();
             }
         }
@@ -119,7 +119,7 @@ public class FragmentProcessDetail extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume()");
-        boolean isRunning = isServiceRunning(mContext.getPackageName() + ".service.MonitorService");
+        boolean isRunning = ProcessUtil.isServiceRunning(mContext.getPackageName() + ".service.MonitorService");
         Log.d(TAG, "service is Running = " + isRunning);
         mBtnStartMonitor.setVisibility(isRunning ? View.GONE : View.VISIBLE);
         mBtnStopMonitor.setVisibility(isRunning ? View.VISIBLE : View.GONE);
@@ -133,25 +133,6 @@ public class FragmentProcessDetail extends Fragment {
     }
 
 
-    private boolean isServiceRunning(String serviceClassName) {
-        boolean isRunning = false;
-        int maxNum = 100;
-        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(maxNum);
-
-        if (serviceList == null || serviceList.size() <= 0) {
-            return false;  //加入容错
-        }
-
-        for (ActivityManager.RunningServiceInfo serviceInfo : serviceList) {
-            String serviceName = serviceInfo.service.getClassName();
-            if (serviceName.equals(serviceClassName)) {
-                isRunning = true;
-                break;
-            }
-        }
-        return isRunning;
-    }
 
     private void standAlone() { //为了home键的问题，做到实时刷新，装个13
         mTvSystemMemMsg.setText(ProcessUtil.getSystemMemMsg());
@@ -211,6 +192,7 @@ public class FragmentProcessDetail extends Fragment {
         mLayoutInflater = LayoutInflater.from(mContext);
         intentMonitor = new Intent(mContext, MonitorService.class);
         PermissionUtil.verifyStoragePermissions(getActivity());
+        mPackageManager =  mContext.getPackageManager();
 //        if (RootUtil.getRootAhth() == false) {    //root权限拿了也没用，真他妈的醉了
 //            RootUtil.upgradeRootPermission(getActivity().getPackageCodePath());
 //        }

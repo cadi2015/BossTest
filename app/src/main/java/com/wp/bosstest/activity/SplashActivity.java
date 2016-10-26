@@ -3,22 +3,18 @@ package com.wp.bosstest.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentSplash;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.AppInfo;
 import com.wp.bosstest.utils.LogHelper;
-import com.wp.bosstest.utils.RootUtil;
 
 /**
  * Created by wp on 2016/1/12.

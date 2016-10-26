@@ -106,7 +106,7 @@ public class FragmentMainDownloadManager extends Fragment {
                 case 0:
                     return R.drawable.tab_tool;
                 case 1:
-                    return R.drawable.tab_donwload;
+                    return R.drawable.tab_download;
                 case 2:
                     return R.drawable.tab_performance;
                 case 3:

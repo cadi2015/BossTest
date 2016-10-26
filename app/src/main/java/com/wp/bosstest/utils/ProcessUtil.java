@@ -3,10 +3,8 @@ package com.wp.bosstest.utils;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Debug;
-import android.os.Environment;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.wp.bosstest.application.App;
 
@@ -151,6 +149,7 @@ public class ProcessUtil {
         try {
             Thread.sleep(360); //哥啊，你是让当前线程休眠360毫秒，实现间隔计算啊？还行吧
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         float totalCpuTime2 = getTotalCpuTime();
@@ -271,4 +270,27 @@ public class ProcessUtil {
         return result;
     }
 
+
+    public static  boolean isServiceRunning(String serviceClassName) {
+        boolean isRunning = false;
+        int maxNum = 100;
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager.getRunningServices(maxNum);
+
+        if (serviceList == null || serviceList.size() <= 0) {
+            return false;  //加入容错
+        }
+
+        for (ActivityManager.RunningServiceInfo serviceInfo : serviceList) {
+            String serviceName = serviceInfo.service.getClassName();
+            Log.d(TAG, "serviceName = " + serviceName);
+            if (serviceName.equals(serviceClassName)) {
+                isRunning = true;
+                break;
+            }
+        }
+        return isRunning;
+    }
+
 }
+

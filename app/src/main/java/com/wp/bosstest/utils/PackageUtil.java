@@ -3,11 +3,10 @@ package com.wp.bosstest.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
-import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /** 这个单例模式是线程不安全的，在多线程时，将不能正常工作，待优化中
  * Created by cadi on 2016/8/12.
@@ -16,6 +15,9 @@ public class PackageUtil {
     private PackageManager packageManager;
     private Context context;
     private static PackageUtil packageUtil;
+    public static final String UiPackageName = "com.android.providers.downloads.ui";
+    public static final String DpPackageName = "com.android.providers.downloads";
+    public static final String FileExplorerPackageName = "com.android.fileexplorer";
 
     private PackageUtil(Context context) {
         super();
@@ -36,7 +38,7 @@ public class PackageUtil {
 
     public String getPackageMessages(PackageInfo info) {
         StringBuilder sb = new StringBuilder();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String uiLastTime = dateFormat.format(new Date(info.lastUpdateTime));
         sb.append("1.)应用名称 :" + info.applicationInfo.loadLabel(packageManager).toString() + "\n");
         sb.append("2.)版本号 :" + info.versionName + "\n");

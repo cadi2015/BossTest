@@ -1,6 +1,5 @@
 package com.wp.bosstest.utils;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

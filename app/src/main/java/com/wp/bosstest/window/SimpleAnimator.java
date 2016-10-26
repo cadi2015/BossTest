@@ -17,7 +17,7 @@ class SimpleAnimator {
 
     public SimpleAnimator(View view, int anim) {
         this.animation = anim;
-        this.mViewRef = new WeakReference<View>(view);
+        this.mViewRef = new WeakReference<>(view);
     }
 
     public void startAnimation() {

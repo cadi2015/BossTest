@@ -1,8 +1,9 @@
 package com.wp.bosstest.activity;
 
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,11 +11,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentMainDownloadManager;
 import com.wp.bosstest.fragment.FragmentMainFileExplorer;
+import com.wp.bosstest.utils.PackageUtil;
 
 
 /**
@@ -47,7 +48,7 @@ public class MainActivity extends FragmentActivity {
         mTabLayout.addTab(tabFileExplorer);
     }
 
-    private class MyOnTabSelLis implements TabLayout.OnTabSelectedListener{
+    private class MyOnTabSelLis implements TabLayout.OnTabSelectedListener {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             switch (tab.getPosition()) {
@@ -55,7 +56,7 @@ public class MainActivity extends FragmentActivity {
                     Log.d(TAG, "tab.getPosition() = " + tab.getPosition());
                     FragmentTransaction ft1 = mFragmentManager.beginTransaction();
                     FragmentMainDownloadManager fragmentMainDownloadManager = null;
-                    if(fragmentMainDownloadManager == null) {
+                    if (fragmentMainDownloadManager == null) {
                         fragmentMainDownloadManager = new FragmentMainDownloadManager();
                         Log.d(TAG, "fragmentMainDownloadManager = " + fragmentMainDownloadManager);
                     }
@@ -63,9 +64,10 @@ public class MainActivity extends FragmentActivity {
                     ft1.commit();
                     break;
                 case 1:
+                    Log.d(TAG, "tab.getposition() = " + tab.getPosition());
                     FragmentMainFileExplorer fragmentMainFileExplorer = null;
                     FragmentTransaction ft2 = mFragmentManager.beginTransaction();
-                    if(fragmentMainFileExplorer == null) {
+                    if (fragmentMainFileExplorer == null) {
                         fragmentMainFileExplorer = new FragmentMainFileExplorer();
                     }
                     ft2.replace(R.id.main_frame_fragment_position, fragmentMainFileExplorer);
@@ -83,6 +85,16 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
+            PackageManager pm = getPackageManager();
+            Log.d(TAG, "on TabReseleted(TabLayout.Tab tab.getposition = " + tab.getPosition());
+            if (tab.getPosition() == 0) {
+                Intent intent = pm.getLaunchIntentForPackage(PackageUtil.UiPackageName);
+                Log.d(TAG, "Intent String = " + intent.toString());
+                startActivity(intent);
+            } else if (tab.getPosition() == 1) {
+                Intent intent = pm.getLaunchIntentForPackage(PackageUtil.FileExplorerPackageName);
+                startActivity(intent);
+            }
         }
     }
 

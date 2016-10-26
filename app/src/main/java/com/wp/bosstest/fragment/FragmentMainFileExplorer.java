@@ -2,9 +2,7 @@ package com.wp.bosstest.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.config.FileConstant;
@@ -160,9 +157,12 @@ public class FragmentMainFileExplorer extends Fragment {
     }
 
     private Snackbar createSnackBar(View view, String text) {
-        Snackbar temp = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
-        temp.getView().setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
-        temp.setActionTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
-        return temp;
+        Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
+        View viewGroup = snackbar.getView();
+        TextView message = (TextView)viewGroup.findViewById(R.id.snackbar_text);
+        viewGroup.setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
+        message.setTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
+        snackbar.setActionTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
+        return snackbar;
     }
 }

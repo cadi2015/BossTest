@@ -110,7 +110,7 @@ public class GuideActivity extends FragmentActivity {
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.putBoolean(SharedConstant.GUIDE_KEY_IS_FIRST, false);
             editor.putInt(SharedConstant.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
-            editor.commit();
+            editor.apply(); //apply 替代了 commit
             startActivity(new Intent(GuideActivity.this, MainActivity.class));
             GuideActivity.this.finish();
         }

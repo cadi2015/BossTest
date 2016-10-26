@@ -3,7 +3,6 @@ package com.wp.bosstest.service;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -96,7 +95,7 @@ public class MonitorService extends Service implements IconCallback {
 
     private View getMagnetRootView() {
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        return layoutInflater.inflate(R.layout.layout_window_magnet, null);
+        return layoutInflater.inflate(R.layout.layout_window_magnet_moniter, null);
     }
 
     private class MyHandler extends Handler {

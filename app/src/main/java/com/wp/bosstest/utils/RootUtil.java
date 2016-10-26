@@ -29,6 +29,7 @@ public class RootUtil {
                 }
                 process.destroy();
             } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         return true;

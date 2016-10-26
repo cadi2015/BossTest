@@ -3,7 +3,6 @@ package com.wp.bosstest.window;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.DisplayMetrics;
@@ -202,7 +201,7 @@ public class Magnet implements View.OnTouchListener {
         addToWindow(mIconView);
         updateSize();
         if (mInitialX != -1 || mInitialY != -1) {
-            setPosition(mInitialX, mInitialY, true);
+            setPosition(mInitialX, mInitialY, false);
         } else {
             goToWall();
         }
@@ -355,6 +354,7 @@ public class Magnet implements View.OnTouchListener {
             mWindowManager.updateViewLayout(mIconView, mLayoutParams);
             if (mListener != null) {
                 mListener.onMove(mLayoutParams.x, mLayoutParams.y);
+                goToWall();
             }
         }
     }

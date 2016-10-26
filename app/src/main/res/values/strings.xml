@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BossTest</string>
     <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
-    <string name="version_name">BossTest\nv1.4.7</string>
-    <string name="version_code">20160929</string>
+    <string name="version_name">BossTest\nv1.4.8</string>
+    <string name="version_code">20161026</string>
     <string name="btn_switch_test">切换</string>
     <string name="btn_switch_production_test">Test</string>
     <string name="btn_switch_production_pre">Pre</string>

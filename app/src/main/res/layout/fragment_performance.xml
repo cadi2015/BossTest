@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:paddingBottom="100dp">
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,8 +22,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/performance_tv_hint"
@@ -32,17 +31,22 @@
                     android:layout_centerVertical="true"
                     android:text="强度:"
                     android:textColor="@color/colorRed"
-                    android:textSize="15sp" />
-
+                    android:textSize="15sp"
+                    android:layout_marginLeft="10dp"/>
                 <SeekBar
                     android:id="@+id/performance_seek_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginTop="10dp"
                     android:layout_toRightOf="@id/performance_tv_hint"
-                    android:max="300"
-                    android:paddingLeft="10dp" />
+                    android:max="299"
+                    android:focusable="true"
+                    android:progress="19"
+                    android:maxHeight="4dp"
+                    android:minHeight="4dp"
+                    android:thumb="@drawable/selector_seek_bar"
+                    android:progressDrawable="@drawable/lay_list_seek_bar"
+                    />
             </RelativeLayout>
 
             <RelativeLayout
@@ -116,7 +120,70 @@
                     android:id="@+id/performance_btn_process_msg"
                     android:text="UI与DP进程信息(Memory、Cpu、实时监控)"
                     android:textAllCaps="false"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_below="@id/performance_btn_process_msg"
+                    android:layout_marginTop="10dp">
+                <Button
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="开始Fps监测"
+                    android:visibility="gone"
+                    android:gravity="center_vertical|left"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/temp_bg"
+                    android:id="@+id/performance_btn_fps_start"
+                    />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:background="@drawable/temp_bg"
+                    android:text="停止FPS监测"
+                    android:visibility="gone"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:gravity="left|center_vertical"
+                    android:id="@+id/performance_btn_fps_stop"
+                    />
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:paddingLeft="10dp"
+            android:gravity="left|center_vertical"
+            android:background="@drawable/temp_bg"
+            android:text="获取下载库版本"
+            android:id="@+id/performance_btn_log_lib"
+            />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/performance_btn_log_lib"
+            tools:text="实时日志"
+            android:textColor="@color/colorAccent"
+            android:visibility="gone"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
+            android:id="@+id/performance_tv_show_log"/>
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="left|center_vertical"
+        android:background="@drawable/temp_bg"
+        android:text="一键清空Ui与Dp数据"
+        android:id="@+id/performance_btn_clean_data"/>
 </LinearLayout>

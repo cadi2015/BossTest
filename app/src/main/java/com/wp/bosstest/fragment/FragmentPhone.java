@@ -51,7 +51,7 @@ public class FragmentPhone extends Fragment {
     }
 
     private List<Map<String, String>> getData() {
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        List<Map<String, String>> list = new ArrayList<>();
         String deviceId;
         if (ContextCompat.checkSelfPermission(mActivity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             deviceId = "没有权限";

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.wp.bosstest.R;
 
-import org.w3c.dom.Text;
 
 /**
  * Created by wp on 2016/1/18.
@@ -87,7 +86,7 @@ public class FragmentTask extends Fragment {
                 , "https://app.233.com/android/examda_150718.26_2.1.4.apk"
                 , "http://f4.market.mi-img.com/download/ThemeMarket/0c54474ebb3494bae05320082c722a5cb10fe7a0c/%E6%B0%A7PD-1.0.0.2.mtz"
                 , "http://www.ciicbj.com.cn/admin/upload/documents/40/40932bdb-a588-4efa-be69-a95333d29c05/住房公积金提取申请书.doc"};
-        mlvShowUrl.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.layout_task_lv_item, temp));
+        mlvShowUrl.setAdapter(new ArrayAdapter<>(getActivity(), R.layout.layout_task_lv_item, temp));
         mlvShowUrl.setOnItemClickListener(new MyLvOnItemLis());
     }
 

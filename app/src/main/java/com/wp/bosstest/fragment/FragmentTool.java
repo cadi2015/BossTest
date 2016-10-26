@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,11 +12,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +33,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by cadi on 2016/5/18.
@@ -110,8 +103,8 @@ public class FragmentTool extends Fragment {
         PackageManager packageManager = mContext.getPackageManager();
 
         try {
-            PackageInfo uiInfo = packageManager.getPackageInfo("com.android.providers.downloads.ui", PackageManager.GET_PERMISSIONS);
-            PackageInfo dpInfo = packageManager.getPackageInfo("com.android.providers.downloads", PackageManager.GET_PERMISSIONS);
+            PackageInfo uiInfo = packageManager.getPackageInfo(PackageUtil.UiPackageName, PackageManager.GET_PERMISSIONS);
+            PackageInfo dpInfo = packageManager.getPackageInfo(PackageUtil.DpPackageName, PackageManager.GET_PERMISSIONS);
             PackageUtil packageUtil = PackageUtil.getInstance(mContext);
             String uiStr = packageUtil.getPackageMessages(uiInfo);
             String dpStr = packageUtil.getPackageMessages(dpInfo);
