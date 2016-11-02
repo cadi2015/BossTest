@@ -6,6 +6,7 @@ import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -40,6 +42,7 @@ import com.wp.bosstest.activity.ProcessDetailActivity;
 import com.wp.bosstest.config.SharedConstant;
 import com.wp.bosstest.receiver.DownloadTaskReceiver;
 import com.wp.bosstest.service.FpsService;
+import com.wp.bosstest.service.UninstallAppService;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.LogHelper;
 import com.wp.bosstest.utils.PermissionUtil;
@@ -47,6 +50,10 @@ import com.wp.bosstest.utils.ProcessUtil;
 import com.wp.bosstest.utils.ShellUtils;
 
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -72,6 +79,10 @@ public class FragmentPerformance extends Fragment {
     private Button mBtnFpsStop;
     private Button mBtnLogLib;
     private Button mBtnCleanData;
+    private Button mBtnKillDp;
+    private Button mBtnKillUi;
+    private Button mBtnUninstallApp;
+    private Button mBtnMonkey;
     private Intent mIntentFps;
     private TextView mTvShowLog;
 
@@ -127,6 +138,10 @@ public class FragmentPerformance extends Fragment {
         mBtnFpsStop = (Button) mRootView.findViewById(R.id.performance_btn_fps_stop);
         mBtnLogLib = (Button) mRootView.findViewById(R.id.performance_btn_log_lib);
         mBtnCleanData = (Button) mRootView.findViewById(R.id.performance_btn_clean_data);
+        mBtnKillDp = (Button) mRootView.findViewById(R.id.performance_btn_kill_dp);
+        mBtnKillUi = (Button) mRootView.findViewById(R.id.performance_btn_kill_ui);
+        mBtnUninstallApp = (Button) mRootView.findViewById(R.id.performance_btn_uninstall_app);
+        mBtnMonkey = (Button) mRootView.findViewById(R.id.performance_btn_monkey);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
         mTvShowLog = (TextView) mRootView.findViewById(R.id.performance_tv_show_log);
         mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -142,6 +157,10 @@ public class FragmentPerformance extends Fragment {
         mBtnFpsStop.setOnClickListener(myBtnCikLis);
         mBtnLogLib.setOnClickListener(myBtnCikLis);
         mBtnCleanData.setOnClickListener(myBtnCikLis);
+        mBtnKillDp.setOnClickListener(myBtnCikLis);
+        mBtnKillUi.setOnClickListener(myBtnCikLis);
+        mBtnUninstallApp.setOnClickListener(myBtnCikLis);
+        mBtnMonkey.setOnClickListener(myBtnCikLis);
         Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
     }
 
@@ -160,7 +179,7 @@ public class FragmentPerformance extends Fragment {
                     break;
                 case R.id.performance_btn_fps_start:
                     if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false)) || !(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_FLOAT_WINDOW, false))) {
-                        createDiaLog(sp, "需要Root权限与悬浮窗权限，必须手工开启", 0);
+                        createDiaLog(sp, "需要前往安全中心授予BossTest，Root权限与悬浮窗权限，必须手工开启", 0);
                     } else {
                         ComponentName componentName;
                         componentName = mContext.startService(mIntentFps);
@@ -176,7 +195,7 @@ public class FragmentPerformance extends Fragment {
                     break;
                 case R.id.performance_btn_log_lib:
                     if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
-                        createDiaLog(sp, "需要Root权限，必须手工开启", 1);
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
                     } else {
                         new Thread(new Runnable() {
                             @Override
@@ -198,7 +217,7 @@ public class FragmentPerformance extends Fragment {
                     break;
                 case R.id.performance_btn_clean_data:
                     if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
-                        createDiaLog(sp, "需要Root权限，必须手工开启", 1);
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
                     } else {
                         new Thread(new Runnable() {
                             @Override
@@ -207,9 +226,86 @@ public class FragmentPerformance extends Fragment {
                                 ShellUtils.CommandResult resultDp = ShellUtils.execCommand("pm clear com.android.providers.downloads", true);
                                 Log.d(TAG, "clear data result successMsg = " + resultUi.successMsg);
                                 Log.d(TAG, "clear data result errorMsg= " + resultUi.errorMsg);
-                                mMainHandler.sendEmptyMessage(0x222);
+                                if (resultUi.result == 0 && resultDp.result == 0) {
+                                    mMainHandler.sendEmptyMessage(0x222);
+                                } else {
+                                    mMainHandler.sendEmptyMessage(0x909);
+                                }
                             }
                         }).start();
+                    }
+                    break;
+                case R.id.performance_btn_kill_dp:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ShellUtils.CommandResult resultKillDp = ShellUtils.execCommand("am force-stop com.android.providers.downloads", true);
+                                Log.d(TAG, "killDpResultCode = " + resultKillDp.result);
+                                if (resultKillDp != null && resultKillDp.result == 0) {
+                                    mMainHandler.sendEmptyMessage(0x333);
+                                } else {
+                                    mMainHandler.sendEmptyMessage(0x909);
+                                }
+                            }
+                        }).start();
+                    }
+                    break;
+                case R.id.performance_btn_kill_ui:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
+                    } else {
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ShellUtils.CommandResult resultKillUi = ShellUtils.execCommand("am force-stop com.android.providers.downloads.ui", true);
+                                Log.d(TAG, "killUiResultCode = " + resultKillUi.result);
+                                if (resultKillUi != null && resultKillUi.result == 0) {
+                                    mMainHandler.sendEmptyMessage(0x444);
+                                } else {
+                                    mMainHandler.sendEmptyMessage(0x909);
+                                }
+                            }
+                        }).start();
+                    }
+                    break;
+                case R.id.performance_btn_uninstall_app:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(mContext).setTitle("警告").setMessage("该操作会删除所有第三方App(不含BossTest、手雷、有料、QQ、微信)，慎重决定哦").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent uninstallAppIntent = new Intent(mContext, UninstallAppService.class);
+                                mContext.startService(uninstallAppIntent);
+                            }
+                        }).create();
+                        alertDialog.show();
+                    }
+                    break;
+                case R.id.performance_btn_monkey:
+                    if (!(sp.getBoolean(SharedConstant.DIALOG_KEY_CHECK_BOX_SELECTED_ROOT, false))) {
+                        createDiaLog(sp, "需要前往安全中心授予BossTest的Root权限，必须手工开启", 1);
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(mContext).setTitle("警告").setMessage("确定要启动Monkey吗？").setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setPositiveButton("启动", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ShellUtils.execCommand("monkey -p com.android.providers.downloads.ui -p com.android.providers.downloads -v -v --throttle 50 --ignore-crashes --ignore-timeouts --pct-touch 30 --pct-motion 20 --pct-nav 20 --pct-majornav 15 --pct-appswitch 5 --pct-anyevent 5 --pct-trackball 0 --pct-syskeys 0 --bugreport 500000 >/mnt/sdcard/log.txt", true);
+                            }
+                        }).create();
+                        alertDialog.show();
                     }
                     break;
                 default:
@@ -247,6 +343,7 @@ public class FragmentPerformance extends Fragment {
             }
         });
         Log.d(TAG, "is root = " + PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath()));
+        boolean currentRootState = PermissionUtil.upgradeRootPermission(mContext.getPackageCodePath());
         diaBuilder.setView(view).setTitle("温馨提示");
         diaBuilder.create().show();
     }
@@ -332,17 +429,26 @@ public class FragmentPerformance extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Log.d(TAG, "first msg.what = " + msg.what);
             if (msg.what == 0x111) {
+                Log.d(TAG, "msg.getData() = " + msg.getData());
                 Log.d(TAG, "MainHandler handleMessage(Message msg) at Thread  = " + Thread.currentThread().getName());
                 mTvInsert.setTextColor(ContextCompat.getColor(mContext, R.color.color_guide_txt_white));
                 mTvInsert.setEnabled(true);
                 mTvInsert.setClickable(true);
                 mProgressBar.setVisibility(View.GONE);
             } else if (msg.what == 0x222) {
-                Toast.makeText(mContext, "Ui:" + "success" + "\nDp:" + "success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Ui清空:" + "success" + "\nDp清空:" + "success", Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 0x333) {
+                Toast.makeText(mContext, "Dp杀死成功", Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 0x444) {
+                Toast.makeText(mContext, "Ui杀死成功", Toast.LENGTH_SHORT).show();
+            } else if (msg.what == 0x909) {
+                Toast.makeText(mContext, "发生了错误，任务没有完成,请去安全中心查看BossTest是否成功获得Root权限", Toast.LENGTH_SHORT).show();
             } else {
-                if (msg.getData() != null) {
+                if (msg.getData() != null && msg.what == 0) {
                     Log.d(TAG, "msg = " + msg.getData());
+                    Log.d(TAG, "msg.what = " + msg.what);
                     Bundle bundle = msg.getData();
                     String result = bundle.getString("content");
                     if (result == null || result.isEmpty()) {

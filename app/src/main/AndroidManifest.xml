@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.bosstest"
-    android:versionCode="20161026"
-    android:versionName="@string/version_name">
+    android:versionCode="20161102"
+    android:versionName="1.4.9">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -94,6 +94,7 @@
 
         <service android:name=".service.MonitorService"></service>
         <service android:name=".service.FpsService"></service>
+        <service android:name=".service.UninstallAppService"></service>
     </application>
 
 </manifest>

@@ -6,10 +6,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/version_name"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:textColor="@color/color_splash_txt"
         android:typeface="sans"
+        android:id="@+id/splash_tv_version"
         android:textAppearance="?android:attr/textAppearanceLarge"/>
 </RelativeLayout>

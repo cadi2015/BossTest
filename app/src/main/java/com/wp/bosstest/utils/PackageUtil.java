@@ -1,11 +1,13 @@
 package com.wp.bosstest.utils;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /** 这个单例模式是线程不安全的，在多线程时，将不能正常工作，待优化中
@@ -67,6 +69,11 @@ public class PackageUtil {
             System.err.println("名字找不到，我就草了");
         }
         return null;
+    }
+
+    public List<ApplicationInfo> getAllApplication(){
+        List<ApplicationInfo> allApplications = packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        return allApplications;
     }
 
 }

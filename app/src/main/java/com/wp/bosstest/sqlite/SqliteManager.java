@@ -69,4 +69,5 @@ public class SqliteManager {
             Log.d(TAG, "^^^^^^^^^^^^^IOException , file is not exist^^^^^^^^^^^^^^^");
         }
     }
+
 }

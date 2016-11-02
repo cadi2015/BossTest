@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white_bg">#fafafa</color>
+    <color name="tab_layout_bg">#f3f1f1</color>
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#ED0A0A</color>
     <color name="colorGreen">#53FB00</color>
@@ -12,4 +13,7 @@
     <color name="color_guide_txt_white">#FFFFFF</color>
     <color name="color_txt_enable_gray">#959992</color>
     <color name="color_process_detail_bg">#b9f6ca</color>
+
+
+
 </resources>

@@ -26,6 +26,8 @@ public class MainActivity extends FragmentActivity {
     private DrawerLayout mDrawer;
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
+    private FragmentMainDownloadManager mFragmentMainDownloadManager;
+    private FragmentMainFileExplorer mFragmentMainFileExplorer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,27 +53,27 @@ public class MainActivity extends FragmentActivity {
     private class MyOnTabSelLis implements TabLayout.OnTabSelectedListener {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
+            FragmentTransaction ft = mFragmentManager.beginTransaction();
             switch (tab.getPosition()) {
                 case 0:
                     Log.d(TAG, "tab.getPosition() = " + tab.getPosition());
-                    FragmentTransaction ft1 = mFragmentManager.beginTransaction();
-                    FragmentMainDownloadManager fragmentMainDownloadManager = null;
-                    if (fragmentMainDownloadManager == null) {
-                        fragmentMainDownloadManager = new FragmentMainDownloadManager();
-                        Log.d(TAG, "fragmentMainDownloadManager = " + fragmentMainDownloadManager);
+                    if (mFragmentManager.findFragmentByTag("DownloadManagerTag") == null) {
+                        ft.add(R.id.main_frame_fragment_position, mFragmentMainDownloadManager, "DownloadManagerTag");
+                        Log.d(TAG, "fragmentMainDownloadManager = " + mFragmentMainDownloadManager);
+                        ft.commit();
+                    } else {
+                        ft.hide(mFragmentMainFileExplorer).show(mFragmentMainDownloadManager).commit();
                     }
-                    ft1.replace(R.id.main_frame_fragment_position, fragmentMainDownloadManager);
-                    ft1.commit();
                     break;
                 case 1:
-                    Log.d(TAG, "tab.getposition() = " + tab.getPosition());
-                    FragmentMainFileExplorer fragmentMainFileExplorer = null;
-                    FragmentTransaction ft2 = mFragmentManager.beginTransaction();
-                    if (fragmentMainFileExplorer == null) {
-                        fragmentMainFileExplorer = new FragmentMainFileExplorer();
+                    Log.d(TAG, "tab.getPosition() = " + tab.getPosition());
+                    if (mFragmentManager.findFragmentByTag("MainFileExplorerTag") == null) {
+                        ft.add(R.id.main_frame_fragment_position, mFragmentMainFileExplorer, "MainFileExplorerTag");
+                        ft.hide(mFragmentMainDownloadManager);
+                        ft.commit();
+                    } else {
+                        ft.hide(mFragmentMainDownloadManager).show(mFragmentMainFileExplorer).commit();
                     }
-                    ft2.replace(R.id.main_frame_fragment_position, fragmentMainFileExplorer);
-                    ft2.commit();
                     break;
                 default:
                     break;
@@ -100,6 +102,8 @@ public class MainActivity extends FragmentActivity {
 
     private void init() {
         mFragmentManager = getSupportFragmentManager();
+        mFragmentMainDownloadManager = new FragmentMainDownloadManager();
+        mFragmentMainFileExplorer = new FragmentMainFileExplorer();
     }
 
     private class MyDrawerLis implements DrawerLayout.DrawerListener {

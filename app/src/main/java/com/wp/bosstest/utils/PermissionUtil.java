@@ -55,7 +55,7 @@ public class PermissionUtil {
 
 
     /**
-     * 应用程序运行命令获取 Root权限，设备必须已破解(获得ROOT权限)
+     * 应用程序运行命令获取 Root权限，设备必须已破解(获得ROOT权限) 该静态方法已经失效了,默认就返回true，醉了，不过让操作系统弹出Root权限对话框，挺好的
      *
      * @return 应用程序是/否获取Root权限
      */

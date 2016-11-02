@@ -49,15 +49,16 @@
                     />
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:orientation="horizontal"
                 android:gravity="center">
             <android.support.v7.widget.CardView
-                android:layout_width="190dp"
-                android:layout_height="38dp"
-                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="35dp"
                 card_view:cardBackgroundColor="@color/colorRed"
                 card_view:cardCornerRadius="20dp"
                 card_view:cardPreventCornerOverlap="true"
@@ -76,14 +77,16 @@
                     android:id="@+id/performance_progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:visibility="gone" />
+                    android:layout_gravity="center_vertical|right"
+                    android:visibility="gone"
+                    android:layout_marginRight="10dp"
+                    style="?android:attr/progressBarStyleSmall"/>
             </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:layout_width="140dp"
-                    android:layout_height="38dp"
-                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
                     card_view:cardBackgroundColor="@color/colorAccent"
                     card_view:cardCornerRadius="20dp"
                     card_view:cardPreventCornerOverlap="true"
@@ -99,7 +102,7 @@
                 android:textSize="14sp"
                 />
                 </android.support.v7.widget.CardView>
-            </RelativeLayout>
+            </LinearLayout>
             <include
                 layout="@layout/view_divider_blue"
                 android:layout_width="match_parent"
@@ -113,8 +116,9 @@
                 >
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="@dimen/btn_height_performance"
                     android:paddingLeft="10dp"
+                    android:textSize="@dimen/btn_txt_size_performance"
                     android:gravity="left|center_vertical"
                     android:background="@drawable/temp_bg"
                     android:id="@+id/performance_btn_process_msg"
@@ -131,18 +135,20 @@
                     android:paddingRight="10dp"
                     android:text="开始Fps监测"
                     android:visibility="gone"
+                    android:textSize="@dimen/btn_txt_size_performance"
                     android:gravity="center_vertical|left"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="@dimen/btn_height_performance"
                     android:background="@drawable/temp_bg"
                     android:id="@+id/performance_btn_fps_start"
                     />
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="42dp"
+                    android:layout_height="@dimen/btn_height_performance"
                     android:background="@drawable/temp_bg"
                     android:text="停止FPS监测"
                     android:visibility="gone"
+                    android:textSize="@dimen/btn_txt_size_performance"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:gravity="left|center_vertical"
@@ -158,9 +164,10 @@
         android:layout_marginTop="10dp">
         <Button
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="@dimen/btn_height_performance"
             android:paddingLeft="10dp"
             android:gravity="left|center_vertical"
+            android:textSize="@dimen/btn_txt_size_performance"
             android:background="@drawable/temp_bg"
             android:text="获取下载库版本"
             android:id="@+id/performance_btn_log_lib"
@@ -169,6 +176,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/btn_txt_size_performance"
             android:layout_below="@id/performance_btn_log_lib"
             tools:text="实时日志"
             android:textColor="@color/colorAccent"
@@ -179,11 +187,54 @@
     </RelativeLayout>
     <Button
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="@dimen/btn_height_performance"
         android:layout_marginTop="10dp"
         android:paddingLeft="10dp"
+        android:textSize="@dimen/btn_txt_size_performance"
         android:gravity="left|center_vertical"
         android:background="@drawable/temp_bg"
         android:text="一键清空Ui与Dp数据"
         android:id="@+id/performance_btn_clean_data"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_performance"
+        android:paddingLeft="10dp"
+        android:gravity="left|center_vertical"
+        android:background="@drawable/temp_bg"
+        android:textSize="@dimen/btn_txt_size_performance"
+        android:layout_alignParentRight="true"
+        android:text="一键杀死Dp进程"
+        android:layout_marginTop="10dp"
+        android:id="@+id/performance_btn_kill_dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_performance"
+        android:background="@drawable/temp_bg"
+        android:gravity="left|center_vertical"
+        android:layout_marginTop="10dp"
+        android:text="一键杀死Ui进程"
+        android:textSize="@dimen/btn_txt_size_performance"
+        android:paddingLeft="10dp"
+        android:id="@+id/performance_btn_kill_ui"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_performance"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/btn_txt_size_performance"
+        android:background="@drawable/temp_bg"
+        android:text="一键卸载所有第三方App"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:id="@+id/performance_btn_uninstall_app"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_performance"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/btn_txt_size_performance"
+        android:background="@drawable/temp_bg"
+        android:text="一键Monkey"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:id="@+id/performance_btn_monkey"/>
 </LinearLayout>
