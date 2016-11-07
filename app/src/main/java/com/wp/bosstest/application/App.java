@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.PermissionUtil;
 
 /**
  * Created by cadi on 2016/10/9.

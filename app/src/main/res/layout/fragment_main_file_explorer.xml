@@ -8,16 +8,15 @@
     android:padding="10dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/main_fragment_file_explorer_tv_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:ems="1"
+            android:layout_centerVertical="true"
             android:text="包信息"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
@@ -26,52 +25,25 @@
             android:id="@+id/main_fragment_file_explorer_tv_show_package"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/main_fragment_file_explorer_tv_hint"
             android:lineSpacingExtra="@dimen/package_info_tv_line_space"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorBlack"
             tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的" />
     </RelativeLayout>
-
-    <include
-        layout="@layout/view_divider_blue"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-
-        <RadioGroup
-            android:id="@+id/main_fragment_file_explorer_radio_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Test环境" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pre环境" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Online环境" />
-        </RadioGroup>
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/main_fragment_file_explorer_btn_file_test"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/btn_tool_height"
-            android:layout_marginTop="5dp"
+            android:layout_centerVertical="true"
             android:background="@drawable/btn_bg"
             android:gravity="left|center"
             android:paddingLeft="@dimen/btn_padding_left_and_right"
@@ -79,37 +51,35 @@
             android:text="切换Test环境"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="@dimen/btn_tool_txt_size" />
+
+        <Button
+            android:id="@+id/main_fragment_file_explorer_btn_file_pre"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/main_fragment_file_explorer_btn_file_test"
+            android:background="@drawable/btn_bg"
+            android:gravity="center|left"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
+            android:text="切换Pre环境"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/btn_tool_txt_size" />
+
+        <Button
+            android:id="@+id/main_fragment_file_explorer_btn_file_online"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_tool_height"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/main_fragment_file_explorer_btn_file_pre"
+            android:background="@drawable/btn_bg"
+            android:gravity="left|center"
+            android:paddingLeft="@dimen/btn_padding_left_and_right"
+            android:paddingRight="@dimen/btn_padding_left_and_right"
+            android:text="切换Online环境"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="@dimen/btn_tool_txt_size" />
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/main_fragment_file_explorer_btn_file_pre"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/btn_tool_height"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/btn_bg"
-        android:gravity="center|left"
-        android:paddingLeft="@dimen/btn_padding_left_and_right"
-        android:paddingRight="@dimen/btn_padding_left_and_right"
-        android:text="切换Pre环境"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="@dimen/btn_tool_txt_size" />
-
-    <Button
-        android:id="@+id/main_fragment_file_explorer_btn_file_online"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/btn_tool_height"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/btn_bg"
-        android:gravity="left|center"
-        android:paddingLeft="@dimen/btn_padding_left_and_right"
-        android:paddingRight="@dimen/btn_padding_left_and_right"
-        android:text="切换Online环境"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textSize="@dimen/btn_tool_txt_size" />
-
-    <include
-        layout="@layout/view_divider_blue"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp" />
 </LinearLayout>

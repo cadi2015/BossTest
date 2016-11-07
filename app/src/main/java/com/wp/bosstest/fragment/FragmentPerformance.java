@@ -280,7 +280,7 @@ public class FragmentPerformance extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
 
                             }
-                        }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        }).setPositiveButton("卸载", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent uninstallAppIntent = new Intent(mContext, UninstallAppService.class);

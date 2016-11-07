@@ -17,6 +17,7 @@ import com.wp.bosstest.fragment.FragmentSplash;
 import com.wp.bosstest.sqlite.SqliteManager;
 import com.wp.bosstest.utils.AppInfo;
 import com.wp.bosstest.utils.LogHelper;
+import com.wp.bosstest.utils.PermissionUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,6 +49,7 @@ public class SplashActivity extends FragmentActivity {
                 if (mSharedPre.getBoolean("is_first", true)|| AppInfo.getVersionCode(getApplicationContext()) > mSharedPre.getInt("version_code", 0)) {
                     initDb();
                     startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                    PermissionUtil.upgradeRootPermission(SplashActivity.this.getPackageCodePath()); //就是为了拉权限
                 } else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 }

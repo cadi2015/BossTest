@@ -21,8 +21,9 @@ import java.util.List;
 
 public class UninstallAppService extends IntentService {
     private static final String TAG = LogHelper.makeTag(UninstallAppService.class);
+    private int mUninstallAppCount = 0;
 
-    public UninstallAppService(){
+    public UninstallAppService() {
         this("UninstallAppService");
     }
 
@@ -44,30 +45,35 @@ public class UninstallAppService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(TAG, "onHandleIntent(Intent intent)");
         Log.d(TAG, "current Thread = " + Thread.currentThread().getName());
-        uninstallApps();
+        mUninstallAppCount = uninstallApps();
     }
 
-    private void uninstallApps(){
+    private int uninstallApps() {
         List<ApplicationInfo> apps = PackageUtil.getInstance(App.getAppContext()).getAllApplication();
         int temp = 0;
         List<String> commandList = new ArrayList();
-        for(ApplicationInfo applicationInfo : apps) {
-            if(((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM ) > 0) || ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0)
+        for (ApplicationInfo applicationInfo : apps) {
+            if (((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) || ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0)
                     || applicationInfo.processName.equals("com.wp.bosstest") || applicationInfo.processName.equals("cn.kuaipan.android")
                     || applicationInfo.processName.equals("com.xunlei.downloadprovider") || applicationInfo.processName.equals("com.tencent.mm")
-                    || applicationInfo.processName.equals("com.tencent.mobileqq")){
+                    || applicationInfo.processName.equals("com.tencent.mobileqq")) {
                 continue;
             }
             String command = "pm uninstall " + applicationInfo.processName;
             commandList.add(command);
-            Log.d(TAG, "appInfo " + temp++  + " : " + "packageName = " + applicationInfo.packageName + ", processName = " + applicationInfo.processName);
+            Log.d(TAG, "appInfo " + temp++ + " : " + "packageName = " + applicationInfo.packageName + ", processName = " + applicationInfo.processName);
         }
         ShellUtils.execCommand(commandList, true);
+        return commandList.size();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "卸载全部完成", Toast.LENGTH_SHORT).show();
+        if (mUninstallAppCount > 0) {
+            Toast.makeText(this, "成功卸载" + mUninstallAppCount + "个App", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "没有需要卸载的App", Toast.LENGTH_LONG).show();
+        }
     }
 }

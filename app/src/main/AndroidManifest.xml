@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".application.App"
@@ -21,7 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.AboutActivity">
-
         </activity>
         <activity
             android:name=".activity.SplashActivity"
@@ -47,7 +46,8 @@
 
         <activity
             android:name=".activity.MoreTaskActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="boss.action.more.task" />
                 <category android:name="android.intent.category.DEFAULT" />

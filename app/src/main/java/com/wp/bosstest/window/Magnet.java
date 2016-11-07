@@ -17,6 +17,7 @@ import com.wp.bosstest.utils.LogHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashSet;
 
 /**
  * Created by prem on 7/20/14.
@@ -25,7 +26,6 @@ import java.lang.reflect.InvocationTargetException;
 public class Magnet implements View.OnTouchListener {
     private static final String TAG = LogHelper.makeTag(Magnet.class);
     protected static final int TOUCH_TIME_THRESHOLD = 200;
-
     protected View mIconView;
     protected RemoveView mRemoveView;
     protected WindowManager mWindowManager;

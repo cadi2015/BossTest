@@ -271,6 +271,11 @@ public class ProcessUtil {
     }
 
 
+    /**
+     *
+     * @param serviceClassName  fullName
+     * @return
+     */
     public static  boolean isServiceRunning(String serviceClassName) {
         boolean isRunning = false;
         int maxNum = 100;

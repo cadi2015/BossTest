@@ -3,7 +3,11 @@ package com.wp.bosstest.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +15,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentMainDownloadManager;
@@ -28,6 +34,9 @@ public class MainActivity extends FragmentActivity {
     private FragmentManager mFragmentManager;
     private FragmentMainDownloadManager mFragmentMainDownloadManager;
     private FragmentMainFileExplorer mFragmentMainFileExplorer;
+    private ImageView mIvBox;
+    private AnimationDrawable mBoxAniDrawable;
+    private Handler mMainHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +46,48 @@ public class MainActivity extends FragmentActivity {
         setupViews();
     }
 
+    private class MyHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x111) {
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
     private void setupViews() {
         mDrawer = (DrawerLayout) findViewById(R.id.main_drawer);
         mDrawer.setDrawerListener(new MyDrawerLis());
         mTabLayout = (TabLayout) findViewById(R.id.main_tab_layout_bottom);
         mTabLayout.setOnTabSelectedListener(new MyOnTabSelLis());
+        mIvBox = (ImageView) findViewById(R.id.main_iv_box);
         TabLayout.Tab tabDownload = mTabLayout.newTab().setText("下载管理");
         TabLayout.Tab tabFileExplorer = mTabLayout.newTab().setText("文件管理");
         tabFileExplorer.setIcon(R.mipmap.ic_launcher_file);
         tabDownload.setIcon(R.mipmap.ic_launcher_download);
         mTabLayout.addTab(tabDownload);
         mTabLayout.addTab(tabFileExplorer);
+        mIvBox.setBackground(mBoxAniDrawable);
+        mIvBox.setOnClickListener(new MyBoxClickLis());
+    }
+
+    private AnimationDrawable getBoxBg() {
+        AnimationDrawable animationDrawable = null;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_box, null);
+        } else {
+            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_box);
+        }
+        return animationDrawable;
+    }
+
+    private class MyBoxClickLis implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mBoxAniDrawable.start();
+//            mMainHandler.sendEmptyMessageDelayed(0x111, 3000);
+        }
     }
 
     private class MyOnTabSelLis implements TabLayout.OnTabSelectedListener {
@@ -101,9 +141,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
+        mMainHandler = new MyHandler();
         mFragmentManager = getSupportFragmentManager();
         mFragmentMainDownloadManager = new FragmentMainDownloadManager();
         mFragmentMainFileExplorer = new FragmentMainFileExplorer();
+        mBoxAniDrawable = getBoxBg();
     }
 
     private class MyDrawerLis implements DrawerLayout.DrawerListener {

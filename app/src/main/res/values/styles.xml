@@ -10,7 +10,7 @@
 
     <!--@android:style/Theme.Light.NoTitleBar       @android:style/Theme.Holo.Light.DarkActionBar      parent="Theme.AppCompat.Light.DarkActionBar"   -->
 
-    <style name="StyledIndicators" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="StyledIndicators" parent="Theme.AppCompat.Light">
         <item name="vpiCirclePageIndicatorStyle">@style/CustomCirclePageIndicator</item>
         <item name="vpiLinePageIndicatorStyle">@style/CustomLinePageIndicator</item>
         <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>
