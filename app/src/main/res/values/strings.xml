@@ -7,10 +7,10 @@
     <string name="btn_switch_production_pre">Pre</string>
     <string name="btn_switch_production_online">Online</string>
     <string name="btn_bt">添加BT测试文件</string>
-    <string name="guide_page_0">自由复制下载链接</string>
-    <string name="guide_page_1">一键添加Bt种子</string>
-    <string name="guide_page_2">查看Ui与Dp包信息</string>
-    <string name="guide_page_3">设备信息任意看</string>
+    <string name="guide_page_0">随时空中升级\n省去安装烦恼</string>
+    <string name="guide_page_1">一键添加Bt种子\n自由复制下载链接</string>
+    <string name="guide_page_2">查看Ui与Dp包信息\n一键清空所有App</string>
+    <string name="guide_page_3">设备信息任意看\n内存信息任意看</string>
     <string name="more_resource">更多下载资源</string>
     <string name="performance_tv_task">插入%1$d条任务</string>
     <string name="permission_err">当前版本为6.0或以上, 必须手动开启权限“允许在其他应用上层显示”开启才行</string>

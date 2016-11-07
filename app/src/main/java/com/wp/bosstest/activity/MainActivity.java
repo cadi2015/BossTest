@@ -18,7 +18,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.BuglyStrategy;
 import com.wp.bosstest.R;
+import com.wp.bosstest.application.App;
 import com.wp.bosstest.fragment.FragmentMainDownloadManager;
 import com.wp.bosstest.fragment.FragmentMainFileExplorer;
 import com.wp.bosstest.utils.PackageUtil;
@@ -146,6 +149,7 @@ public class MainActivity extends FragmentActivity {
         mFragmentMainDownloadManager = new FragmentMainDownloadManager();
         mFragmentMainFileExplorer = new FragmentMainFileExplorer();
         mBoxAniDrawable = getBoxBg();
+        Bugly.init(App.getAppContext(), App.APP_ID, false);
     }
 
     private class MyDrawerLis implements DrawerLayout.DrawerListener {
