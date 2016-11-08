@@ -2,6 +2,7 @@ package com.wp.bosstest.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.wp.bosstest.R;
@@ -17,7 +18,13 @@ public class WebActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.web_frame_layout, new FragmentWeb()).commit();
+        FragmentWeb fragmentWeb =  new FragmentWeb();
+        Intent intent = getIntent();
+        String url = intent.getStringExtra("jumpUrl");
+        Bundle bundle = new Bundle();
+        bundle.putString("webUrl", url);
+        fragmentWeb.setArguments(bundle);
+        fragmentManager.beginTransaction().add(R.id.web_frame_layout, fragmentWeb).commit();
     }
 
 }

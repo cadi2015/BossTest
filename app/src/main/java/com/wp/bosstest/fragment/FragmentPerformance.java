@@ -1,6 +1,5 @@
 package com.wp.bosstest.fragment;
 
-
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -12,9 +11,10 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -43,17 +44,12 @@ import com.wp.bosstest.config.SharedConstant;
 import com.wp.bosstest.receiver.DownloadTaskReceiver;
 import com.wp.bosstest.service.FpsService;
 import com.wp.bosstest.service.UninstallAppService;
-import com.wp.bosstest.sqlite.SqliteManager;
+import com.wp.bosstest.sqlite.SQLiteManager;
 import com.wp.bosstest.utils.LogHelper;
 import com.wp.bosstest.utils.PermissionUtil;
 import com.wp.bosstest.utils.ProcessUtil;
 import com.wp.bosstest.utils.ShellUtils;
 
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,6 +61,7 @@ public class FragmentPerformance extends Fragment {
     private final static String TAG = LogHelper.makeTag(FragmentPerformance.class);
     private View mRootView;
     private TextView mTvInsert;
+    private ImageView mIvYouliao;
     private static HandlerThread mWorkingThread;
     private Handler mWorkingHandler;
     private DownloadManager mDownloadManger;
@@ -72,7 +69,8 @@ public class FragmentPerformance extends Fragment {
     private Handler mMainHandler;
     private SeekBar mSeekBar;
     private ProgressBar mProgressBar;
-    private BroadcastReceiver mReceiver;
+    private BroadcastReceiver mReceiverDownload;
+    private BroadcastReceiver mReceiverUninstall;
     private TextView mTvRemoveFailed;
     private Button mBtnProcessMsg;
     private Button mBtnFpsStart;
@@ -85,6 +83,30 @@ public class FragmentPerformance extends Fragment {
     private Button mBtnMonkey;
     private Intent mIntentFps;
     private TextView mTvShowLog;
+
+
+    private class UninstallBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "UninstallBroadcastReceiver ^^^^^^ onReceiver(Context context, Intent intent)");
+            boolean isSuccess = intent.getBooleanExtra("isSuccess", false);
+            MyUninstallRunnable myUninstallRunnable = new MyUninstallRunnable();
+            if (isSuccess == true) {
+                mMainHandler.postDelayed(myUninstallRunnable, 1000);
+            } else {
+                mMainHandler.postDelayed(myUninstallRunnable, 500);
+            }
+        }
+    }
+
+    private class MyUninstallRunnable implements Runnable {
+        @Override
+        public void run() {
+            Log.d(TAG, "MyUninstall Runnable ^^^^^^^ run()");
+            Log.d(TAG, "MyUninstall Runnable ^^^^^^^ thread = " + Thread.currentThread().getName());
+            mIvYouliao.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -125,7 +147,8 @@ public class FragmentPerformance extends Fragment {
         mContext = getActivity();
         mDownloadManger = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         mMainHandler = new MainHandler();
-        mReceiver = new DownloadTaskReceiver();
+        mReceiverDownload = new DownloadTaskReceiver();
+        mReceiverUninstall = new UninstallBroadcastReceiver();
         mIntentFps = new Intent();
         mIntentFps.setClass(mContext, FpsService.class);
     }
@@ -144,6 +167,7 @@ public class FragmentPerformance extends Fragment {
         mBtnMonkey = (Button) mRootView.findViewById(R.id.performance_btn_monkey);
         mTvInsert = (TextView) mRootView.findViewById(R.id.performance_tv_insert);
         mTvShowLog = (TextView) mRootView.findViewById(R.id.performance_tv_show_log);
+        mIvYouliao = (ImageView) mRootView.findViewById(R.id.performance_iv_youliao);
         mTvShowLog.setMovementMethod(ScrollingMovementMethod.getInstance());
         Log.d(TAG, "SeekBar current progress  = " + mSeekBar.getProgress());
         mTvInsert.setText(getString(R.string.performance_tv_task, mSeekBar.getProgress() + 1));
@@ -161,7 +185,20 @@ public class FragmentPerformance extends Fragment {
         mBtnKillUi.setOnClickListener(myBtnCikLis);
         mBtnUninstallApp.setOnClickListener(myBtnCikLis);
         mBtnMonkey.setOnClickListener(myBtnCikLis);
+        AnimationDrawable animationDrawable = getYouliaoAnimation();
+        mIvYouliao.setBackground(animationDrawable);
+        animationDrawable.start();
         Log.d(TAG, "mRootView.getParent() = " + mSeekBar.getParent());
+    }
+
+    private AnimationDrawable getYouliaoAnimation() {
+        AnimationDrawable animationDrawable = null;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_youliao, null);
+        } else {
+            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_youliao);
+        }
+        return animationDrawable;
     }
 
     private class MyBtnCikLis implements View.OnClickListener {
@@ -285,6 +322,7 @@ public class FragmentPerformance extends Fragment {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent uninstallAppIntent = new Intent(mContext, UninstallAppService.class);
                                 mContext.startService(uninstallAppIntent);
+                                mIvYouliao.setVisibility(View.VISIBLE);
                             }
                         }).create();
                         alertDialog.show();
@@ -357,12 +395,15 @@ public class FragmentPerformance extends Fragment {
     }
 
     private void registerReceiver() {
-        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        mContext.registerReceiver(mReceiver, intentFilter);
+        IntentFilter intentFilterDownload = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        IntentFilter intentFilterUninstall = new IntentFilter("bossTest.intent.action.UNINSTALL_FINISH");
+        mContext.registerReceiver(mReceiverDownload, intentFilterDownload);
+        mContext.registerReceiver(mReceiverUninstall, intentFilterUninstall);
     }
 
     private void unregisterReceiver() {
-        mContext.unregisterReceiver(mReceiver);
+        mContext.unregisterReceiver(mReceiverDownload);
+        mContext.unregisterReceiver(mReceiverUninstall);
     }
 
     @Override
@@ -429,6 +470,7 @@ public class FragmentPerformance extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Log.d(TAG, "MainHandler ^^^^^  handleMessage(Message msg)");
             Log.d(TAG, "first msg.what = " + msg.what);
             if (msg.what == 0x111) {
                 Log.d(TAG, "msg.getData() = " + msg.getData());
@@ -452,7 +494,7 @@ public class FragmentPerformance extends Fragment {
                     Bundle bundle = msg.getData();
                     String result = bundle.getString("content");
                     if (result == null || result.isEmpty()) {
-                        Toast.makeText(mContext, "试着把dp的进程结束运行，然后再打开ui，保证有你想要的", Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "试着把Dp的进程杀死，然后再打开Ui，保证有你想要的", Toast.LENGTH_LONG).show();
                     } else {
                         int startIndex = result.lastIndexOf("libVersion");
                         String subStr = result.substring(startIndex);
@@ -502,19 +544,19 @@ public class FragmentPerformance extends Fragment {
     private boolean insertDownloadTask(int count) {
         boolean success = false;
         int alreadyInsertCount = 0;
-        SQLiteDatabase database = mContext.openOrCreateDatabase(SqliteManager.DB_NAME, Context.MODE_PRIVATE, null);
+        SQLiteDatabase database = mContext.openOrCreateDatabase(SQLiteManager.DB_NAME, Context.MODE_PRIVATE, null);
         String tableName = getRandomTable();
         Log.d(TAG, "tableName = " + tableName);
         Cursor c = database.query(
                 tableName,
-                new String[]{SqliteManager.DatabaseConstant.COLUMN_ID, SqliteManager.DatabaseConstant.COLUMN_URL},
+                new String[]{SQLiteManager.DatabaseConstant.COLUMN_ID, SQLiteManager.DatabaseConstant.COLUMN_URL},
                 null,
                 null,
                 null,
                 null,
                 null);
         Log.d(TAG, "Cursor, position = " + c.getPosition());
-        final int urlIndex = c.getColumnIndex(SqliteManager.DatabaseConstant.COLUMN_URL);
+        final int urlIndex = c.getColumnIndex(SQLiteManager.DatabaseConstant.COLUMN_URL);
         String url;
         Uri uri;
         DownloadManager.Request request;
@@ -575,25 +617,25 @@ public class FragmentPerformance extends Fragment {
         int randomIndex = random.nextInt(7);
         switch (randomIndex) {
             case 0:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_AD;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_AD;
                 break;
             case 1:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_ED2K;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_ED2K;
                 break;
             case 2:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_FTP;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_FTP;
                 break;
             case 3:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_HTTP;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_HTTP;
                 break;
             case 4:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_HTTPS;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_HTTPS;
                 break;
             case 5:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_MAGNET;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_MAGNET;
                 break;
             case 6:
-                table = SqliteManager.DatabaseConstant.TABLE_NAME_MARKET;
+                table = SQLiteManager.DatabaseConstant.TABLE_NAME_MARKET;
                 break;
             default:
                 table = null;

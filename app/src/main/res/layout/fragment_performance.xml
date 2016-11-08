@@ -177,6 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/btn_txt_size_performance"
+            android:paddingLeft="10dp"
             android:layout_below="@id/performance_btn_log_lib"
             tools:text="实时日志"
             android:textColor="@color/colorAccent"
@@ -216,16 +217,33 @@
         android:textSize="@dimen/btn_txt_size_performance"
         android:paddingLeft="10dp"
         android:id="@+id/performance_btn_kill_ui"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height_performance"
-        android:layout_marginTop="10dp"
         android:textSize="@dimen/btn_txt_size_performance"
+        android:layout_toStartOf="@+id/performance_iv_youliao"
         android:background="@drawable/temp_bg"
         android:text="一键卸载所有第三方App"
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp"
-        android:id="@+id/performance_btn_uninstall_app"/>
+        android:id="@+id/performance_btn_uninstall_app"
+        android:layout_centerVertical="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_alignParentRight="true"
+            tools:background="@drawable/frame_by_frame_youliao"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:id="@+id/performance_iv_youliao"/>
+    </RelativeLayout>
 
     <Button
         android:layout_width="match_parent"

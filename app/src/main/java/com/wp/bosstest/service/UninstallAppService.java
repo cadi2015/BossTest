@@ -70,10 +70,15 @@ public class UninstallAppService extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Intent intent = new Intent();
+        intent.setAction("bossTest.intent.action.UNINSTALL_FINISH");
         if (mUninstallAppCount > 0) {
             Toast.makeText(this, "成功卸载" + mUninstallAppCount + "个App", Toast.LENGTH_LONG).show();
+            intent.putExtra("isSuccess", true);
         } else {
             Toast.makeText(this, "没有需要卸载的App", Toast.LENGTH_LONG).show();
+            intent.putExtra("isSuccess", false);
         }
+        sendBroadcast(intent);
     }
 }

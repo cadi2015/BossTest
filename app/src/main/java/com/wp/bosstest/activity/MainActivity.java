@@ -20,6 +20,7 @@ import android.widget.ImageView;
 
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.BuglyStrategy;
+import com.tencent.bugly.beta.Beta;
 import com.wp.bosstest.R;
 import com.wp.bosstest.application.App;
 import com.wp.bosstest.fragment.FragmentMainDownloadManager;
@@ -71,6 +72,7 @@ public class MainActivity extends FragmentActivity {
         tabDownload.setIcon(R.mipmap.ic_launcher_download);
         mTabLayout.addTab(tabDownload);
         mTabLayout.addTab(tabFileExplorer);
+        mBoxAniDrawable = getBoxBg();
         mIvBox.setBackground(mBoxAniDrawable);
         mIvBox.setOnClickListener(new MyBoxClickLis());
     }
@@ -148,7 +150,6 @@ public class MainActivity extends FragmentActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentMainDownloadManager = new FragmentMainDownloadManager();
         mFragmentMainFileExplorer = new FragmentMainFileExplorer();
-        mBoxAniDrawable = getBoxBg();
         Bugly.init(App.getAppContext(), App.APP_ID, false);
     }
 

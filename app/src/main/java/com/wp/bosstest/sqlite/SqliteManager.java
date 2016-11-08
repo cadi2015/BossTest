@@ -16,9 +16,9 @@ import java.io.OutputStream;
 /**
  * Created by cadi on 2016/8/16.
  */
-public class SqliteManager {
+public class SQLiteManager {
     public static final int TABLE_COUNT = 7;
-    private static final String TAG = LogHelper.makeTag(SqliteManager.class);
+    private static final String TAG = LogHelper.makeTag(SQLiteManager.class);
     public static final String DATA_ROOT_PATH = Environment.getDataDirectory().getAbsolutePath();
     public static final String DB_NAME = "downloadUrl.db";
     public static final String PACKAGE_NAME = "com.wp.bosstest";

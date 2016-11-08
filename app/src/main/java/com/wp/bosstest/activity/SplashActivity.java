@@ -4,26 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 
 import com.wp.bosstest.R;
 import com.wp.bosstest.fragment.FragmentSplash;
-import com.wp.bosstest.sqlite.SqliteManager;
+import com.wp.bosstest.sqlite.SQLiteManager;
 import com.wp.bosstest.utils.AppInfo;
 import com.wp.bosstest.utils.LogHelper;
 import com.wp.bosstest.utils.PermissionUtil;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Created by wp on 2016/1/12.
@@ -63,7 +55,7 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void initDb() {
-        SqliteManager sqliteManager = new SqliteManager( );
+        SQLiteManager sqliteManager = new SQLiteManager( );
         sqliteManager.fromAssetsCopyDB(this);
     }
 }

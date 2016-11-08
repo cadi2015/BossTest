@@ -1,5 +1,7 @@
 package com.wp.bosstest.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,11 +21,26 @@ import com.wp.bosstest.utils.LogHelper;
  */
 public class FragmentMainDownloadManager extends Fragment {
     private final static String TAG = LogHelper.makeTag(FragmentMainDownloadManager.class);
+    private final String KEY_TAB_ITEM = "download_tab_item";
     private String[] titles = {"工具", "任务", "性能", "设备"};
     private View mRootView;
+    private ViewPager mViewPager;
+    private TabPageIndicator mTabPage;
+    private SharedPreferences mSharedPreConfig;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        init(context);
+    }
+
     public FragmentMainDownloadManager() {
         super();
         Log.d(TAG, "FragmentMainDownloadManager()");
+    }
+
+    private void init(Context context){
+        mSharedPreConfig = context.getSharedPreferences("boss_config", Context.MODE_PRIVATE);
     }
 
     @Override
@@ -36,12 +53,17 @@ public class FragmentMainDownloadManager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView(......)");
         mRootView = inflater.inflate(R.layout.fragment_main_download_manager, null);
-        TabPageIndicator pageIndicator = (TabPageIndicator) mRootView.findViewById(R.id.main_fragment_download_manager_indicator);
-        ViewPager viewPager = (ViewPager) mRootView.findViewById(R.id.main_fragment_download_manager_pager);
-        viewPager.setAdapter(new CustomAdapter(getChildFragmentManager()));
-        pageIndicator.setOnPageChangeListener(new MyPageChangeLis());
-        pageIndicator.setViewPager(viewPager);
+        setupViews();
         return mRootView;
+    }
+
+
+    private void setupViews(){
+        mTabPage = (TabPageIndicator) mRootView.findViewById(R.id.main_fragment_download_manager_indicator);
+        mViewPager = (ViewPager) mRootView.findViewById(R.id.main_fragment_download_manager_pager);
+        mViewPager.setAdapter(new CustomAdapter(getChildFragmentManager()));
+        mTabPage.setOnPageChangeListener(new MyPageChangeLis());
+        mTabPage.setViewPager(mViewPager);
     }
 
 
@@ -49,6 +71,7 @@ public class FragmentMainDownloadManager extends Fragment {
     public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated(Bundle savedInstanceState)");
+        mTabPage.setCurrentItem(mSharedPreConfig.getInt(KEY_TAB_ITEM, 0));
     }
 
     @Override
@@ -129,6 +152,9 @@ public class FragmentMainDownloadManager extends Fragment {
         @Override
         public void onPageSelected(int position) {
             Log.d(TAG, "onPageSelected(int position) position = " + position);
+            SharedPreferences.Editor editor = mSharedPreConfig.edit();
+            editor.putInt(KEY_TAB_ITEM, position);
+            editor.apply();
         }
 
         @Override

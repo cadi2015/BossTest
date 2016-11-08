@@ -13,7 +13,6 @@ import com.wp.bosstest.utils.LogHelper;
 public class DownloadTaskReceiver extends BroadcastReceiver {
     private static final String TAG = LogHelper.makeTag(DownloadTaskReceiver.class);
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive(Context context, Intent, intent)");
