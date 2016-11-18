@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.config.SharedConstant;
 import com.wp.bosstest.fragment.FragmentSplash;
 import com.wp.bosstest.sqlite.SQLiteManager;
 import com.wp.bosstest.utils.AppInfo;
@@ -40,7 +41,9 @@ public class SplashActivity extends FragmentActivity {
             public void run() {
                 if (mSharedPre.getBoolean("is_first", true)|| AppInfo.getVersionCode(getApplicationContext()) > mSharedPre.getInt("version_code", 0)) {
                     initDb();
-                    startActivity(new Intent(SplashActivity.this, GuideActivity.class));
+                    Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+                    intent.putExtra("from", "Splash");
+                    startActivity(intent);
                     PermissionUtil.upgradeRootPermission(SplashActivity.this.getPackageCodePath()); //就是为了拉权限
                 } else {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
@@ -51,7 +54,7 @@ public class SplashActivity extends FragmentActivity {
     }
 
     private void init() {
-        mSharedPre = getSharedPreferences("boss_config", Context.MODE_PRIVATE);
+        mSharedPre = getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
     }
 
     private void initDb() {

@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,11 @@ public class FragmentTaskDetail extends Fragment {
     private Context mContext;
     private List<String> mListOfExcel;
     private int mRawRes;
+    private int mRawType;  // 0 http 1 ed2k 2 thunder 3 ftp 4 magnet 5 various
     private ClipboardManager mClipboardManager;
+    private SharedPreferences mSharedPreference;
+    private String mLvPositionKey;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_task_detail, container, false);
@@ -52,24 +57,34 @@ public class FragmentTaskDetail extends Fragment {
     private void init() {
         mContext = getActivity();
         ReadExcel readExcel = new ReadExcel(mContext);
-        mRawRes = selectRaw(((Activity)mContext).getIntent());
+        mRawRes = selectRaw(((Activity) mContext).getIntent());
         mListOfExcel = readExcel.readFirstCell(mRawRes);
         mClipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        mLvPositionKey = getListViewKey(mRawType);
+        mSharedPreference = mContext.getSharedPreferences("boss_config", Context.MODE_PRIVATE);
     }
 
     private int selectRaw(Intent intent) {
         if (intent != null) {
             switch (intent.getAction()) {
                 case IntentActionConstant.TASK_DETAIL_ACTION_HTTP:
+                    mRawType = 0;
                     return R.raw.http;
                 case IntentActionConstant.TASK_DETAIL_ACTION_ED2K:
+                    mRawType = 1;
                     return R.raw.ed2k;
                 case IntentActionConstant.TASK_DETAIL_ACTION_THUNDER:
+                    mRawType = 2;
                     return R.raw.thunder;
                 case IntentActionConstant.TASK_DETAIL_ACTION_FTP:
+                    mRawType = 3;
                     return R.raw.ftp;
                 case IntentActionConstant.TASK_DETAIL_ACTION_MAGNET:
+                    mRawType = 4;
                     return R.raw.magnet;
+                case IntentActionConstant.TASK_DETAIL_ACTION_VARIOUS:
+                    mRawType = 5;
+                    return R.raw.various;
                 default:
                     break;
             }
@@ -82,6 +97,7 @@ public class FragmentTaskDetail extends Fragment {
         mLvShow.setAdapter(new MyListAdapter(mListOfExcel));
         mLvShow.setOnItemClickListener(new MyOnItemClickLis());
         mLvShow.setOnScrollListener(new MyOnScrLis());
+        mLvShow.setSelection(mSharedPreference.getInt(mLvPositionKey, 0));
     }
 
     private class MyOnScrLis implements AbsListView.OnScrollListener {
@@ -89,16 +105,17 @@ public class FragmentTaskDetail extends Fragment {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             Log.d(TAG, "scrollState = " + scrollState);
         }
+
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            Log.d(TAG, "firstViewsibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
+            Log.d(TAG, "firstVisibleItem = " + firstVisibleItem + ",visibleItemCount = " + visibleItemCount + ",totalItemCount = " + totalItemCount);
         }
     }
 
     private class MyOnItemClickLis implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            TextView tv = (TextView)view.findViewById(R.id.task_detail_lv_item_tv_show);
+            TextView tv = (TextView) view.findViewById(R.id.task_detail_lv_item_tv_show);
             Log.d(TAG, "view = " + view);
             ClipData clipData = ClipData.newPlainText("simple", tv.getText().toString());
             mClipboardManager.setPrimaryClip(clipData);
@@ -109,6 +126,7 @@ public class FragmentTaskDetail extends Fragment {
     private class MyListAdapter extends BaseAdapter {
         private List<String> mAllUrls;
         private LayoutInflater mLayoutInflater;
+
         public MyListAdapter(List<String> list) {
             mAllUrls = list;
             mLayoutInflater = LayoutInflater.from(mContext);
@@ -132,10 +150,10 @@ public class FragmentTaskDetail extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
-            if(convertView == null) {
+            if (convertView == null) {
                 convertView = mLayoutInflater.inflate(R.layout.layout_task_detail_lv_item, null);
                 holder = new ViewHolder();
-                holder.textView = (TextView)convertView.findViewById(R.id.task_detail_lv_item_tv_show);
+                holder.textView = (TextView) convertView.findViewById(R.id.task_detail_lv_item_tv_show);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -150,6 +168,50 @@ public class FragmentTaskDetail extends Fragment {
     }
 
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "listView position = " + mLvShow.getFirstVisiblePosition());
+        int listViewLastPosition = mLvShow.getFirstVisiblePosition();
+        putListViewPosition(listViewLastPosition);
+    }
+
+    private String getListViewKey(int rawType){
+        String putKey;
+        switch (rawType) {
+            case 0:
+                putKey = "lv_position_http_num0";
+                break;
+            case 1:
+                putKey = "lv_position_ed2k_num1";
+                break;
+            case 2:
+                putKey = "lv_position_thunder_num2";
+                break;
+            case 3:
+                putKey = "lv_position_ftp_num3";
+                break;
+            case 4:
+                putKey = "lv_position_magnet_num4";
+                break;
+            case 5:
+                putKey = "lv_position_various_num5";
+                break;
+            default:
+                putKey = null;
+                break;
+        }
+        return putKey;
+    }
+
+    // 0 http 1 ed2k 2 thunder 3 ftp 4 magnet 5 various
+    private void putListViewPosition(int lastPosition) {
+        SharedPreferences.Editor editor = mSharedPreference.edit();
+        if (mLvPositionKey != null) {
+            editor.putInt(mLvPositionKey, lastPosition);
+            editor.apply();
+        }
+    }
 
     @Override
     public void onDestroy() {

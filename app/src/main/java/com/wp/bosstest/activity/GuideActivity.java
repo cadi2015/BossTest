@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
@@ -28,6 +29,7 @@ public class GuideActivity extends FragmentActivity {
     private static final String TAG = "GuideActivity";
     private ViewPager mViewPager;
     private ImageView[] mBg;
+    List<View> mViews;
     private int[] imageIds = {
             R.drawable.introduction_1_bg,
             R.drawable.introduction_2_bg,
@@ -38,6 +40,8 @@ public class GuideActivity extends FragmentActivity {
     private Button mBtnStart;
     private ImageView mIvPrev;
     private ImageView mIvNext;
+    private LinearLayout mLlDot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +55,21 @@ public class GuideActivity extends FragmentActivity {
     }
 
     private class MyOnPageLis implements ViewPager.OnPageChangeListener {
+
+        private void updateDot(int position) {
+            for (int index = 0; index < mViews.size(); index++) {
+                if(position == index) {
+                    mLlDot.getChildAt(position).setBackgroundResource(R.drawable.guide_dot_selected);
+                    continue;
+                }
+                mLlDot.getChildAt(index).setBackgroundResource(R.drawable.guide_dot_normal);
+            }
+        }
+
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            Log.d(TAG, "onPageScrolled(int position, float positionOffset, int positionOffsetPixels)");
+
         }
 
         @Override
@@ -79,10 +96,12 @@ public class GuideActivity extends FragmentActivity {
                 default:
                     break;
             }
+            updateDot(position);
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            Log.d(TAG, "onPageScrollStateChanged(int state)");
         }
     }
 
@@ -94,24 +113,40 @@ public class GuideActivity extends FragmentActivity {
         mBg = new ImageView[imageIds.length];
         mIvPrev = (ImageView) findViewById(R.id.guide_iv_prev);
         mIvNext = (ImageView) findViewById(R.id.guide_iv_next);
-        List<View> mViews = new ArrayList<>();
+        mLlDot = (LinearLayout) findViewById(R.id.guide_ll_dot);
+        mViews = new ArrayList<>();
         for (int i = 0; i < mBg.length; i++) {
             mBg[i] = new ImageView(this);
             mBg[i].setImageResource(imageIds[i]);
             mViews.add(mBg[i]);
         }
         mViewPager.setAdapter(new MyPageAdapter(mViews));
+        LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(25, 25);
+        dotParams.leftMargin = 15;
+        for (int index = 0; index < mViews.size(); index++) {
+            View view = new View(this);
+            view.setLayoutParams(dotParams);
+            if (index == 0) {
+                view.setBackgroundResource(R.drawable.guide_dot_selected);
+            } else {
+                view.setBackgroundResource(R.drawable.guide_dot_normal);
+            }
+            mLlDot.addView(view);
+        }
+
     }
 
     private class MyClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            SharedPreferences sharedPreferences = getSharedPreferences(SharedConstant.SHARED_PRE_NAME, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor= sharedPreferences.edit();
+            SharedPreferences sharedPreferences = getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(SharedConstant.GUIDE_KEY_IS_FIRST, false);
             editor.putInt(SharedConstant.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
             editor.apply(); //apply 替代了 commit
-            startActivity(new Intent(GuideActivity.this, MainActivity.class));
+            if (getIntent().getStringExtra("from").equals("Splash")) {
+                startActivity(new Intent(GuideActivity.this, MainActivity.class));
+            }
             GuideActivity.this.finish();
         }
     }

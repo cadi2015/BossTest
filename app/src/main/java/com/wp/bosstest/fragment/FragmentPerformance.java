@@ -204,7 +204,7 @@ public class FragmentPerformance extends Fragment {
     private class MyBtnCikLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            final SharedPreferences sp = mContext.getSharedPreferences(SharedConstant.SHARED_PRE_NAME, Context.MODE_PRIVATE);
+            final SharedPreferences sp = mContext.getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
             switch (v.getId()) {
                 case R.id.performance_tv_remove_failed:
                     removeFailedDownloadTask();

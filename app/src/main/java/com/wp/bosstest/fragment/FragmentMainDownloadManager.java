@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TabPageIndicator;
 import com.wp.bosstest.R;
+import com.wp.bosstest.config.SharedConstant;
 import com.wp.bosstest.utils.LogHelper;
 
 /**
@@ -40,7 +41,7 @@ public class FragmentMainDownloadManager extends Fragment {
     }
 
     private void init(Context context){
-        mSharedPreConfig = context.getSharedPreferences("boss_config", Context.MODE_PRIVATE);
+        mSharedPreConfig = context.getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
     }
 
     @Override

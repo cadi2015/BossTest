@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,8 @@ public class FragmentMoreTask extends Fragment {
     private TextView mTvMagnet;
     private RelativeLayout mRlWebViewMp4;
     private RelativeLayout mRlWebViewBt;
+    private RelativeLayout mRlWebViewBd;
+    private FrameLayout mFlVariousTask;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class FragmentMoreTask extends Fragment {
         mTvMagnet = (TextView) mRootView.findViewById(R.id.more_task_tv_magnet);
         mRlWebViewMp4 = (RelativeLayout) mRootView.findViewById(R.id.more_task_rl_web_view_ed2000);
         mRlWebViewBt = (RelativeLayout) mRootView.findViewById(R.id.more_task_rl_web_view_bt);
+        mRlWebViewBd = (RelativeLayout) mRootView.findViewById(R.id.more_task_rl_web_view_bd);
+        mFlVariousTask = (FrameLayout) mRootView.findViewById(R.id.more_task_fl_various);
         mTvHttp.setOnClickListener(lis);
         mTvEd2k.setOnClickListener(lis);
         mTvThunder.setOnClickListener(lis);
@@ -62,6 +67,8 @@ public class FragmentMoreTask extends Fragment {
         mTvMagnet.setOnClickListener(lis);
         mRlWebViewMp4.setOnClickListener(lis);
         mRlWebViewBt.setOnClickListener(lis);
+        mRlWebViewBd.setOnClickListener(lis);
+        mFlVariousTask.setOnClickListener(lis);
     }
 
     private class MyBtnLis implements View.OnClickListener {
@@ -106,6 +113,18 @@ public class FragmentMoreTask extends Fragment {
                     intentBt.setComponent(nameBt);
                     intentBt.putExtra("jumpUrl", "http://www.bttiantangs.com/");
                     startActivity(intentBt);
+                    break;
+                case R.id.more_task_rl_web_view_bd:
+                    Intent intentBd = new Intent();
+                    ComponentName nameBd = new ComponentName(getActivity(), WebActivity.class);
+                    intentBd.setComponent(nameBd);
+                    intentBd.putExtra("jumpUrl", "http://www.baidu.com/");
+                    startActivity(intentBd);
+                    break;
+                case R.id.more_task_fl_various:
+                    Intent intentVarious = new Intent();
+                    intentVarious.setAction(IntentActionConstant.TASK_DETAIL_ACTION_VARIOUS);
+                    startActivity(intentVarious);
                 default:
                     break;
             }
