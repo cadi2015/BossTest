@@ -59,7 +59,11 @@ public class FragmentMainFileExplorer extends Fragment {
         mBtnFilePre = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_pre);
         mBtnFileOnline = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_online);
         mTvShowPackageMess = (TextView) mRootView.findViewById(R.id.main_fragment_file_explorer_tv_show_package);
-        mTvShowPackageMess.setText(mPackageUtil.getPackageMessages(mPackageInfo));
+        if (mPackageInfo != null) {
+            mTvShowPackageMess.setText(mPackageUtil.getPackageMessages(mPackageInfo));
+        } else {
+            mTvShowPackageMess.setText("无");
+        }
         View.OnClickListener myClick = new MyBtnClick();
         mBtnFileTest.setOnClickListener(myClick);
         mBtnFilePre.setOnClickListener(myClick);
@@ -159,7 +163,7 @@ public class FragmentMainFileExplorer extends Fragment {
     private Snackbar createSnackBar(View view, String text) {
         Snackbar snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT);
         View viewGroup = snackbar.getView();
-        TextView message = (TextView)viewGroup.findViewById(R.id.snackbar_text);
+        TextView message = (TextView) viewGroup.findViewById(R.id.snackbar_text);
         viewGroup.setBackgroundColor(ActivityCompat.getColor(mContext, R.color.colorRed));
         message.setTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));
         snackbar.setActionTextColor(ActivityCompat.getColor(mContext, R.color.color_guide_txt_white));

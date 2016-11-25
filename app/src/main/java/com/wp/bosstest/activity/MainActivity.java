@@ -17,7 +17,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.tencent.bugly.Bugly;
 import com.wp.bosstest.R;
@@ -53,6 +55,8 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate(Bundle savedInstanceState)");
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
         init();
         initFragmentGroup(savedInstanceState);
@@ -158,11 +162,19 @@ public class MainActivity extends FragmentActivity {
             Log.d(TAG, "on TabReseleted(TabLayout.Tab tab.getposition = " + tab.getPosition());
             if (tab.getPosition() == 0) {
                 Intent intent = pm.getLaunchIntentForPackage(PackageUtil.UiPackageName);
-                Log.d(TAG, "Intent String = " + intent.toString());
-                startActivity(intent);
+                if (intent != null) {
+                    Log.d(TAG, "Intent String = " + intent.toString());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
+                }
             } else if (tab.getPosition() == 1) {
                 Intent intent = pm.getLaunchIntentForPackage(PackageUtil.FileExplorerPackageName);
-                startActivity(intent);
+                if (intent != null) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

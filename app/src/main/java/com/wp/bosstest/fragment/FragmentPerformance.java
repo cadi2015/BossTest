@@ -1,5 +1,6 @@
 package com.wp.bosstest.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -83,6 +84,7 @@ public class FragmentPerformance extends Fragment {
     private Button mBtnMonkey;
     private Intent mIntentFps;
     private TextView mTvShowLog;
+    private Activity mActivity;
 
 
     private class UninstallBroadcastReceiver extends BroadcastReceiver {
@@ -145,6 +147,7 @@ public class FragmentPerformance extends Fragment {
 
     private void init() {
         mContext = getActivity();
+        mActivity = getActivity();
         mDownloadManger = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         mMainHandler = new MainHandler();
         mReceiverDownload = new DownloadTaskReceiver();
@@ -341,6 +344,7 @@ public class FragmentPerformance extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 ShellUtils.execCommand("monkey -p com.android.providers.downloads.ui -p com.android.providers.downloads -v -v --throttle 50 --ignore-crashes --ignore-timeouts --pct-touch 30 --pct-motion 20 --pct-nav 20 --pct-majornav 15 --pct-appswitch 5 --pct-anyevent 5 --pct-trackball 0 --pct-syskeys 0 --bugreport 500000 >/mnt/sdcard/log.txt", true);
+                                mActivity.finish();
                             }
                         }).create();
                         alertDialog.show();
