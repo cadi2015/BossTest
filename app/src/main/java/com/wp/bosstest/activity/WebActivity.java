@@ -11,12 +11,25 @@ import com.wp.bosstest.fragment.FragmentWeb;
 /**
  * Created by cadi on 2016/8/23.
  */
-public class WebActivity extends Activity {
+public class WebActivity extends BaseActivity {
+    @Override
+    public boolean isDisplayHomeAsUp() {
+        return true;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_web;
+    }
+
+    @Override
+    public boolean isDisplayToolBar() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web);
         FragmentManager fragmentManager = getFragmentManager();
         FragmentWeb fragmentWeb =  new FragmentWeb();
         Intent intent = getIntent();

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <TextView
+        android:id="@+id/task_detail_lv_item_tv_show"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/task_detail_lv_item_tv_show"
-        android:layout_margin="5dp"
-        tools:text="我是用来测试的啊……%%%%%"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="?android:attr/textColorPrimary"/>
+        android:textColor="?android:attr/textColorPrimary"
+        tools:text="我是用来测试的啊……%%%%%" />
 </RelativeLayout>

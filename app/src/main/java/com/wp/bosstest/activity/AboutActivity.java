@@ -10,13 +10,27 @@ import com.wp.bosstest.fragment.FragmentAbout;
 /**
  * Created by cadi on 2016/8/10.
  */
-public class AboutActivity extends Activity {
+public class AboutActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().add(R.id.about_frame_layout, new FragmentAbout()).commit();
+    }
+
+    @Override
+    public boolean isDisplayHomeAsUp() {
+        return true;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_about;
+    }
+
+    @Override
+    public boolean isDisplayToolBar() {
+        return true;
     }
 }

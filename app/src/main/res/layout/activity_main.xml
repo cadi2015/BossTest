@@ -7,9 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
-    tools:openDrawer="start">
+    tools:openDrawer="start"
+    android:fitsSystemWindows="false">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_content">
     <RelativeLayout
-        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <FrameLayout
@@ -33,17 +37,31 @@
             >
         </android.support.design.widget.TabLayout>
     </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-    <RelativeLayout
-        android:layout_width="240dp"
+    <LinearLayout
+        android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:clickable="true">
-        <ImageView
-            android:id="@+id/main_iv_box"
-            android:layout_width="wrap_content"
+        android:clickable="true"
+        android:orientation="vertical">
+        <include
+            layout="@layout/layout_drawer_upper_part"
+            android:id="@+id/main_drawer_rl_upper_part"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/layout_drawer_center_part"
+            android:id="@+id/main_drawer_rl_center_part"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+        <include
+            layout="@layout/layout_drawer_lower_part"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             />
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

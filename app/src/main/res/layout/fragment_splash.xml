@@ -2,14 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/introduction_background">
-    <TextView
-        android:layout_width="match_parent"
+    android:background="@drawable/introduction_background"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_centerInParent="true"
-        android:textColor="@color/color_splash_txt"
-        android:typeface="sans"
-        android:id="@+id/splash_tv_version"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+        android:orientation="horizontal"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/splash_iv_app_icon"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"/>
+
+        <TextView
+            android:id="@+id/splash_tv_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/color_splash_txt"
+            android:typeface="sans"
+            tools:text="BossTest" />
+    </LinearLayout>
+
+
 </RelativeLayout>

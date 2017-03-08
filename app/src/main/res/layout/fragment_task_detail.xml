@@ -3,14 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_bg"
-    android:paddingLeft="6dp"
-    android:paddingRight="6dp">
+    >
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/task_detail_lv"
         android:divider="@color/colorPrimary"
         android:dividerHeight="1dp"
-        android:fastScrollEnabled="true">
+        android:scrollbarStyle="outsideOverlay"
+        >
     </ListView>
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,7 +134,6 @@ public class FragmentProcessDetail extends Fragment {
     }
 
 
-
     private void standAlone() { //为了home键的问题，做到实时刷新，装个13
         mTvSystemMemMsg.setText(ProcessUtil.getSystemMemMsg());
         if (isAdded) {
@@ -192,10 +192,11 @@ public class FragmentProcessDetail extends Fragment {
         mLayoutInflater = LayoutInflater.from(mContext);
         intentMonitor = new Intent(mContext, MonitorService.class);
         PermissionUtil.verifyStoragePermissions(getActivity());
-        mPackageManager =  mContext.getPackageManager();
+        mPackageManager = mContext.getPackageManager();
 //        if (RootUtil.getRootAhth() == false) {    //root权限拿了也没用，真他妈的醉了
 //            RootUtil.upgradeRootPermission(getActivity().getPackageCodePath());
 //        }
     }
+
 
 }

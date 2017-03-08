@@ -9,38 +9,41 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
+import com.wp.bosstest.utils.PackageUtil;
 
 /**
  * Created by cadi on 2016/5/20.
  */
 public class FragmentSplash extends Fragment {
     private View mRootView;
-    private String version;
+    private ImageView mIvAppIcon;
+    private TextView mTvAppName;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        version = getAppVersion(context);
+    }
+
+    private void setupViews() {
+        mIvAppIcon = (ImageView) mRootView.findViewById(R.id.splash_iv_app_icon);
+        mTvAppName = (TextView) mRootView.findViewById(R.id.splash_tv_version);
+        mTvAppName.setText(PackageUtil.getInstance(getContext()).getAppName(getContext().getPackageName()));
+        mIvAppIcon.setBackground(PackageUtil.getInstance(getContext()).getAppIcon(getContext().getPackageName()));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_splash, container, false);
-        TextView tvVersion = (TextView) mRootView.findViewById(R.id.splash_tv_version);
-        tvVersion.setText("BossTest\n" + version);
-        return  mRootView;
+        return mRootView;
     }
 
-    private String getAppVersion(Context context){
-        PackageManager pm = context.getPackageManager();
-        try {
-            PackageInfo pInfo = pm.getPackageInfo(context.getPackageName(), 0);
-            return pInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "-";
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupViews();
     }
 }

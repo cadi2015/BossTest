@@ -30,6 +30,7 @@ public class GuideActivity extends FragmentActivity {
     private ViewPager mViewPager;
     private ImageView[] mBg;
     List<View> mViews;
+    private int mCurrentPageIndex = 0;
     private int[] imageIds = {
             R.drawable.introduction_1_bg,
             R.drawable.introduction_2_bg,
@@ -58,7 +59,7 @@ public class GuideActivity extends FragmentActivity {
 
         private void updateDot(int position) {
             for (int index = 0; index < mViews.size(); index++) {
-                if(position == index) {
+                if (position == index) {
                     mLlDot.getChildAt(position).setBackgroundResource(R.drawable.guide_dot_selected);
                     continue;
                 }
@@ -97,6 +98,7 @@ public class GuideActivity extends FragmentActivity {
                     break;
             }
             updateDot(position);
+            mCurrentPageIndex = position;
         }
 
         @Override
@@ -133,7 +135,26 @@ public class GuideActivity extends FragmentActivity {
             }
             mLlDot.addView(view);
         }
+        MyIvClickLis myIvClickLis = new MyIvClickLis();
+        mIvPrev.setOnClickListener(myIvClickLis);
+        mIvNext.setOnClickListener(myIvClickLis);
+    }
 
+    private class MyIvClickLis implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "MyIvClickLis onClick(View v) mCurrentPageIndex = " + mCurrentPageIndex);
+            switch (v.getId()) {
+                case R.id.guide_iv_prev:
+                    mViewPager.setCurrentItem(mCurrentPageIndex - 1, true);
+                    break;
+                case R.id.guide_iv_next:
+                    mViewPager.setCurrentItem(mCurrentPageIndex + 1, true);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private class MyClickLis implements View.OnClickListener {
@@ -144,7 +165,9 @@ public class GuideActivity extends FragmentActivity {
             editor.putBoolean(SharedConstant.GUIDE_KEY_IS_FIRST, false);
             editor.putInt(SharedConstant.GUIDE_KEY_VERSION_CODE, AppInfo.getVersionCode(getApplicationContext()));
             editor.apply(); //apply 替代了 commit
-            if (getIntent().getStringExtra("from").equals("Splash")) {
+            Intent intent = getIntent();
+            String extraStr = intent.getStringExtra("from");
+            if (intent != null && extraStr != null && extraStr.equals("Splash")) {
                 startActivity(new Intent(GuideActivity.this, MainActivity.class));
             }
             GuideActivity.this.finish();

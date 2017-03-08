@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:background="@drawable/drawer_bg">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="欢迎页"
+        android:gravity="left"
+        android:paddingLeft="30dp"
+        android:textSize="23sp"
+        android:id="@+id/layout_drawer_lower_part_tv_guide"/>
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        tools:text="关于"
+        android:text="关于"
+        android:textSize="23sp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/layout_drawer_lower_part_tv_about_this"
+        android:gravity="left"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>

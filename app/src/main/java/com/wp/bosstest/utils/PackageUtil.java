@@ -4,18 +4,20 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/** 这个单例模式是线程不安全的，在多线程时，将不能正常工作，待优化中
+/**
+ * 这个单例模式是线程不安全的，在多线程时，将不能正常工作，待优化中 , 2017年3月6日已经优化
  * Created by cadi on 2016/8/12.
  */
 public class PackageUtil {
     private PackageManager packageManager;
-    private Context context;
+    private Context mContext;
     private static PackageUtil packageUtil;
     public static final String UiPackageName = "com.android.providers.downloads.ui";
     public static final String DpPackageName = "com.android.providers.downloads";
@@ -23,17 +25,26 @@ public class PackageUtil {
 
     private PackageUtil(Context context) {
         super();
-        this.context = context;
+        this.mContext = context;
         init();
     }
 
     private void init() {
-        packageManager = context.getPackageManager();
+        packageManager = mContext.getPackageManager();
     }
 
-    public static synchronized PackageUtil getInstance(Context context) {
-        if (packageUtil == null) {
-            packageUtil = new PackageUtil(context);
+    /**
+     * 使用双重校验锁，高效无比
+     * @param context
+     * @return
+     */
+    public static PackageUtil getInstance(Context context) {
+        if (packageUtil == null) { //这里可能多个线程对象进来
+            synchronized (PackageUtil.class) { //第一个线程对象先拿到锁,开始执行，第二个线程对象等待第一个线程对象释放锁
+                if (packageUtil == null) { //如果不做==null判断，会创建两次PackageUtil对象,我做了判断，第二个线程对象就不会再new了
+                    packageUtil = new PackageUtil(context);
+                }
+            }
         }
         return packageUtil;
     }
@@ -54,7 +65,6 @@ public class PackageUtil {
         return sb.toString();
     }
 
-
     public PackageManager getPackageManager() {
         return packageManager;
     }
@@ -71,9 +81,20 @@ public class PackageUtil {
         return null;
     }
 
-    public List<ApplicationInfo> getAllApplication(){
+    public List<ApplicationInfo> getAllApplication() {
         List<ApplicationInfo> allApplications = packageManager.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
         return allApplications;
+    }
+
+    public String getAppName(String packageName){
+        PackageInfo info = getPackageInfoDefault(packageName);
+        String appName = info.applicationInfo.loadLabel(packageManager).toString();
+        return appName;
+    }
+
+    public Drawable getAppIcon(String packageName) {
+        PackageInfo info = getPackageInfoDefault(packageName);
+        return info.applicationInfo.loadIcon(packageManager);
     }
 
 }

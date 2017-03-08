@@ -5,20 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tencent.bugly.Bugly;
@@ -37,19 +37,20 @@ public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mSharedEditor;
-    private DrawerLayout mDrawer;
+    private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
     private FragmentMainDownloadManager mFragmentMainDownloadManager;
     private FragmentMainFileExplorer mFragmentMainFileExplorer;
-    private ImageView mIvBox;
-    private AnimationDrawable mBoxAniDrawable;
     private Handler mMainHandler;
     private FragmentTransaction mFragmentTrans;
     private boolean mTabDownloadIsSelected;
     private boolean mTabFileExplorerIsSelected;
     private final String KEY_TAB_DOWNLOAD_IS_SELECTED = "tabDownload_selected";
     private final String KEY_TAB_FILE_IS_SELECTED = "tabFile_selected";
+    private TextView mTvAboutThis;
+    private TextView mTvGuide;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,39 +91,42 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void setupViews() {
-        mDrawer = (DrawerLayout) findViewById(R.id.main_drawer);
-        mDrawer.setDrawerListener(new MyDrawerLis());
+        mTvGuide = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_guide);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
+        mDrawerLayout.setDrawerListener(new MyDrawerLis());
         mTabLayout = (TabLayout) findViewById(R.id.main_tab_layout_bottom);
         mTabLayout.setOnTabSelectedListener(new MyOnTabSelLis());
-        mIvBox = (ImageView) findViewById(R.id.main_iv_box);
+        mTvAboutThis = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_about_this);
         TabLayout.Tab tabDownload = mTabLayout.newTab().setText("下载管理");
         TabLayout.Tab tabFileExplorer = mTabLayout.newTab().setText("文件管理");
         tabFileExplorer.setIcon(R.mipmap.ic_launcher_file);
         tabDownload.setIcon(R.mipmap.ic_launcher_download);
         mTabLayout.addTab(tabDownload, mTabDownloadIsSelected);
         mTabLayout.addTab(tabFileExplorer, mTabFileExplorerIsSelected);
-        mBoxAniDrawable = getBoxBg();
-        mIvBox.setBackground(mBoxAniDrawable);
-        mIvBox.setOnClickListener(new MyBoxClickLis());
+        MyTvClickLis myTvClickLis = new MyTvClickLis();
+        mTvAboutThis.setOnClickListener(myTvClickLis);
+        mTvGuide.setOnClickListener(myTvClickLis);
     }
 
-    private AnimationDrawable getBoxBg() {
-        AnimationDrawable animationDrawable = null;
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
-            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_box, null);
-        } else {
-            animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.frame_by_frame_box);
-        }
-        return animationDrawable;
-    }
-
-    private class MyBoxClickLis implements View.OnClickListener {
+    private class MyTvClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            mBoxAniDrawable.start();
-            mMainHandler.sendEmptyMessageDelayed(0x111, 2000);
+            switch (v.getId()) {
+                case R.id.layout_drawer_lower_part_tv_about_this:
+                    Intent intentAbout = new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(intentAbout);
+                    break;
+                case R.id.layout_drawer_lower_part_tv_guide:
+                    Intent intentGuide = new Intent(MainActivity.this, GuideActivity.class);
+                    startActivity(intentGuide);
+                    break;
+                default:
+                    break;
+            }
         }
     }
+
 
     private class MyOnTabSelLis implements TabLayout.OnTabSelectedListener {
         @Override
@@ -189,9 +193,16 @@ public class MainActivity extends FragmentActivity {
     }
 
     private class MyDrawerLis implements DrawerLayout.DrawerListener {
+
+        WindowManager mWindowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Display mDisplay = mWindowManager.getDefaultDisplay();
+
         @Override
         public void onDrawerSlide(View drawerView, float slideOffset) {
-            Log.d(TAG, "onDrawerSlide(View drawerView, float slideOffset)");
+            Log.d(TAG, "onDrawerSlide(View drawerView, float slideOffset) ");
+            Log.d(TAG, "drawerView = " + drawerView + " slideOffset = " + slideOffset);
+            mCoordinatorLayout.layout(drawerView.getRight(), drawerView.getTop(), drawerView.getWidth() + mDisplay.getWidth(), mDisplay.getHeight());
+            Log.d(TAG, "drawerView getRight = " + drawerView.getWidth() + " getTop = " + drawerView.getTop());
         }
 
         @Override
@@ -215,4 +226,19 @@ public class MainActivity extends FragmentActivity {
         super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState(Bundle outState)");
     }
+
+    private long mFirstOnBackPressedTime = 0L;
+
+    @Override
+    public void onBackPressed() {
+        long currentPressedBackTime = System.currentTimeMillis();
+        if (currentPressedBackTime - mFirstOnBackPressedTime > 2000) {
+            Toast.makeText(this, "再按一次退出应用", Toast.LENGTH_SHORT).show();
+            mFirstOnBackPressedTime = currentPressedBackTime;
+        } else {
+            super.onBackPressed();
+        }
+        Log.d(TAG, "on BackPressed()");
+    }
+
 }

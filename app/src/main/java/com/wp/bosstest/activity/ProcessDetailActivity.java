@@ -14,12 +14,11 @@ import com.wp.bosstest.utils.LogHelper;
  * Created by cadi on 2016/9/22.
  */
 
-public class ProcessDetailActivity extends Activity {
+public class ProcessDetailActivity extends BaseActivity {
     private static final String TAG  = LogHelper.makeTag(ProcessDetailActivity.class);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_process_detail);
         FragmentManager fragmentManager = getFragmentManager();
         Fragment fragment = new FragmentProcessDetail();
         fragmentManager.beginTransaction().add(R.id.process_detail_frame_layout, fragment).commit();
@@ -29,5 +28,20 @@ public class ProcessDetailActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionResult()");
+    }
+
+    @Override
+    public boolean isDisplayHomeAsUp() {
+        return true;
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_process_detail;
+    }
+
+    @Override
+    public boolean isDisplayToolBar() {
+        return true;
     }
 }

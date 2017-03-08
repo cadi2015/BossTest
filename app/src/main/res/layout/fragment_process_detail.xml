@@ -1,98 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/color_process_detail_bg"
-    tools:context=".activity.ProcessDetailActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:background="@color/color_process_detail_bg"
+        tools:context=".activity.ProcessDetailActivity">
 
-        <ListView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/process_detail_lv_ui"
-            android:divider="@drawable/list_view_divider_line"
-            android:dividerHeight="1px"
-            >
-        </ListView>
+            android:orientation="vertical">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/process_detail_lv_dp"
-            tools:listitem="@layout/layout_process_detail_lv_item"
-            android:divider="@drawable/list_view_divider_line"
-            android:dividerHeight="1px"
-            >
-        </ListView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="本机内存状态"
-            android:paddingLeft="20dp"
-            android:textSize="14sp"
-            android:textColor="@color/color_txt_enable_gray"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:gravity="center_vertical"
-            android:id="@+id/process_detail_tv_mem_title"
-            />
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="@color/white_bg"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <com.wp.bosstest.view.ListViewSupportScroll
+                android:id="@+id/process_detail_lv_ui"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="可用内存\n总内存\n低内存阀值\n处于低内存"
-                android:textSize="16sp"
+                android:divider="@drawable/list_view_divider_line"
+                android:dividerHeight="1px"></com.wp.bosstest.view.ListViewSupportScroll>
+
+            <com.wp.bosstest.view.ListViewSupportScroll
+                android:id="@+id/process_detail_lv_dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/list_view_divider_line"
+                android:dividerHeight="1px"
+                tools:listitem="@layout/layout_process_detail_lv_item"></com.wp.bosstest.view.ListViewSupportScroll>
+
+            <TextView
+                android:id="@+id/process_detail_tv_mem_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
                 android:paddingLeft="20dp"
-                android:textColor="@color/colorBlack"
-                />
-            <TextView
-                android:layout_width="wrap_content"
+                android:paddingTop="4dp"
+                android:textColor="@color/color_txt_enable_gray"
+                android:textSize="14sp"
+                tools:text="本机内存状态" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="1.78G\n3.63GB\n220MB\n否"
-                android:id="@+id/process_detail_tv_system_mem_msg"
-                android:textSize="16sp"
-                android:textColor="@color/colorBlack"
-                android:gravity="right"
-                android:layout_gravity="end"
-                android:paddingRight="20dp"/>
-        </FrameLayout>
-        <Button
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="开启实时监控"
-            android:textSize="15sp"
-            android:textColor="@color/color_guide_txt_white"
-            android:id="@+id/process_detail_btn_start_monitor"
-            android:background="@color/colorRed"/>
-        <Button
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="停止实时监控"
-            android:textSize="15sp"
-            android:textColor="@color/color_guide_txt_white"
-            android:id="@+id/process_detail_btn_stop_monitor"
-            android:background="@color/colorRed"/>
-        <TextView
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/colorRed"
-            android:gravity="center_vertical"
-            android:visibility="gone"
-            android:id="@+id/process_detail_tv_hint"/>
-    </LinearLayout>
-</FrameLayout>
+                android:layout_marginTop="4dp"
+                android:background="@color/white_bg"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="可用内存\n总内存\n低内存阀值\n处于低内存"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/process_detail_tv_system_mem_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="right"
+                    android:paddingRight="20dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    tools:text="1.78G\n3.63GB\n220MB\n否" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/process_detail_btn_start_monitor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorRed"
+                android:text="开启实时监控"
+                android:textColor="@color/color_guide_txt_white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/process_detail_btn_stop_monitor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorRed"
+                android:text="停止实时监控"
+                android:textColor="@color/color_guide_txt_white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/process_detail_tv_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/colorRed"
+                android:textSize="13sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </FrameLayout>
+</ScrollView>
