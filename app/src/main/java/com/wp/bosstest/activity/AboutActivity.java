@@ -1,6 +1,5 @@
 package com.wp.bosstest.activity;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 

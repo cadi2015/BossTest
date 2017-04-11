@@ -196,6 +196,7 @@
                 android:lineSpacingExtra="@dimen/package_info_tv_line_space"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/colorBlack"
+                android:layout_gravity="center_vertical"
                 tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
@@ -220,6 +221,7 @@
             android:lineSpacingExtra="@dimen/package_info_tv_line_space"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorBlack"
+            android:layout_gravity="center_vertical"
             tools:text="我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的我也是调试用的"
             android:layout_marginLeft="5dp"/>
         </LinearLayout>

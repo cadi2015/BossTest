@@ -22,6 +22,7 @@ public class PackageUtil {
     public static final String UiPackageName = "com.android.providers.downloads.ui";
     public static final String DpPackageName = "com.android.providers.downloads";
     public static final String FileExplorerPackageName = "com.android.fileexplorer";
+    public static final String SHORT_VIDEO_PACKAGE_NAME = "cn.kuaipan.android";
 
     private PackageUtil(Context context) {
         super();
@@ -39,8 +40,13 @@ public class PackageUtil {
      * @return
      */
     public static PackageUtil getInstance(Context context) {
+
+        if(context == null) {
+            return null;
+        }
+
         if (packageUtil == null) { //这里可能多个线程对象进来
-            synchronized (PackageUtil.class) { //第一个线程对象先拿到锁,开始执行，第二个线程对象等待第一个线程对象释放锁
+            synchronized (PackageUtil.class) { //第一个线程对象先拿到Class对象锁(因为是静态方法，所以Class对象锁，而不用实例对象锁,开始执行，第二个线程对象等待第一个线程对象释放锁
                 if (packageUtil == null) { //如果不做==null判断，会创建两次PackageUtil对象,我做了判断，第二个线程对象就不会再new了
                     packageUtil = new PackageUtil(context);
                 }
@@ -50,6 +56,9 @@ public class PackageUtil {
     }
 
     public String getPackageMessages(PackageInfo info) {
+        if(info == null) {
+            return null;
+        }
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         String uiLastTime = dateFormat.format(new Date(info.lastUpdateTime));
@@ -70,15 +79,14 @@ public class PackageUtil {
     }
 
     public PackageInfo getPackageInfoDefault(String packageName) {
-        PackageInfo packageInfo;
+        PackageInfo packageInfo = null;
         try {
             packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
-            return packageInfo;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             System.err.println("名字找不到，我就草了");
         }
-        return null;
+        return packageInfo;
     }
 
     public List<ApplicationInfo> getAllApplication() {

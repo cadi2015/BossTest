@@ -50,9 +50,9 @@ public class SQLiteManager {
             Log.d(TAG, "DB_PATH = " + DATA_ROOT_PATH + DB_ROOT_PATH);
             String dbPath = DATA_ROOT_PATH + DB_ROOT_PATH;
             File dbDir = new File(dbPath);
-            if (!dbDir.exists()) {
+            if (!dbDir.exists()) { //我感觉没有创建啊 //妈的，就是我自己创建的目录，好遂
                 boolean isSuccess = dbDir.mkdir(); //纯属狗屎运，app在初始化Application的时候创建了/data/data/<packageName>，不然我的databases绝对会黄掉
-                Log.d(TAG, "File isSuccess = " + isSuccess);
+                Log.d(TAG, "from AssetsCopyDB(Context context), File isSuccess = " + isSuccess);
             }
             InputStream inputFile = context.getAssets().open(DB_ASSETS_DIR + File.separator + DB_NAME);
             byte[] buffers = new byte[1024]; //把输入字节流读取内存缓冲区

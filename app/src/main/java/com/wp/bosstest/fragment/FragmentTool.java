@@ -80,10 +80,12 @@ public class FragmentTool extends Fragment {
         mService_test = getString(R.string.btn_switch_production_test);
         mService_pre = getString(R.string.btn_switch_production_pre);
         mService_online = getString(R.string.btn_switch_production_online);
-        if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_TEST_NAME)) {
+        String serviceTestPath = mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_TEST_NAME;
+        String servicePrePath = mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_PRE_NAME;
+        if (fileIsExists(serviceTestPath)) {
             isServiceTest = true;
             mTvShow.setText(mService_test);
-        } else if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_PRE_NAME)) {
+        } else if (fileIsExists(servicePrePath)) {
             isServicePre = true;
             mTvShow.setText(mService_pre);
         } else {
@@ -115,6 +117,8 @@ public class FragmentTool extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             Log.d(TAG, "找不到指定包的info信息");
+            mTvUiInfo.setText("未安装");
+            mTvDpInfo.setText("未安装");
         }
         showAlertDialog();
     }

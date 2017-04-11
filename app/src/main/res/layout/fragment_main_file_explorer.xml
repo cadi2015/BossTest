@@ -6,7 +6,6 @@
     android:background="@color/white_bg"
     android:orientation="vertical"
     android:padding="10dp">
-
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

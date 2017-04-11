@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.wp.bosstest.R;
 import com.wp.bosstest.config.FileConstant;
 import com.wp.bosstest.utils.LogHelper;
 import com.wp.bosstest.utils.PackageUtil;
+import com.wp.bosstest.utils.SpannableUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +53,6 @@ public class FragmentMainFileExplorer extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     private void setupViews() {
@@ -60,7 +61,9 @@ public class FragmentMainFileExplorer extends Fragment {
         mBtnFileOnline = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_online);
         mTvShowPackageMess = (TextView) mRootView.findViewById(R.id.main_fragment_file_explorer_tv_show_package);
         if (mPackageInfo != null) {
-            mTvShowPackageMess.setText(mPackageUtil.getPackageMessages(mPackageInfo));
+            String filePackageInfoMessage = mPackageUtil.getPackageMessages(mPackageInfo);
+            SpannableString fileSpan = SpannableUtils.setTextColorDefault(mContext, filePackageInfoMessage, filePackageInfoMessage.indexOf("5.)"), filePackageInfoMessage.indexOf("6.)"), R.color.colorRed);
+            mTvShowPackageMess.setText(fileSpan);
         } else {
             mTvShowPackageMess.setText("无");
         }
@@ -132,26 +135,26 @@ public class FragmentMainFileExplorer extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.main_fragment_file_explorer_btn_file_test:
-                    createDic(FileConstant.ROOT_PATH, FileConstant.FILE_SERVER_DIR_NAME);
-                    if (fileIsExists(FileConstant.FILE_SERVER_PRE_PATH)) {
-                        removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_PRE_NAME);
+                    createDic(FileConstant.ROOT_PATH, FileConstant.FILE_EXPLORER_SERVER_DIR_NAME);
+                    if (fileIsExists(FileConstant.FILE_EXPLORER_SERVER_PRE_PATH)) {
+                        removeFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_PRE_FILE_NAME);
                     }
-                    createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_TEST_NAME);
-                    createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_LOG_NAME);
+                    createFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_TEST_FILE_NAME);
+                    createFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_LOG_FILE_NAME);
                     createSnackBar(mBtnFileOnline, "切换Test环境成功").show();
                     break;
                 case R.id.main_fragment_file_explorer_btn_file_pre:
-                    createDic(FileConstant.ROOT_PATH, FileConstant.FILE_SERVER_DIR_NAME);
-                    if (fileIsExists(FileConstant.FILE_SERVER_TEST_PATH)) {
-                        removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_TEST_NAME);
+                    createDic(FileConstant.ROOT_PATH, FileConstant.FILE_EXPLORER_SERVER_DIR_NAME);
+                    if (fileIsExists(FileConstant.FILE_EXPLORER_SERVER_TEST_PATH)) {
+                        removeFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_TEST_FILE_NAME);
                     }
-                    createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_PRE_NAME);
-                    createFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_LOG_NAME);
+                    createFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_PRE_FILE_NAME);
+                    createFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_LOG_FILE_NAME);
                     createSnackBar(mBtnFileOnline, "切换Pre环境成功").show();
                     break;
                 case R.id.main_fragment_file_explorer_btn_file_online:
-                    removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_TEST_NAME);
-                    removeFile(FileConstant.FILE_SERVER_DIR_PATH, FileConstant.FILE_SERVER_PRE_NAME);
+                    removeFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_TEST_FILE_NAME);
+                    removeFile(FileConstant.FILE_EXPLORER_SERVER_DIR_PATH, FileConstant.SERVER_PRE_FILE_NAME);
                     createSnackBar(mBtnFileOnline, "切换Online环境成功").show();
                     break;
                 default:

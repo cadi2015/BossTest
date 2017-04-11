@@ -10,10 +10,17 @@ import android.util.Log;
  */
 public class AppInfo {
     private static final String TAG = "AppInfo";
+
     AppInfo() {
         super();
     }
+
     public static int getVersionCode(Context context) {
+
+        if (context == null) {
+            return 0;
+        }
+
         PackageManager pm = context.getPackageManager();
         int versionCode = 0;
         try {
