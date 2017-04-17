@@ -49,7 +49,7 @@
         android:layout_gravity="left"
         android:clickable="true"
         android:orientation="vertical"
-        android:layout_marginLeft="-65dp">
+        >
         <include
             layout="@layout/layout_drawer_upper_part"
             android:id="@+id/main_drawer_rl_upper_part"

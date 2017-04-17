@@ -8,41 +8,8 @@
         android:background="@color/white_bg"
         android:orientation="vertical"
         android:padding="10dp">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:id="@+id/main_fragment_short_video_rl_hint">
-                <TextView
-                    android:id="@+id/main_fragment_short_video_tv_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ems="1"
-                    android:text="包信息"
-                    android:layout_centerHorizontal="true"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_launcher_short_video"
-                    android:layout_below="@id/main_fragment_short_video_tv_hint"/>
-            </RelativeLayout>
-            <TextView
-                android:id="@+id/main_fragment_short_video_tv_show_package"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/main_fragment_short_video_rl_hint"
-                android:lineSpacingExtra="@dimen/package_info_tv_line_space"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@color/colorBlack"
-                tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的" />
-        </RelativeLayout>
+        <include
+            layout="@layout/layout_package_detail"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

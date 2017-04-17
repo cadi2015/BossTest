@@ -113,6 +113,7 @@ public class FragmentPerformance extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         Log.d(TAG, "onAttach(Context context)");
     }
 
@@ -146,7 +147,7 @@ public class FragmentPerformance extends Fragment {
     }
 
     private void init() {
-        mContext = getActivity();
+
         mActivity = getActivity();
         mDownloadManger = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         mMainHandler = new MainHandler();

@@ -65,6 +65,7 @@ public class FragmentTool extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceSate");
         mRootView = inflater.inflate(R.layout.fragment_tools, container, false); //我太傻逼了，需要根View，不懂得把View整成实例变量，非要拿个局部变量在这里玩
         initViews();
         return mRootView;
@@ -72,8 +73,8 @@ public class FragmentTool extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated(View view, Bundle savedInstanceState)");
+        super.onViewCreated(view, savedInstanceState);
         mRootPath = Environment.getExternalStorageDirectory().getPath();
         Log.d(TAG, "mRootPath = " + mRootPath);
         mContext = getActivity();
@@ -121,6 +122,12 @@ public class FragmentTool extends Fragment {
             mTvDpInfo.setText("未安装");
         }
         showAlertDialog();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume()");
     }
 
     private void showAlertDialog() {

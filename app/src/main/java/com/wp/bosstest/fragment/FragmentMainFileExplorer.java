@@ -2,6 +2,7 @@ package com.wp.bosstest.fragment;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wp.bosstest.R;
@@ -32,6 +34,7 @@ public class FragmentMainFileExplorer extends Fragment {
     private View mRootView;
     private Context mContext;
     private Button mBtnFileTest;
+    private ImageView mIvAppIcon;
     private Button mBtnFilePre;
     private Button mBtnFileOnline;
     private PackageUtil mPackageUtil;
@@ -56,14 +59,17 @@ public class FragmentMainFileExplorer extends Fragment {
     }
 
     private void setupViews() {
+        mIvAppIcon = (ImageView) mRootView.findViewById(R.id.iv_app_icon);
         mBtnFileTest = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_test);
         mBtnFilePre = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_pre);
         mBtnFileOnline = (Button) mRootView.findViewById(R.id.main_fragment_file_explorer_btn_file_online);
-        mTvShowPackageMess = (TextView) mRootView.findViewById(R.id.main_fragment_file_explorer_tv_show_package);
+        mTvShowPackageMess = (TextView) mRootView.findViewById(R.id.tv_show_package);
         if (mPackageInfo != null) {
             String filePackageInfoMessage = mPackageUtil.getPackageMessages(mPackageInfo);
             SpannableString fileSpan = SpannableUtils.setTextColorDefault(mContext, filePackageInfoMessage, filePackageInfoMessage.indexOf("5.)"), filePackageInfoMessage.indexOf("6.)"), R.color.colorRed);
             mTvShowPackageMess.setText(fileSpan);
+            Drawable appIcon = mPackageUtil.getAppIcon(mPackageInfo.packageName);
+            mIvAppIcon.setBackground(appIcon);
         } else {
             mTvShowPackageMess.setText("无");
         }

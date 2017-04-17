@@ -1,6 +1,5 @@
 package com.wp.bosstest.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -25,7 +24,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract boolean isDisplayHomeAsUp();
+
     public abstract int getContentViewId();
+
     public abstract boolean isDisplayToolBar();
 
     private void initContentView() {
@@ -44,12 +45,11 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             return;
         }
-        if(haveContent) {
+        if (haveContent) {
             setContentView(contentViewId);
         }
 
     }
-
 
 
     private void initActionBar() {

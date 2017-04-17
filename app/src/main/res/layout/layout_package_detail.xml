@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ems="1"
+            android:text="包信息"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_app_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/tv_hint" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_show_package"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/rl_hint"
+        android:lineSpacingExtra="@dimen/package_info_tv_line_space"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/colorBlack"
+        tools:text="我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的我是调试用的" />
+</RelativeLayout>

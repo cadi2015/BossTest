@@ -59,6 +59,7 @@ public class MainActivity extends FragmentActivity {
     private final String KEY_TAB_SHORT_VIDEO_SELECTED = "tabShortVideo_selected";
     private TextView mTvAboutThis;
     private TextView mTvGuide;
+    private TextView mTvInstall;
     private CoordinatorLayout mCoordinatorLayout;
 
     @Override
@@ -109,6 +110,7 @@ public class MainActivity extends FragmentActivity {
 
     private void setupViews() {
         mTvGuide = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_guide);
+        mTvInstall = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_install_apk);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         mDrawerLayout.setDrawerListener(new MyDrawerLis());
@@ -124,9 +126,10 @@ public class MainActivity extends FragmentActivity {
         mTabLayout.addTab(tabDownload, mTabDownloadIsSelected);
         mTabLayout.addTab(tabFileExplorer, mTabFileExplorerIsSelected);
         mTabLayout.addTab(tabShortVideo, mTabShortVideoIsSelected);
-        MyTvClickLis myTvClickLis = new MyTvClickLis();
+        MyLowerTvClickLis myTvClickLis = new MyLowerTvClickLis();
         mTvAboutThis.setOnClickListener(myTvClickLis);
         mTvGuide.setOnClickListener(myTvClickLis);
+        mTvInstall.setOnClickListener(myTvClickLis);
         mCoordinatorLayout.setPadding(0, getStatusBarHeight(), 0, 0);
     }
 
@@ -142,7 +145,7 @@ public class MainActivity extends FragmentActivity {
         return statusBarHeight1;
     }
 
-    private class MyTvClickLis implements View.OnClickListener {
+    private class MyLowerTvClickLis implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
@@ -153,6 +156,10 @@ public class MainActivity extends FragmentActivity {
                 case R.id.layout_drawer_lower_part_tv_guide:
                     Intent intentGuide = new Intent(MainActivity.this, GuideActivity.class);
                     startActivity(intentGuide);
+                    break;
+                case R.id.layout_drawer_lower_part_tv_install_apk:
+                    Intent intentInstall = new Intent(MainActivity.this, InstallAppActivity.class);
+                    startActivity(intentInstall);
                     break;
                 default:
                     break;
@@ -263,7 +270,7 @@ public class MainActivity extends FragmentActivity {
                 Log.d(TAG, "onDrawerSlide(View drawerView, float slideOffset) ");
                 Log.d(TAG, "drawerView = " + drawerView + " slideOffset = " + slideOffset);
             }
-            mCoordinatorLayout.layout(drawerView.getRight(), drawerView.getTop(), drawerView.getWidth(), mDisplay.getHeight());
+            mCoordinatorLayout.layout(drawerView.getRight(), drawerView.getTop(), drawerView.getWidth() + mDisplay.getWidth(), mDisplay.getHeight());
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "drawerView getRight = " + drawerView.getWidth() + " getTop = " + drawerView.getTop());
             }

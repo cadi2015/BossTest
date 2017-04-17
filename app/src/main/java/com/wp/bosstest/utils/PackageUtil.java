@@ -74,10 +74,6 @@ public class PackageUtil {
         return sb.toString();
     }
 
-    public PackageManager getPackageManager() {
-        return packageManager;
-    }
-
     public PackageInfo getPackageInfoDefault(String packageName) {
         PackageInfo packageInfo = null;
         try {
