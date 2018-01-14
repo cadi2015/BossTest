@@ -69,7 +69,9 @@ public class FragmentMainFileExplorer extends Fragment {
             SpannableString fileSpan = SpannableUtils.setTextColorDefault(mContext, filePackageInfoMessage, filePackageInfoMessage.indexOf("5.)"), filePackageInfoMessage.indexOf("6.)"), R.color.colorRed);
             mTvShowPackageMess.setText(fileSpan);
             Drawable appIcon = mPackageUtil.getAppIcon(mPackageInfo.packageName);
-            mIvAppIcon.setBackground(appIcon);
+            if (appIcon != null) {
+                mIvAppIcon.setBackground(appIcon);
+            }
         } else {
             mTvShowPackageMess.setText("无");
         }

@@ -17,7 +17,6 @@ import com.wp.bosstest.utils.LogHelper;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 
 /**
  * Created by prem on 7/20/14.
@@ -45,6 +44,7 @@ public class Magnet implements View.OnTouchListener {
 
     /**
      * Builder class to create your {@link Magnet}
+     * 建造者模式
      */
     public static class Builder {
 

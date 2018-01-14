@@ -27,7 +27,7 @@ public interface IconCallback {
      *
      * @param icon the view holding the icon. Get context from this view.
      * @param iconXPose the x coordinate of the icon in pixels
-     * @param iconYPose the y coordiante of the icon in pixels
+     * @param iconYPose the y coordinate of the icon in pixels
      */
     public void onIconClick(View icon, float iconXPose, float iconYPose);
 

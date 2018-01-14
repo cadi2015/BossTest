@@ -36,12 +36,13 @@ public class PackageUtil {
 
     /**
      * 使用双重校验锁，高效无比
+     *
      * @param context
      * @return
      */
     public static PackageUtil getInstance(Context context) {
 
-        if(context == null) {
+        if (context == null) {
             return null;
         }
 
@@ -56,7 +57,7 @@ public class PackageUtil {
     }
 
     public String getPackageMessages(PackageInfo info) {
-        if(info == null) {
+        if (info == null) {
             return null;
         }
         StringBuilder sb = new StringBuilder();
@@ -90,15 +91,18 @@ public class PackageUtil {
         return allApplications;
     }
 
-    public String getAppName(String packageName){
+    public String getAppName(String packageName) {
         PackageInfo info = getPackageInfoDefault(packageName);
         String appName = info.applicationInfo.loadLabel(packageManager).toString();
         return appName;
     }
 
     public Drawable getAppIcon(String packageName) {
-        PackageInfo info = getPackageInfoDefault(packageName);
-        return info.applicationInfo.loadIcon(packageManager);
+        PackageInfo info = getPackageInfoDefault(packageName); //要是用户没装apk，packageInfo就是null啊
+        if (info != null) {
+            return info.applicationInfo.loadIcon(packageManager);
+        }
+        return null;
     }
 
 }

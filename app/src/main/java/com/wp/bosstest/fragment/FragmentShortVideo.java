@@ -65,7 +65,9 @@ public class FragmentShortVideo extends Fragment {
         } else {
             mTvPackageInfo.setText(packageStr);
         }
-        mIvAppIcon.setBackground(appIcon);
+        if (appIcon != null) {
+            mIvAppIcon.setBackground(appIcon);
+        }
     }
 
     private class MyBtnClickLis implements View.OnClickListener {
