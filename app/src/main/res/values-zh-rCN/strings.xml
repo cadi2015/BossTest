@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BossTest</string>
+    <string name="app_name">CheezTester</string>
     <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
     <string name="version_code">20161125</string>
     <string name="btn_switch_test">切换</string>

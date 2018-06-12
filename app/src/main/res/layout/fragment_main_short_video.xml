@@ -10,54 +10,5 @@
         android:padding="10dp">
         <include
             layout="@layout/layout_package_detail"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal">
-
-            <Button
-                android:id="@+id/main_fragment_short_video_btn_file_test"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_tool_height"
-                android:layout_centerVertical="true"
-                android:background="@drawable/btn_bg"
-                android:gravity="left|center"
-                android:paddingLeft="@dimen/btn_padding_left_and_right"
-                android:paddingRight="@dimen/btn_padding_left_and_right"
-                android:text="切换Test环境"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/btn_tool_txt_size" />
-
-            <Button
-                android:id="@+id/main_fragment_short_video_btn_file_pre"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_tool_height"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toRightOf="@id/main_fragment_short_video_btn_file_test"
-                android:background="@drawable/btn_bg"
-                android:gravity="center|left"
-                android:paddingLeft="@dimen/btn_padding_left_and_right"
-                android:paddingRight="@dimen/btn_padding_left_and_right"
-                android:text="切换Pre环境"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/btn_tool_txt_size" />
-
-            <Button
-                android:id="@+id/main_fragment_short_video_btn_file_online"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/btn_tool_height"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/main_fragment_short_video_btn_file_pre"
-                android:background="@drawable/btn_bg"
-                android:gravity="left|center"
-                android:paddingLeft="@dimen/btn_padding_left_and_right"
-                android:paddingRight="@dimen/btn_padding_left_and_right"
-                android:text="切换Online环境"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/btn_tool_txt_size" />
-        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

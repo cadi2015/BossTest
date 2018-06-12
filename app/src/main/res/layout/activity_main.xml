@@ -28,7 +28,7 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout_bottom"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="54dp"
             app:tabIndicatorColor="@android:color/transparent"
             app:tabTextColor="@color/colorBlack"
             app:tabMode="fixed"
@@ -39,6 +39,17 @@
             android:layout_alignParentBottom="true"
             >
         </android.support.design.widget.TabLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="60dp"
+            app:fabSize="mini"
+            android:id="@+id/main_fab_device"
+            android:src="@drawable/ic_phone"/>
     </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 

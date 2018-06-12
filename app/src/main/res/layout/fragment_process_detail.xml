@@ -15,20 +15,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.wp.bosstest.view.ListViewSupportScroll
+            <com.wp.cheez.view.ListViewSupportScroll
                 android:id="@+id/process_detail_lv_ui"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/list_view_divider_line"
-                android:dividerHeight="1px"></com.wp.bosstest.view.ListViewSupportScroll>
+                android:dividerHeight="1px"></com.wp.cheez.view.ListViewSupportScroll>
 
-            <com.wp.bosstest.view.ListViewSupportScroll
+            <com.wp.cheez.view.ListViewSupportScroll
                 android:id="@+id/process_detail_lv_dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@drawable/list_view_divider_line"
                 android:dividerHeight="1px"
-                tools:listitem="@layout/layout_process_detail_lv_item"></com.wp.bosstest.view.ListViewSupportScroll>
+                tools:listitem="@layout/layout_process_detail_lv_item"></com.wp.cheez.view.ListViewSupportScroll>
 
             <TextView
                 android:id="@+id/process_detail_tv_mem_title"
