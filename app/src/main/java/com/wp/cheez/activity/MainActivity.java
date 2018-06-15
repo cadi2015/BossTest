@@ -211,23 +211,24 @@ public class MainActivity extends FragmentActivity {
             if (BuildConfig.DEBUG) {
                 Log.d(TAG, "onTabReselected(TabLayout.Tab) tab.getPosition() = " + tab.getPosition());
             }
-            if (tab.getPosition() == 0) {
-                Intent intent = pm.getLaunchIntentForPackage(PackageUtil.UiPackageName);
-                if (intent != null) {
-                    if (BuildConfig.DEBUG) {
-                        Log.d(TAG, "Intent String = " + intent.toString());
+            Intent intent;
+            boolean showNotFoundAppFlag = false;
+            switch (tab.getPosition()) {
+                case 0:
+                    intent = pm.getLaunchIntentForPackage(PackageUtil.SHORT_VIDEO_PACKAGE_NAME);
+                    if(intent != null) {
+                        startActivity(intent);
+                    } else {
+                        showNotFoundAppFlag = true;
                     }
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
-                }
-            } else if (tab.getPosition() == 1) {
-                Intent intent = pm.getLaunchIntentForPackage(PackageUtil.SHORT_VIDEO_PACKAGE_NAME);
-                if (intent != null) {
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
-                }
+                    break;
+                case 1:
+                    break;
+                default:
+                    break;
+            }
+            if(showNotFoundAppFlag) {
+                Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
             }
         }
     }
