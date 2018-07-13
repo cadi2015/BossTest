@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.wp.cheez.R;
 import com.wp.cheez.utils.DeviceUtil;
+import com.wp.cheez.utils.ProcessUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +35,9 @@ public class FragmentPhone extends Fragment {
     private View mRootView;
     private ListView mListView;
     private TelephonyManager mTelManager;
+    private TextView mTvShowMem;
+
+
     private Activity mActivity;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,8 +81,11 @@ public class FragmentPhone extends Fragment {
         list.add(getMap("Screen ScaledDensity :", String.valueOf(screenScaledDensity)));
         list.add(getMap("Screen xdpi : " , String.valueOf(DeviceUtil.getScreenXdpi(mActivity))));
         list.add(getMap("Screen ydpi : " , String.valueOf(DeviceUtil.getScreenYdpi(mActivity))));
+        list.add(getMap("Sdcard Free Space : ", DeviceUtil.spaceSizeWithUnit(getContext(),DeviceUtil.getFreeExternalMemory())));
         return list;
     }
+
+
 
     private Map<String, String> getMap(String title, String content) {
         Map<String, String> map = new HashMap<>();
@@ -88,6 +97,8 @@ public class FragmentPhone extends Fragment {
 
     private void setupViews() {
         mListView = (ListView) mRootView.findViewById(R.id.phone_lv_show);
+        mTvShowMem = (TextView) mRootView.findViewById(R.id.tv_system_mem_msg);
+        mTvShowMem.setText(ProcessUtil.getSystemMemMsg());
     }
 
 

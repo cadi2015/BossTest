@@ -6,10 +6,16 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
+import android.os.StatFs;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
+
+import com.wp.cheez.R;
+
+import java.io.File;
 
 import static android.text.TextUtils.isEmpty;
 
@@ -87,6 +93,54 @@ public class DeviceUtil {
     public static String getSerialNumber(Context context) {
         String SerialNumber = android.os.Build.SERIAL;
         return SerialNumber;
+    }
+
+
+    // Get internal (data partition) free space
+    // This will match what's shown in System Settings > Storage for
+    // Internal Space, when you subtract Total - Used
+    public static long getFreeInternalMemory() {
+        return getFreeMemory(Environment.getDataDirectory());
+    }
+
+    // Get external (SDCARD) free space  unit - > byte
+    public static long getFreeExternalMemory() {
+        return getFreeMemory(Environment.getExternalStorageDirectory());
+    }
+
+    // Get Android OS (system partition) free space
+    public static long getFreeSystemMemory() {
+        return getFreeMemory(Environment.getRootDirectory());
+    }
+
+    // Get free space for provided path
+    // Note that this will throw IllegalArgumentException for invalid paths
+    public static long getFreeMemory(File path) {
+        StatFs stats = new StatFs(path.getAbsolutePath());
+        return (long) stats.getAvailableBlocks() * stats.getBlockSize();
+    }
+
+
+
+    public static String spaceSizeWithUnit(Context context, long byteSize){
+        float currentSize = byteSize;
+        float size;
+        String unit;
+        if(currentSize <= 1024) {
+            size = currentSize;
+            unit = "BYTE";
+        } else if(currentSize / 1024 <= 1024){
+            size = currentSize / 1024;
+            unit = "KB";
+        } else if(currentSize / 1024 / 1024 <= 1024){
+            size = currentSize / 1024 / 1024;
+            unit = "MB";
+        } else {
+            size = currentSize / 1024 / 1024 / 1024;
+            unit = "GB";
+        }
+
+        return context.getString(R.string.free_space_size_with_unit,size,unit);
     }
 
 }

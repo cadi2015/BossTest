@@ -30,12 +30,13 @@ public class GuideActivity extends FragmentActivity {
     private ViewPager mViewPager;
     private ImageView[] mBg;
     List<View> mViews;
+    private int mViewListSize;
     private int mCurrentPageIndex = 0;
     private int[] imageIds = {
             R.drawable.introduction_1_bg,
-            R.drawable.introduction_2_bg,
-            R.drawable.introduction_3_bg,
-            R.drawable.introduction_4_bg
+//            R.drawable.introduction_2_bg,
+//            R.drawable.introduction_3_bg,
+//            R.drawable.introduction_4_bg
     };
     private TextView mTvShow;
     private Button mBtnStart;
@@ -58,7 +59,7 @@ public class GuideActivity extends FragmentActivity {
     private class MyOnPageLis implements ViewPager.OnPageChangeListener {
 
         private void updateDot(int position) {
-            for (int index = 0; index < mViews.size(); index++) {
+            for (int index = 0; index < mViewListSize; index++) { //temp
                 if (position == index) {
                     mLlDot.getChildAt(position).setBackgroundResource(R.drawable.guide_dot_selected);
                     continue;
@@ -91,7 +92,7 @@ public class GuideActivity extends FragmentActivity {
                     break;
                 case 3:
                     mTvShow.setText(R.string.guide_page_3);
-                    mBtnStart.setVisibility(View.VISIBLE);
+//                    mBtnStart.setVisibility(View.VISIBLE);
                     mIvNext.setVisibility(View.GONE);
                     break;
                 default:
@@ -119,13 +120,19 @@ public class GuideActivity extends FragmentActivity {
         mViews = new ArrayList<>();
         for (int i = 0; i < mBg.length; i++) {
             mBg[i] = new ImageView(this);
+            mBg[i].setScaleType(ImageView.ScaleType.CENTER_CROP);
             mBg[i].setImageResource(imageIds[i]);
             mViews.add(mBg[i]);
         }
+        mViewListSize = mViews.size();
         mViewPager.setAdapter(new MyPageAdapter(mViews));
+        if(mViewListSize == 1) {
+            mIvNext.setVisibility(View.GONE);
+            mBtnStart.setVisibility(View.VISIBLE);
+        }
         LinearLayout.LayoutParams dotParams = new LinearLayout.LayoutParams(25, 25);
         dotParams.leftMargin = 15;
-        for (int index = 0; index < mViews.size(); index++) {
+        for (int index = 0; index < mViewListSize; index++) {
             View view = new View(this);
             view.setLayoutParams(dotParams);
             if (index == 0) {
@@ -188,7 +195,7 @@ public class GuideActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            return mMyViews.size();
+            return mViewListSize; //temp
         }
 
         @Override

@@ -50,7 +50,7 @@ public class SplashActivity extends FragmentActivity {
                 }
                 SplashActivity.this.finish();
             }
-        }, 400);
+        }, 300);
     }
 
     private void init() {

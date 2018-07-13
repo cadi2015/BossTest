@@ -7,7 +7,7 @@
     <string name="btn_switch_production_pre">Pre</string>
     <string name="btn_switch_production_online">Online</string>
     <string name="btn_bt">add BT files</string>
-    <string name="guide_page_0">随时空中升级\n省去安装烦恼</string>
+    <string name="guide_page_0">不仅仅是开始</string>
     <string name="guide_page_1">一键添加种子\n自由复制链接</string>
     <string name="guide_page_2">查看应用信息\n一键卸载应用</string>
     <string name="guide_page_3">设备内存信息任意看</string>
@@ -22,4 +22,13 @@
     <string name="dp_cpu_time">Cpu %1$s%%</string>
     <string name="activity_more_task_label_name">more task</string>
     <string name="activity_task_detail_label_name">task detail</string>
+
+    <string name="system_mem">Free : \nTotal : \nLow memory threshold : \nIs Low memory : </string>
+    
+    <string name="btn_start">Start</string>
+    <string name="btn_stop">Stop</string>
+    <string name="btn_clean">Clean</string>
+
+    <string name="free_space">Free Space:</string>
+    <string name="free_space_size_with_unit">%1$1.1f %2$s</string>
 </resources>

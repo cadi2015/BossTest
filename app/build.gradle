@@ -8,8 +8,8 @@ android {
         applicationId "com.wp.cheez"
         minSdkVersion 19
         targetSdkVersion 23
-        versionCode 20170421
-        versionName "1.0"
+        versionCode 20180713
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

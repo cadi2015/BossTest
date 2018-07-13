@@ -93,8 +93,11 @@ public class PackageUtil {
 
     public String getAppName(String packageName) {
         PackageInfo info = getPackageInfoDefault(packageName);
-        String appName = info.applicationInfo.loadLabel(packageManager).toString();
-        return appName;
+        if(info != null){
+            String appName = info.applicationInfo.loadLabel(packageManager).toString();
+            return appName;
+        }
+        return "Not Installed";
     }
 
     public Drawable getAppIcon(String packageName) {

@@ -30,8 +30,6 @@ import com.wp.cheez.BuildConfig;
 import com.wp.cheez.R;
 import com.wp.cheez.application.App;
 import com.wp.cheez.config.SharedConstant;
-import com.wp.cheez.fragment.FragmentMainDownloadManager;
-import com.wp.cheez.fragment.FragmentMainFileExplorer;
 import com.wp.cheez.fragment.FragmentShortVideo;
 import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.StatusBarUtil;
@@ -47,10 +45,8 @@ public class MainActivity extends FragmentActivity {
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
-    private FragmentMainDownloadManager mFragmentMainDownloadManager;
     private FragmentShortVideo mFragmentShortVideo;
     private FragmentTransaction mFragmentTrans;
-    private boolean mTabDownloadIsSelected;
     private boolean mTabShortVideoIsSelected;
     private final String KEY_TAB_DOWNLOAD_IS_SELECTED = "tabDownload_selected";
     private final String KEY_TAB_SHORT_VIDEO_SELECTED = "tabShortVideo_selected";
@@ -58,6 +54,7 @@ public class MainActivity extends FragmentActivity {
     private TextView mTvGuide;
     private TextView mTvInstall;
     private FloatingActionButton mFabDevice;
+    private FloatingActionButton mFabTool;
     private CoordinatorLayout mCoordinatorLayout;
 
     @Override
@@ -81,7 +78,6 @@ public class MainActivity extends FragmentActivity {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTrans = mFragmentManager.beginTransaction();
         if (bundle == null) {
-            mFragmentMainDownloadManager = new FragmentMainDownloadManager();
             mFragmentShortVideo = new FragmentShortVideo();
             mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentShortVideo, "ShortVideoTag");
         } else {
@@ -104,6 +100,7 @@ public class MainActivity extends FragmentActivity {
     private void setupViews() {
         PackageUtil packageUtil = PackageUtil.getInstance(this);
         mFabDevice = (FloatingActionButton) findViewById(R.id.main_fab_device);
+        mFabTool = (FloatingActionButton) findViewById(R.id.main_fab_tool);
         mTvGuide = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_guide);
         mTvInstall = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_install_apk);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
@@ -119,7 +116,9 @@ public class MainActivity extends FragmentActivity {
         mTvAboutThis.setOnClickListener(myTvClickLis);
         mTvGuide.setOnClickListener(myTvClickLis);
         mTvInstall.setOnClickListener(myTvClickLis);
-        mFabDevice.setOnClickListener(new MyBtnClickLis());
+        MyFabBtnClickLis fabBtnClickLis = new MyFabBtnClickLis();
+        mFabDevice.setOnClickListener(fabBtnClickLis);
+        mFabTool.setOnClickListener(fabBtnClickLis);
         mCoordinatorLayout.setPadding(0, getStatusBarHeight(), 0, 0);
     }
 
@@ -135,13 +134,17 @@ public class MainActivity extends FragmentActivity {
         return statusBarHeight1;
     }
 
-    private class MyBtnClickLis implements View.OnClickListener{
+    private class MyFabBtnClickLis implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.main_fab_device:
-                    Intent intent = new Intent(MainActivity.this, PhoneActivity.class);
-                    startActivity(intent);
+                    Intent intentDevice = new Intent(MainActivity.this, PhoneActivity.class);
+                    startActivity(intentDevice);
+                    break;
+                case R.id.main_fab_tool:
+                    Intent intentTool = new Intent(MainActivity.this, FillSpaceActivity.class);
+                    startActivity(intentTool);
                     break;
                 default:
                     break;
@@ -236,7 +239,6 @@ public class MainActivity extends FragmentActivity {
     private void init() {
         mSharedPreferences = getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
         mSharedEditor = mSharedPreferences.edit();
-        mTabDownloadIsSelected = mSharedPreferences.getBoolean(KEY_TAB_DOWNLOAD_IS_SELECTED, true);
         mTabShortVideoIsSelected = mSharedPreferences.getBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, false);
         Bugly.init(App.getAppContext(), App.APP_ID, false);
         if (BuildConfig.DEBUG) {

@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_bg"
-    android:padding="4dp">
+    android:orientation="vertical"
+    android:padding="4dp"
+    xmlns:tools="http://schemas.android.com/tools">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/system_mem"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_system_mem_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:gravity="right"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp"
+                    tools:text="1.78G\n3.63GB\n220MB\n否" />
+        </FrameLayout>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/phone_lv_show">
+            android:id="@+id/phone_lv_show"
+            android:listSelector="@android:color/transparent" >
         </ListView>
-</RelativeLayout>
+</LinearLayout>
