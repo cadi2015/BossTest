@@ -84,6 +84,7 @@ public class FillSpaceActivity extends BaseActivity {
         super.onStop();
         if(myFileTask != null ) {
             myFileTask.cancel(true);
+            mBtnClean.setEnabled(true);
         }
         mLoopStop = true;
     }
