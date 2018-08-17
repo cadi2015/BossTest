@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CheezTester</string>
+    <string name="app_name">CheezAndCrushTester</string>
     <string name="copy_success">already cut ，please use to the download manager</string>
     <string name="version_code">20161125</string>
     <string name="btn_switch_test">Switch</string>
@@ -23,7 +23,7 @@
     <string name="activity_more_task_label_name">more task</string>
     <string name="activity_task_detail_label_name">task detail</string>
 
-    <string name="system_mem">Free : \nTotal : \nLow memory threshold : \nIs Low memory : </string>
+    <string name="system_mem">Free : \nTotal : \nLow memory threshold : \nIs Low memory :  \nApp Max Runtime : </string>
     
     <string name="btn_start">Start</string>
     <string name="btn_stop">Stop</string>

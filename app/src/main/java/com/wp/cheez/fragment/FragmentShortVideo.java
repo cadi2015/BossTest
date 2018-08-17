@@ -26,7 +26,6 @@ public class FragmentShortVideo extends Fragment {
     private View mRootView;
     private TextView mTvPackageInfo;
     private ImageView mIvAppIcon;
-    private final String  PACKAGE_NAME = "com.cmcm.shorts";
 
     public FragmentShortVideo() {
         super();
@@ -49,8 +48,8 @@ public class FragmentShortVideo extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         PackageUtil packageUtil = PackageUtil.getInstance(getActivity());
-        String packageStr = packageUtil.getPackageMessages(packageUtil.getPackageInfoDefault(PACKAGE_NAME));
-        Drawable appIcon = packageUtil.getAppIcon(PACKAGE_NAME);
+        String packageStr = packageUtil.getPackageMessages(packageUtil.getPackageInfoDefault(PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
+        Drawable appIcon = packageUtil.getAppIcon(PackageUtil.SHORT_VIDEO_PACKAGE_NAME);
         if (packageStr == null) {
             mTvPackageInfo.setText("无");
         } else {

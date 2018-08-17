@@ -159,7 +159,7 @@ public class FillSpaceActivity extends BaseActivity {
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                int baseLimitWithByte = 1000;
+                int baseLimitWithByte = 500;
                 FileOutputStream fileOutputStream = openFileOutput(fillFileName, Context.MODE_APPEND);
                 int base = 2048;
                 int variable = 1;

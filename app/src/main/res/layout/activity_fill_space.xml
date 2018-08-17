@@ -13,7 +13,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:text="@string/free_space"
                 android:id="@+id/tv_space_tip"
                 android:layout_centerVertical="true"/>
@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="25Kb"
-                android:textSize="25sp"
+                android:textSize="30sp"
                 android:id="@+id/tv_space_size"
                 android:layout_toEndOf="@id/tv_space_tip"
                 android:layout_centerVertical="true"/>
@@ -40,6 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_start"
+        android:layout_margin="5dp"
+        android:background="@drawable/space_fill_img_btn"
         android:id="@+id/btn_start"
         android:textSize="18sp"/>
     <Button
@@ -47,6 +49,8 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_stop"
         android:id="@+id/btn_stop"
+        android:layout_margin="5dp"
+        android:background="@drawable/space_fill_img_btn"
         android:textSize="18sp"
         android:visibility="gone"/>
     <Button
@@ -54,5 +58,7 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_clean"
         android:id="@+id/btn_clean"
+        android:layout_margin="5dp"
+        android:background="@drawable/space_fill_img_btn"
         android:textSize="18sp"/>
 </LinearLayout>

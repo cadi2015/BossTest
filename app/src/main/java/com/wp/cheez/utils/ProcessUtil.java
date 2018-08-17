@@ -114,7 +114,7 @@ public class ProcessUtil {
     }
 
     /**
-     * @return 本机内存情况 可用内存、 总内存、低内存阀值、 处于低内存
+     * @return 本机内存情况 可用内存、 总内存、低内存阀值、 处于低内存 、 App Max Runtime（每个app最大可分配的堆内存）
      */
     public static String getSystemMemMsg() {
         String memString;
@@ -125,13 +125,16 @@ public class ProcessUtil {
         boolean isLowMem = saveMemoryInfo.lowMemory;
         long totalMemSize = saveMemoryInfo.totalMem;
         long thresholdSize = saveMemoryInfo.threshold;
+        long appRuntimeMaxSize = Runtime.getRuntime().maxMemory();
         String availMemStr = formatFileSize(availMemSize);
         String totalMemStr = formatFileSize(totalMemSize);
         String thresholdStr = formatFileSize(thresholdSize);
+        String appRuntimeMaxStr = formatFileSize(appRuntimeMaxSize);
         sbSystemMemMsg.append(availMemStr + "\n");
         sbSystemMemMsg.append(totalMemStr + "\n");
         sbSystemMemMsg.append(thresholdStr + "\n");
-        sbSystemMemMsg.append(isLowMem);
+        sbSystemMemMsg.append(isLowMem + "\n");
+        sbSystemMemMsg.append(appRuntimeMaxStr + "\n");
         memString = sbSystemMemMsg.toString();
         return memString;
     }

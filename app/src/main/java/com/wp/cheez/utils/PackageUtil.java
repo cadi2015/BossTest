@@ -21,8 +21,8 @@ public class PackageUtil {
     private static PackageUtil packageUtil;
     public static final String UiPackageName = "com.android.providers.downloads.ui";
     public static final String DpPackageName = "com.android.providers.downloads";
-    public static final String FileExplorerPackageName = "com.android.fileexplorer";
     public static final String SHORT_VIDEO_PACKAGE_NAME = "com.cmcm.shorts";
+    public static final String CRUSH_PACKAGE_NAME = "com.cmcm.crush";
 
     private PackageUtil(Context context) {
         super();

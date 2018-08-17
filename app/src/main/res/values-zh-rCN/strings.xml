@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CheezTester</string>
+    <string name="app_name">CheezAndCrushTester</string>
     <string name="copy_success">已经复制到剪切板，请去下载管理中使用</string>
     <string name="version_code">20161125</string>
     <string name="btn_switch_test">切换</string>
@@ -23,7 +23,7 @@
     <string name="activity_more_task_label_name">更多资源</string>
     <string name="activity_task_detail_label_name">资源详情</string>
 
-    <string name="system_mem">可用内存 : \n总内存 : \n低内存阀值 : \n处于低内存 : </string>
+    <string name="system_mem">可用内存 : \n总内存 : \n低内存阀值 : \n处于低内存 : \nAPP可分配内存 : </string>
 
     <string name="btn_start">开始</string>
     <string name="btn_stop">停止</string>

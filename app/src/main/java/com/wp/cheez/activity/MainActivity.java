@@ -30,6 +30,7 @@ import com.wp.cheez.BuildConfig;
 import com.wp.cheez.R;
 import com.wp.cheez.application.App;
 import com.wp.cheez.config.SharedConstant;
+import com.wp.cheez.fragment.FragmentCrush;
 import com.wp.cheez.fragment.FragmentShortVideo;
 import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.StatusBarUtil;
@@ -46,9 +47,11 @@ public class MainActivity extends FragmentActivity {
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
     private FragmentShortVideo mFragmentShortVideo;
+    private FragmentCrush mFragmentCrush;
     private FragmentTransaction mFragmentTrans;
     private boolean mTabShortVideoIsSelected;
-    private final String KEY_TAB_DOWNLOAD_IS_SELECTED = "tabDownload_selected";
+    private boolean mTabCrushIsSelected;
+    private final String KEY_TAB_CRUSH_IS_SELECTED = "tabCrush_selected";
     private final String KEY_TAB_SHORT_VIDEO_SELECTED = "tabShortVideo_selected";
     private TextView mTvAboutThis;
     private TextView mTvGuide;
@@ -79,9 +82,12 @@ public class MainActivity extends FragmentActivity {
         mFragmentTrans = mFragmentManager.beginTransaction();
         if (bundle == null) {
             mFragmentShortVideo = new FragmentShortVideo();
+            mFragmentCrush = new FragmentCrush();
             mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentShortVideo, "ShortVideoTag");
+            mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentCrush, "CrushTag");
         } else {
             mFragmentShortVideo = (FragmentShortVideo) mFragmentManager.findFragmentByTag("ShortVideoTag");
+            mFragmentCrush = (FragmentCrush) mFragmentManager.findFragmentByTag("CrushTag");
         }
         mFragmentTrans.commit();
     }
@@ -99,6 +105,7 @@ public class MainActivity extends FragmentActivity {
 
     private void setupViews() {
         PackageUtil packageUtil = PackageUtil.getInstance(this);
+        FloatingActionButton mFabGps = (FloatingActionButton) findViewById(R.id.main_fab_gps);
         mFabDevice = (FloatingActionButton) findViewById(R.id.main_fab_device);
         mFabTool = (FloatingActionButton) findViewById(R.id.main_fab_tool);
         mTvGuide = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_guide);
@@ -111,7 +118,10 @@ public class MainActivity extends FragmentActivity {
         mTvAboutThis = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_about_this);
         TabLayout.Tab tabShortVideo = mTabLayout.newTab().setText(packageUtil.getAppName(PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
         tabShortVideo.setIcon(packageUtil.getAppIcon(PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
+        TabLayout.Tab tabCrush = mTabLayout.newTab().setText(packageUtil.getAppName(PackageUtil.CRUSH_PACKAGE_NAME));
+        tabCrush.setIcon(packageUtil.getAppIcon(PackageUtil.CRUSH_PACKAGE_NAME));
         mTabLayout.addTab(tabShortVideo, mTabShortVideoIsSelected);
+        mTabLayout.addTab(tabCrush,mTabCrushIsSelected);
         MyLowerTvClickLis myTvClickLis = new MyLowerTvClickLis();
         mTvAboutThis.setOnClickListener(myTvClickLis);
         mTvGuide.setOnClickListener(myTvClickLis);
@@ -119,12 +129,13 @@ public class MainActivity extends FragmentActivity {
         MyFabBtnClickLis fabBtnClickLis = new MyFabBtnClickLis();
         mFabDevice.setOnClickListener(fabBtnClickLis);
         mFabTool.setOnClickListener(fabBtnClickLis);
+        mFabGps.setOnClickListener(fabBtnClickLis);
         mCoordinatorLayout.setPadding(0, getStatusBarHeight(), 0, 0);
     }
 
     private int getStatusBarHeight() {
         int statusBarHeight1 = -1;
-//获取status_bar_height资源的ID
+            //获取status_bar_height资源的ID
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             //根据资源ID获取响应的尺寸值
@@ -145,6 +156,8 @@ public class MainActivity extends FragmentActivity {
                 case R.id.main_fab_tool:
                     Intent intentTool = new Intent(MainActivity.this, FillSpaceActivity.class);
                     startActivity(intentTool);
+                    break;
+                case R.id.main_fab_gps:
                     break;
                 default:
                     break;
@@ -184,10 +197,14 @@ public class MainActivity extends FragmentActivity {
             }
             switch (tab.getPosition()) {
                 case 0:
-                    mFragmentTrans.show(mFragmentShortVideo).commit();
+                    mFragmentTrans.show(mFragmentShortVideo).hide(mFragmentCrush).commit();
                     mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, true);
+                    mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED,false);
                     break;
                 case 1:
+                    mFragmentTrans.show(mFragmentCrush).hide(mFragmentShortVideo).commit();
+                    mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED,true);
+                    mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED,false);
                     break;
                 default:
                     break;
@@ -201,7 +218,7 @@ public class MainActivity extends FragmentActivity {
                 Log.d(TAG, "onTabUnselected(TabLayout.Tab tab), tab.Position() = " + tab.getPosition());
             }
             if (tab.getPosition() == 0) {
-                mSharedEditor.putBoolean(KEY_TAB_DOWNLOAD_IS_SELECTED, false);
+                mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED, false);
             } else if (tab.getPosition() == 1) {
                 mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, false);
             }
@@ -216,19 +233,23 @@ public class MainActivity extends FragmentActivity {
             }
             Intent intent;
             boolean showNotFoundAppFlag = false;
+            String jumpPackageName = "";
             switch (tab.getPosition()) {
                 case 0:
-                    intent = pm.getLaunchIntentForPackage(PackageUtil.SHORT_VIDEO_PACKAGE_NAME);
-                    if(intent != null) {
-                        startActivity(intent);
-                    } else {
-                        showNotFoundAppFlag = true;
-                    }
+                    jumpPackageName = PackageUtil.SHORT_VIDEO_PACKAGE_NAME;
                     break;
                 case 1:
+                    jumpPackageName = PackageUtil.CRUSH_PACKAGE_NAME;
                     break;
                 default:
                     break;
+            }
+
+            intent = pm.getLaunchIntentForPackage(jumpPackageName);
+            if(intent != null) {
+                startActivity(intent);
+            } else {
+                showNotFoundAppFlag = true;
             }
             if(showNotFoundAppFlag) {
                 Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
@@ -239,7 +260,8 @@ public class MainActivity extends FragmentActivity {
     private void init() {
         mSharedPreferences = getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
         mSharedEditor = mSharedPreferences.edit();
-        mTabShortVideoIsSelected = mSharedPreferences.getBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, false);
+        mTabShortVideoIsSelected = mSharedPreferences.getBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, true);
+        mTabCrushIsSelected = mSharedPreferences.getBoolean(KEY_TAB_CRUSH_IS_SELECTED, false);
         Bugly.init(App.getAppContext(), App.APP_ID, false);
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "Build.M^^^ == " + Build.MANUFACTURER);
