@@ -3,25 +3,27 @@ package com.wp.cheez.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,25 +31,27 @@ import com.tencent.bugly.Bugly;
 import com.wp.cheez.BuildConfig;
 import com.wp.cheez.R;
 import com.wp.cheez.application.App;
+import com.wp.cheez.config.AppConfig;
 import com.wp.cheez.config.SharedConstant;
-import com.wp.cheez.fragment.FragmentCrush;
-import com.wp.cheez.fragment.FragmentShortVideo;
+import com.wp.cheez.fragment.FragmentSecondApp;
+import com.wp.cheez.fragment.FragmentFirstApp;
 import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.StatusBarUtil;
+
+import java.lang.reflect.Field;
 
 
 /**
  * Created by wp on 2016/1/15.
  */
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mSharedEditor;
+    private AppConfig mAppConfig;
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
     private FragmentManager mFragmentManager;
-    private FragmentShortVideo mFragmentShortVideo;
-    private FragmentCrush mFragmentCrush;
+    private FragmentFirstApp mFragmentShortVideo;
+    private FragmentSecondApp mFragmentSecondApp;
     private FragmentTransaction mFragmentTrans;
     private boolean mTabShortVideoIsSelected;
     private boolean mTabCrushIsSelected;
@@ -59,6 +63,10 @@ public class MainActivity extends FragmentActivity {
     private FloatingActionButton mFabDevice;
     private FloatingActionButton mFabTool;
     private CoordinatorLayout mCoordinatorLayout;
+    private int mActionBarHeight;
+    private TabLayout.Tab mFirstTab;
+    private TabLayout.Tab mSecondTab;
+    private PackageUtil mPackageUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,45 +74,62 @@ public class MainActivity extends FragmentActivity {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onCreate(Bundle savedInstanceState)");
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ActivityCompat.getColor(this, R.color.color_system_bar_bg));
         }
         setContentView(R.layout.activity_main);
+        setupToolBar();
         init();
         initFragmentGroup(savedInstanceState);
         setupViews();
+    }
+
+
+    /**
+     * 服了，用actionBar，getHeight方法，老是返回0
+     * 所以换了个办法，还没有理解
+     */
+    private void setupToolBar(){
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+        final TypedArray styledAttributes = this.getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        mActionBarHeight = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+        Log.d(TAG, "mActionBarHeight = " + mActionBarHeight);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true; //看来不用break，用return也可以哈
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initFragmentGroup(Bundle bundle) {
         mFragmentManager = getSupportFragmentManager();
         mFragmentTrans = mFragmentManager.beginTransaction();
         if (bundle == null) {
-            mFragmentShortVideo = new FragmentShortVideo();
-            mFragmentCrush = new FragmentCrush();
+            mFragmentShortVideo = new FragmentFirstApp();
+            mFragmentSecondApp = new FragmentSecondApp();
             mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentShortVideo, "ShortVideoTag");
-            mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentCrush, "CrushTag");
+            mFragmentTrans.add(R.id.main_frame_fragment_position, mFragmentSecondApp, "CrushTag");
         } else {
-            mFragmentShortVideo = (FragmentShortVideo) mFragmentManager.findFragmentByTag("ShortVideoTag");
-            mFragmentCrush = (FragmentCrush) mFragmentManager.findFragmentByTag("CrushTag");
+            mFragmentShortVideo = (FragmentFirstApp) mFragmentManager.findFragmentByTag("ShortVideoTag");
+            mFragmentSecondApp = (FragmentSecondApp) mFragmentManager.findFragmentByTag("CrushTag");
         }
         mFragmentTrans.commit();
     }
 
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == 0x111) {
-                Intent intent = new Intent(MainActivity.this, GuideActivity.class);
-                intent.putExtra("from", "Main");
-                startActivity(intent);
-            }
-        }
-    }
-
     private void setupViews() {
-        PackageUtil packageUtil = PackageUtil.getInstance(this);
+        mPackageUtil = PackageUtil.getInstance(this);
         FloatingActionButton mFabGps = (FloatingActionButton) findViewById(R.id.main_fab_gps);
         mFabDevice = (FloatingActionButton) findViewById(R.id.main_fab_device);
         mFabTool = (FloatingActionButton) findViewById(R.id.main_fab_tool);
@@ -116,12 +141,12 @@ public class MainActivity extends FragmentActivity {
         mTabLayout = (TabLayout) findViewById(R.id.main_tab_layout_bottom);
         mTabLayout.setOnTabSelectedListener(new MyOnTabSelLis());
         mTvAboutThis = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_about_this);
-        TabLayout.Tab tabShortVideo = mTabLayout.newTab().setText(packageUtil.getAppName(PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
-        tabShortVideo.setIcon(packageUtil.getAppIcon(PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
-        TabLayout.Tab tabCrush = mTabLayout.newTab().setText(packageUtil.getAppName(PackageUtil.CRUSH_PACKAGE_NAME));
-        tabCrush.setIcon(packageUtil.getAppIcon(PackageUtil.CRUSH_PACKAGE_NAME));
-        mTabLayout.addTab(tabShortVideo, mTabShortVideoIsSelected);
-        mTabLayout.addTab(tabCrush,mTabCrushIsSelected);
+        mFirstTab = mTabLayout.newTab().setText(mPackageUtil.getAppName(mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));
+        mFirstTab.setIcon(mPackageUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));
+        mSecondTab = mTabLayout.newTab().setText(mPackageUtil.getAppName(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME)));
+        mSecondTab.setIcon(mPackageUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME)));
+        mTabLayout.addTab(mFirstTab, mTabShortVideoIsSelected);
+        mTabLayout.addTab(mSecondTab,mTabCrushIsSelected);
         MyLowerTvClickLis myTvClickLis = new MyLowerTvClickLis();
         mTvAboutThis.setOnClickListener(myTvClickLis);
         mTvGuide.setOnClickListener(myTvClickLis);
@@ -130,7 +155,48 @@ public class MainActivity extends FragmentActivity {
         mFabDevice.setOnClickListener(fabBtnClickLis);
         mFabTool.setOnClickListener(fabBtnClickLis);
         mFabGps.setOnClickListener(fabBtnClickLis);
-        mCoordinatorLayout.setPadding(0, getStatusBarHeight(), 0, 0);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_base);
+        relativeLayout.setPadding(0,getStatusBarHeight()+getActionBarHeight(),0,0);//再加个actionBar的高度就好
+    }
+
+    private void updateTab(){
+        mFirstTab.setText(mPackageUtil.getAppName(mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));
+        mFirstTab.setIcon(mPackageUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));
+        mSecondTab.setText(mPackageUtil.getAppName(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME)));
+        mSecondTab.setIcon(mPackageUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME)));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        updateTab();
+    }
+
+    public View getTextView(int index){
+        View tabView = null;
+        TextView textView = null;
+        TabLayout.Tab tab = mTabLayout.getTabAt(index); //先拿到Tab
+        Field tabViewField = null;
+        Field textViewField = null; //我cao，要反射的TabView，是个default级别的啊，反射怎么拿啊，下次研究吧，好累
+        try {
+            tabViewField = TabLayout.Tab.class.getDeclaredField("mView"); //准备个Field，我们要拿到Tab中的TabView
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        tabViewField.setAccessible(true);
+        try {
+            tabView = (View) tabViewField.get(tab);
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return textView;
+    }
+
+
+
+    private int getActionBarHeight(){
+        return mActionBarHeight;
     }
 
     private int getStatusBarHeight() {
@@ -158,6 +224,8 @@ public class MainActivity extends FragmentActivity {
                     startActivity(intentTool);
                     break;
                 case R.id.main_fab_gps:
+                    Intent intentLocation = new Intent(MainActivity.this, LocationActivity.class);
+                    startActivity(intentLocation);
                     break;
                 default:
                     break;
@@ -197,19 +265,18 @@ public class MainActivity extends FragmentActivity {
             }
             switch (tab.getPosition()) {
                 case 0:
-                    mFragmentTrans.show(mFragmentShortVideo).hide(mFragmentCrush).commit();
-                    mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, true);
-                    mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED,false);
+                    mFragmentTrans.show(mFragmentShortVideo).hide(mFragmentSecondApp).commit();
+                    mAppConfig.putBool(KEY_TAB_SHORT_VIDEO_SELECTED, true);
+                    mAppConfig.putBool(KEY_TAB_CRUSH_IS_SELECTED,false);
                     break;
                 case 1:
-                    mFragmentTrans.show(mFragmentCrush).hide(mFragmentShortVideo).commit();
-                    mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED,true);
-                    mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED,false);
+                    mFragmentTrans.show(mFragmentSecondApp).hide(mFragmentShortVideo).commit();
+                    mAppConfig.putBool(KEY_TAB_CRUSH_IS_SELECTED,true);
+                    mAppConfig.putBool(KEY_TAB_SHORT_VIDEO_SELECTED,false);
                     break;
                 default:
                     break;
             }
-            mSharedEditor.apply();
         }
 
         @Override
@@ -218,11 +285,10 @@ public class MainActivity extends FragmentActivity {
                 Log.d(TAG, "onTabUnselected(TabLayout.Tab tab), tab.Position() = " + tab.getPosition());
             }
             if (tab.getPosition() == 0) {
-                mSharedEditor.putBoolean(KEY_TAB_CRUSH_IS_SELECTED, false);
+                mAppConfig.putBool(KEY_TAB_CRUSH_IS_SELECTED, false);
             } else if (tab.getPosition() == 1) {
-                mSharedEditor.putBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, false);
+                mAppConfig.putBool(KEY_TAB_SHORT_VIDEO_SELECTED, false);
             }
-            mSharedEditor.apply();
         }
 
         @Override
@@ -236,10 +302,11 @@ public class MainActivity extends FragmentActivity {
             String jumpPackageName = "";
             switch (tab.getPosition()) {
                 case 0:
-                    jumpPackageName = PackageUtil.SHORT_VIDEO_PACKAGE_NAME;
+                    jumpPackageName = mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY, PackageUtil.SHORT_VIDEO_PACKAGE_NAME);
+                    ;
                     break;
                 case 1:
-                    jumpPackageName = PackageUtil.CRUSH_PACKAGE_NAME;
+                    jumpPackageName = mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY, PackageUtil.CRUSH_PACKAGE_NAME);
                     break;
                 default:
                     break;
@@ -258,10 +325,9 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
-        mSharedPreferences = getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
-        mSharedEditor = mSharedPreferences.edit();
-        mTabShortVideoIsSelected = mSharedPreferences.getBoolean(KEY_TAB_SHORT_VIDEO_SELECTED, true);
-        mTabCrushIsSelected = mSharedPreferences.getBoolean(KEY_TAB_CRUSH_IS_SELECTED, false);
+        mAppConfig = AppConfig.getInstance(getApplicationContext());
+        mTabShortVideoIsSelected = mAppConfig.getBool(KEY_TAB_SHORT_VIDEO_SELECTED, true);
+        mTabCrushIsSelected = mAppConfig.getBool(KEY_TAB_CRUSH_IS_SELECTED, false);
         Bugly.init(App.getAppContext(), App.APP_ID, false);
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "Build.M^^^ == " + Build.MANUFACTURER);
@@ -302,6 +368,16 @@ public class MainActivity extends FragmentActivity {
         public void onDrawerStateChanged(int newState) {
             Log.d(TAG, "onDrawerStateChanged(int newState)");
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override

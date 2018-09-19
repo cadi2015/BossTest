@@ -6,4 +6,11 @@
     android:paddingBottom="10dp">
     <include
         layout="@layout/layout_package_detail"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_set_app_at_home"
+        android:text="设置到首页"
+        android:textSize="18sp"
+        android:background="@drawable/space_fill_img_btn"/>
 </LinearLayout>

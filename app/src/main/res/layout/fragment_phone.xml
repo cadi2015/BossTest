@@ -6,6 +6,13 @@
     android:orientation="vertical"
     android:padding="4dp"
     xmlns:tools="http://schemas.android.com/tools">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Memory Information"
+            android:gravity="center"
+            android:text="@string/title_Memory_info"
+            android:textSize="16sp"/>
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +37,13 @@
                     android:textSize="18sp"
                     tools:text="1.78G\n3.63GB\n220MB\n否" />
         </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Devices Information"
+            android:gravity="center"
+            android:text="@string/title_devices_info"
+            android:textSize="16sp"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

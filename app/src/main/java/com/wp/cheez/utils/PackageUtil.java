@@ -22,7 +22,7 @@ public class PackageUtil {
     public static final String UiPackageName = "com.android.providers.downloads.ui";
     public static final String DpPackageName = "com.android.providers.downloads";
     public static final String SHORT_VIDEO_PACKAGE_NAME = "com.cmcm.shorts";
-    public static final String CRUSH_PACKAGE_NAME = "com.cmcm.crush";
+    public static final String CRUSH_PACKAGE_NAME = "com.crush.gogo";
 
     private PackageUtil(Context context) {
         super();

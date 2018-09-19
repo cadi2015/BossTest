@@ -36,8 +36,6 @@ public class FragmentProcessDetail extends Fragment {
     private static final int REQUEST_CODE_PERMISSION = 110;
     private View mRootView;
     private Context mContext;
-    private TextView mTvSystemMemMsg;
-    private TextView mTvMemTitle;
     private ListView mLvDpMsg;
     private ListView mLvUiMsg;
     private LayoutInflater mLayoutInflater;
@@ -131,7 +129,6 @@ public class FragmentProcessDetail extends Fragment {
 
 
     private void standAlone() { //为了home键的问题，做到实时刷新，装个13
-        mTvSystemMemMsg.setText(ProcessUtil.getSystemMemMsg());
         if (isAdded) {
             mUiLvHeader = mLayoutInflater.inflate(R.layout.layout_process_detail_lv_header, null);
             TextView uiHeaderTitle = (TextView) mUiLvHeader.findViewById(R.id.layout_process_detail_lv_header_tv_title);
@@ -171,9 +168,6 @@ public class FragmentProcessDetail extends Fragment {
     }
 
     private void setupViews() {
-        mTvSystemMemMsg = (TextView) mRootView.findViewById(R.id.process_detail_tv_system_mem_msg);
-        mTvMemTitle = (TextView) mRootView.findViewById(R.id.process_detail_tv_mem_title);
-        mTvMemTitle.setText(Build.MODEL + "内存信息");
         mLvUiMsg = (ListView) mRootView.findViewById(R.id.process_detail_lv_ui);
         mLvDpMsg = (ListView) mRootView.findViewById(R.id.process_detail_lv_dp);
         mBtnStartMonitor = (Button) mRootView.findViewById(R.id.process_detail_btn_start_monitor);
@@ -189,9 +183,6 @@ public class FragmentProcessDetail extends Fragment {
         intentMonitor = new Intent(mContext, MonitorService.class);
         PermissionUtil.verifyStoragePermissions(getActivity());
         mPackageManager = mContext.getPackageManager();
-//        if (RootUtil.getRootAhth() == false) {    //root权限拿了也没用，真他妈的醉了
-//            RootUtil.upgradeRootPermission(getActivity().getPackageCodePath());
-//        }
     }
 
 

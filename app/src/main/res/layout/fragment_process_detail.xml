@@ -29,47 +29,6 @@
                 android:divider="@drawable/list_view_divider_line"
                 android:dividerHeight="1px"
                 tools:listitem="@layout/layout_process_detail_lv_item"></com.wp.cheez.view.ListViewSupportScroll>
-
-            <TextView
-                android:id="@+id/process_detail_tv_mem_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingBottom="4dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="4dp"
-                android:textColor="@color/color_txt_enable_gray"
-                android:textSize="14sp"
-                tools:text="本机内存状态" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@color/white_bg"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:text="可用内存\n总内存\n低内存阀值\n处于低内存"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/process_detail_tv_system_mem_msg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:gravity="right"
-                    android:paddingRight="20dp"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="16sp"
-                    tools:text="1.78G\n3.63GB\n220MB\n否" />
-            </FrameLayout>
-
             <Button
                 android:id="@+id/process_detail_btn_start_monitor"
                 android:layout_width="match_parent"

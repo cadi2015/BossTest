@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.cheez"
-    android:versionCode="20180713"
-    android:versionName="1.1">
+    android:versionCode="20180919"
+    android:versionName="1.2">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -117,6 +117,9 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.PhoneActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.LocationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"></activity>
 
         <meta-data android:name="android.max_aspect" android:value="2.1" />
     </application>

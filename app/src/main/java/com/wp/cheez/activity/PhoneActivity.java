@@ -33,6 +33,6 @@ public class PhoneActivity extends BaseActivity{
 
     @Override
     public String getToolBarTitle() {
-        return "设备信息";
+        return "设备资料";
     }
 }

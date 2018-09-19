@@ -9,11 +9,13 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
 import com.wp.cheez.R;
+import com.wp.cheez.application.App;
 
 import java.io.File;
 
@@ -21,6 +23,7 @@ import static android.text.TextUtils.isEmpty;
 
 public class DeviceUtil {
     private static DisplayMetrics dm;
+    private static final int MCC_CHINA = 460;
 
     public static String getAndroidDeviceId (Context context) {
         String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
@@ -89,6 +92,37 @@ public class DeviceUtil {
 //        return SimSerialNumber;
         return "";
     }
+
+    /**
+     * 返回mcc
+     */
+    public static String getMccByTM(Activity activity, boolean isFull) {
+        if (activity == null){
+            return "";
+        }
+        if (ActivityCompat.checkSelfPermission(App.getAppContext(),
+                Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, PERMISSIONS_PHONE,
+                    REQUEST_PHONE_STATE);
+        } else {
+            TelephonyManager tm = (TelephonyManager) App.getAppContext().
+                    getSystemService(Context.TELEPHONY_SERVICE);
+            if (tm != null && tm.getSubscriberId() != null && tm.getSubscriberId().length() > 3) {
+                String mcc;
+                if(isFull) {
+                    mcc = tm.getSubscriberId();
+                } else {
+                    mcc = tm.getSubscriberId().substring(0, 3);
+                }
+                return  mcc;
+            }
+        }
+        return "";
+    }
+
+    private static final String[] PERMISSIONS_PHONE = {Manifest.permission.READ_PHONE_STATE};
+
+    private static final int REQUEST_PHONE_STATE = 13;
 
     public static String getSerialNumber(Context context) {
         String SerialNumber = android.os.Build.SERIAL;

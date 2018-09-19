@@ -68,7 +68,10 @@ public class FragmentPhone extends Fragment {
         float screenDensity = DeviceUtil.getScreenDensity(mActivity);
         int screenDensityDpi = DeviceUtil.getScreenDensityDpi(mActivity);
         float screenScaledDensity = DeviceUtil.getScreenScaledDensity(mActivity);
-        list.add(getMap("Imei:", imei));
+        list.add(getMap("Imei :", imei));
+        list.add(getMap("Mcc :" , DeviceUtil.getMccByTM(mActivity,false)));
+        list.add(getMap("Mcc Full:" , DeviceUtil.getMccByTM(mActivity,true)));
+        list.add(getMap("Serial Number :",DeviceUtil.getSerialNumber(mActivity)));
         list.add(getMap("Android Device Id :", DeviceUtil.getAndroidDeviceId(mActivity)));
         list.add(getMap("Android Version :", Build.VERSION.RELEASE));
         list.add(getMap("Api Level :", String.valueOf(Build.VERSION.SDK_INT)));

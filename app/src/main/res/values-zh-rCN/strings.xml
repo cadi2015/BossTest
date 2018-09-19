@@ -31,4 +31,15 @@
 
     <string name="free_space">剩余空间：</string>
     <string name="free_space_size_with_unit">%1$1.1f %2$s</string>
+
+    <string name="title_devices_info">设备信息</string>
+    <string name="title_Memory_info">内存信息</string>
+
+    <string name="title_longitude">经度:</string>
+    <string name="title_latitude">纬度:</string>
+
+    <string name="hint_longitude">在此输入经度</string>
+    <string name="hint_latitude">在此输入纬度</string>
+
+    <string name="btn_start_location">开始模拟位置</string>
 </resources>
