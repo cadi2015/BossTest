@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CheezAndCrushTester</string>
+    <string name="app_name">Boss Tester</string>
     <string name="copy_success">already cut ，please use to the download manager</string>
     <string name="version_code">20161125</string>
     <string name="btn_switch_test">Switch</string>

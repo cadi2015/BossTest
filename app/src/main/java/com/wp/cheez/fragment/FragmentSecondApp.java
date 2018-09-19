@@ -37,9 +37,9 @@ public class FragmentSecondApp extends Fragment{
     }
 
     private void updateViews(){
-        String packageStr = mPkgUtil.getPackageMessages(mPkgUtil.getPackageInfoDefault(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));
+        String packageStr = mPkgUtil.getPackageMessages(mPkgUtil.getPackageInfoDefault(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME)));
         mTvPackageInfo.setText(packageStr);
-        Drawable appIcon = mPkgUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME));
+        Drawable appIcon = mPkgUtil.getAppIcon(mAppConfig.getStr(SharedConstant.SELECT_SECOND_APP_PKG_KEY,PackageUtil.CRUSH_PACKAGE_NAME));
         mIvAppIcon.setBackground(appIcon);
     }
 
