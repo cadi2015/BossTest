@@ -42,4 +42,6 @@
     <string name="hint_latitude">please input latitude</string>
 
     <string name="btn_start_location">Start simulating position</string>
+
+    <string name="btn_set_app_to_home">设置到首页第%1$s个Tab</string>
 </resources>

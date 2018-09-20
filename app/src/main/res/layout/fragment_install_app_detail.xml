@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_set_app_at_home"
-        android:text="设置到首页"
+        android:text="@string/btn_set_app_to_home"
         android:textSize="18sp"
         android:background="@drawable/space_fill_img_btn"/>
 </LinearLayout>

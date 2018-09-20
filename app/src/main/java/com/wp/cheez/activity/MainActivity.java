@@ -74,10 +74,6 @@ public class MainActivity extends AppCompatActivity {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "onCreate(Bundle savedInstanceState)");
         }
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ActivityCompat.getColor(this, R.color.color_system_bar_bg));
-        }
         setContentView(R.layout.activity_main);
         setupToolBar();
         init();

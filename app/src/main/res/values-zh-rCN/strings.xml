@@ -42,4 +42,5 @@
     <string name="hint_latitude">在此输入纬度</string>
 
     <string name="btn_start_location">开始模拟位置</string>
+    <string name="btn_set_app_to_home">设置到首页第%1$s个Tab</string>
 </resources>

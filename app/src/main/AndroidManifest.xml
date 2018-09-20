@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wp.cheez"
-    android:versionCode="20180919"
+    android:versionCode="20180920"
     android:versionName="1.2">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -34,7 +34,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.OverlapSystemBar"></activity>
+            ></activity>
         <!--StyledIndicators-->
 
         <activity

@@ -47,6 +47,10 @@ public class FragmentInstallAppDetail extends Fragment {
         mTvShowPackageMes = (TextView) mRootView.findViewById(R.id.tv_show_package);
         mIvAppIc = (ImageView) mRootView.findViewById(R.id.iv_app_icon);
         mBtnSetAppAtHome = (Button)mRootView.findViewById(R.id.btn_set_app_at_home);
+        String btnTxtIndex = mKeyFlag % 2 == 0 ? "1":"2";
+        String btnTxtBase = getResources().getString(R.string.btn_set_app_to_home);
+        String btnTxtFInal = String.format(btnTxtBase,btnTxtIndex);
+        mBtnSetAppAtHome.setText(btnTxtFInal);
         mBtnSetAppAtHome.setOnClickListener(new View.OnClickListener() {
             String key;
             @Override
@@ -54,10 +58,10 @@ public class FragmentInstallAppDetail extends Fragment {
                 AppConfig appConfig = AppConfig.getInstance(getContext().getApplicationContext());
                 if(mKeyFlag % 2 == 0) {
                     key = SharedConstant.SELECT_FRIST_APP_PKG_KEY;
-                    Toast.makeText(getContext().getApplicationContext(),"第一个Tab设置成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext().getApplicationContext(),"第1个Tab设置成功",Toast.LENGTH_SHORT).show();
                 } else {
                     key = SharedConstant.SELECT_SECOND_APP_PKG_KEY;
-                    Toast.makeText(getContext().getApplicationContext(),"第二个Tab设置成功",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext().getApplicationContext(),"第2个Tab设置成功",Toast.LENGTH_SHORT).show();
                 }
                 appConfig.put(key, mPkgName);
                 mKeyFlag++;
