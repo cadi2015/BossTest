@@ -9,6 +9,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:id="@+id/btn_set_app_at_home"
         android:text="@string/btn_set_app_to_home"
         android:textSize="18sp"

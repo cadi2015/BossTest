@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTvInstall;
     private FloatingActionButton mFabDevice;
     private FloatingActionButton mFabTool;
+    private FloatingActionButton mFabWebView;
     private CoordinatorLayout mCoordinatorLayout;
     private int mActionBarHeight;
     private TabLayout.Tab mFirstTab;
@@ -129,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton mFabGps = (FloatingActionButton) findViewById(R.id.main_fab_gps);
         mFabDevice = (FloatingActionButton) findViewById(R.id.main_fab_device);
         mFabTool = (FloatingActionButton) findViewById(R.id.main_fab_tool);
+        mFabWebView = (FloatingActionButton) findViewById(R.id.main_fab_web_view);
         mTvGuide = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_guide);
         mTvInstall = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_install_apk);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
         mFabDevice.setOnClickListener(fabBtnClickLis);
         mFabTool.setOnClickListener(fabBtnClickLis);
         mFabGps.setOnClickListener(fabBtnClickLis);
+        mFabWebView.setOnClickListener(fabBtnClickLis);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_base);
         relativeLayout.setPadding(0,getStatusBarHeight()+getActionBarHeight(),0,0);//再加个actionBar的高度就好
     }
@@ -222,6 +225,11 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.main_fab_gps:
                     Intent intentLocation = new Intent(MainActivity.this, LocationActivity.class);
                     startActivity(intentLocation);
+                    break;
+                case R.id.main_fab_web_view:
+                    Intent intentWeb = new Intent(MainActivity.this, WebActivity.class);
+                    intentWeb.putExtra("jumpUrl", "http://qa.www.cheez.com/crushu/faq/dist/index.html#/");
+                    startActivity(intentWeb);
                     break;
                 default:
                     break;

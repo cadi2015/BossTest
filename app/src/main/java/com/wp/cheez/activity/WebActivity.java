@@ -3,14 +3,17 @@ package com.wp.cheez.activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.wp.cheez.R;
 import com.wp.cheez.fragment.FragmentWeb;
+import com.wp.cheez.utils.LogHelper;
 
 /**
  * Created by cadi on 2016/8/23.
  */
 public class WebActivity extends BaseActivity {
+    private final static String TAG = LogHelper.makeTag(WebActivity.class);
     @Override
     public boolean isDisplayHomeAsUp() {
         return true;
@@ -33,6 +36,7 @@ public class WebActivity extends BaseActivity {
         FragmentWeb fragmentWeb =  new FragmentWeb();
         Intent intent = getIntent();
         String url = intent.getStringExtra("jumpUrl");
+        Log.d(TAG, "url == " + url);
         Bundle bundle = new Bundle();
         bundle.putString("webUrl", url);
         fragmentWeb.setArguments(bundle);

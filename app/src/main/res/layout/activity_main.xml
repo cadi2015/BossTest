@@ -84,9 +84,22 @@
                 app:elevation="0dp"
                 app:backgroundTint="@android:color/transparent"
                 android:id="@+id/main_fab_gps"
+                android:visibility="gone"
                 android:src="@drawable/ic_gps"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"/>
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:fabSize="mini"
+                app:elevation="0dp"
+                app:backgroundTint="@android:color/transparent"
+                android:id="@+id/main_fab_web_view"
+                android:visibility="visible"
+                android:src="@drawable/ic_web_view"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"/>
+
         </LinearLayout>
     </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
