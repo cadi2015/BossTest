@@ -57,6 +57,6 @@
         android:layout_gravity="center_horizontal|bottom"
         android:orientation="horizontal"
         android:id="@+id/guide_ll_dot"
-        android:layout_marginBottom="8dp">
+        android:layout_marginBottom="9dp">
     </LinearLayout>
 </FrameLayout>
