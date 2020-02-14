@@ -4,6 +4,7 @@ import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class FragmentInstallAppDetail extends Fragment {
         mTvShowPackageMes = (TextView) mRootView.findViewById(R.id.tv_show_package);
         mIvAppIc = (ImageView) mRootView.findViewById(R.id.iv_app_icon);
         mBtnSetAppAtHome = (Button)mRootView.findViewById(R.id.btn_set_app_at_home);
+        Log.e("Tyson", "mKeyFlag == " + mKeyFlag);
         String btnTxtIndex = mKeyFlag % 2 == 0 ? "1":"2";
         String btnTxtBase = getResources().getString(R.string.btn_set_app_to_home);
         String btnTxtFInal = String.format(btnTxtBase,btnTxtIndex);
