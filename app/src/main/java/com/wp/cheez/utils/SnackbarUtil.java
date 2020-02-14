@@ -1,12 +1,13 @@
 package com.wp.cheez.utils;
 
 import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wp.cheez.R;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * Created by cadi on 2017/4/10.

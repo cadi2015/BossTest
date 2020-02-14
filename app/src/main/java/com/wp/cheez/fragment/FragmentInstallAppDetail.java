@@ -3,7 +3,6 @@ package com.wp.cheez.fragment;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,8 @@ import com.wp.cheez.R;
 import com.wp.cheez.config.AppConfig;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.utils.PackageUtil;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by cadi on 2017/4/17.

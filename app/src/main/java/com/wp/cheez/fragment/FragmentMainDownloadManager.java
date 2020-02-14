@@ -3,10 +3,6 @@ package com.wp.cheez.fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +12,10 @@ import com.viewpagerindicator.TabPageIndicator;
 import com.wp.cheez.R;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.utils.LogHelper;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by cadi on 2016/8/11.
@@ -90,9 +90,9 @@ public class FragmentMainDownloadManager extends Fragment {
         }
 
         @Override
-        public android.support.v4.app.Fragment getItem(int position) {
+        public Fragment getItem(int position) {
             Log.d(TAG, "getItem(int position), position = " + position);
-            android.support.v4.app.Fragment fragment = null;
+            Fragment fragment = null;
             switch (position) {
                 case 0:
                     fragment = new FragmentTool();

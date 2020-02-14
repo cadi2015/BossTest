@@ -1,10 +1,11 @@
 package com.wp.cheez.utils;
 
 import android.content.Context;
-import android.support.v4.app.ActivityCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * Created by cadi on 2016/9/6.

@@ -2,25 +2,23 @@ package com.wp.cheez.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wp.cheez.R;
 import com.wp.cheez.application.App;
 import com.wp.cheez.config.AppConfig;
-import com.wp.cheez.config.FileConstant;
 import com.wp.cheez.config.SharedConstant;
-import com.wp.cheez.utils.FileUtil;
 import com.wp.cheez.utils.LogHelper;
 import com.wp.cheez.utils.PackageUtil;
-import com.wp.cheez.utils.SnackbarUtil;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by cadi on 2017/4/5.

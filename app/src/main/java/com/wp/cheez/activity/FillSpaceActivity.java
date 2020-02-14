@@ -5,23 +5,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.wp.cheez.R;
 import com.wp.cheez.utils.DeviceUtil;
 import com.wp.cheez.utils.LogHelper;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 
 public class FillSpaceActivity extends BaseActivity {
     private static String TAG = LogHelper.makeTag(FillSpaceActivity.class);
@@ -47,7 +41,7 @@ public class FillSpaceActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
     }

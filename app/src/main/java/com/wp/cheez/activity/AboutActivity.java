@@ -2,7 +2,6 @@ package com.wp.cheez.activity;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
-
 import com.wp.cheez.R;
 import com.wp.cheez.fragment.FragmentAbout;
 

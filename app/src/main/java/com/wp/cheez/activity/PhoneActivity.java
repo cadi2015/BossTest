@@ -2,11 +2,12 @@ package com.wp.cheez.activity;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
 
 import com.wp.cheez.R;
 import com.wp.cheez.fragment.FragmentPhone;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 public class PhoneActivity extends BaseActivity{
     @Override

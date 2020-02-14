@@ -17,9 +17,6 @@
 package com.viewpagerindicator;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +24,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -254,11 +254,11 @@ public class TabPageIndicator extends HorizontalScrollView implements PageIndica
     }
 
     @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
+    public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mListener = listener;
     }
 
-    private class TabView extends TextView {
+    private class TabView extends AppCompatTextView {
         private int mIndex;
 
         public TabView(Context context) {

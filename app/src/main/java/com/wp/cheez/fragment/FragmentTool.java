@@ -9,9 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.text.SpannableString;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wp.cheez.R;
 import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.SpannableUtils;
@@ -33,6 +31,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by cadi on 2016/5/18.

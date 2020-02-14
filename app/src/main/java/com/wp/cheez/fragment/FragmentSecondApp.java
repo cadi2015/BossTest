@@ -2,8 +2,6 @@ package com.wp.cheez.fragment;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,11 @@ import com.wp.cheez.config.AppConfig;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.utils.PackageUtil;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-public class FragmentSecondApp extends Fragment{
+
+public class FragmentSecondApp extends Fragment {
     private AppConfig mAppConfig;
     private PackageUtil mPkgUtil;
     private TextView mTvPackageInfo;

@@ -20,11 +20,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +34,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.wp.cheez.R;
 import com.wp.cheez.activity.ProcessDetailActivity;
 import com.wp.cheez.config.SharedConstant;
@@ -54,6 +50,11 @@ import com.wp.cheez.utils.ShellUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by cadi on 2016/8/13.

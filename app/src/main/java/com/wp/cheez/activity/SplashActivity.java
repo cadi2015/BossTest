@@ -5,11 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
 import com.wp.cheez.R;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.fragment.FragmentSplash;
@@ -17,6 +12,11 @@ import com.wp.cheez.sqlite.SQLiteManager;
 import com.wp.cheez.utils.AppInfo;
 import com.wp.cheez.utils.LogHelper;
 import com.wp.cheez.utils.PermissionUtil;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by wp on 2016/1/12.

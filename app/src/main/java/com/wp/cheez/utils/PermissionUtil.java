@@ -4,10 +4,11 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import java.io.DataOutputStream;
+
+import androidx.core.app.ActivityCompat;
 
 /**
  * Created by cadi on 2016/10/12.

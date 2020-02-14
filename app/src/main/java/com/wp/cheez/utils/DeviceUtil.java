@@ -9,8 +9,6 @@ import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 
@@ -18,6 +16,9 @@ import com.wp.cheez.R;
 import com.wp.cheez.application.App;
 
 import java.io.File;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import static android.text.TextUtils.isEmpty;
 

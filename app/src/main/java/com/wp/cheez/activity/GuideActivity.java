@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +18,10 @@ import com.wp.cheez.config.SharedConstant;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * Created by wp on 2016/2/18.
@@ -126,7 +127,7 @@ public class GuideActivity extends FragmentActivity {
         }
         mViewListSize = mViews.size();
         mViewPager.setAdapter(new MyPageAdapter(mViews));
-        if(mViewListSize == 1) {
+        if (mViewListSize == 1) {
             mIvNext.setVisibility(View.GONE);
             mBtnStart.setVisibility(View.VISIBLE);
         }

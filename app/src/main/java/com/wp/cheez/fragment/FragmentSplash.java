@@ -2,8 +2,6 @@ package com.wp.cheez.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,9 @@ import android.widget.TextView;
 
 import com.wp.cheez.R;
 import com.wp.cheez.utils.PackageUtil;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by cadi on 2016/5/20.

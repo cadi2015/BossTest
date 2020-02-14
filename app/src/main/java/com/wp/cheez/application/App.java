@@ -3,8 +3,6 @@ package com.wp.cheez.application;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
-
-import com.tencent.bugly.Bugly;
 import com.wp.cheez.utils.LogHelper;
 
 /**
@@ -14,7 +12,6 @@ import com.wp.cheez.utils.LogHelper;
 public class App extends Application {
     private static Context mContext;
     private static final String TAG = LogHelper.makeTag(App.class);
-    public static final String APP_ID = "9a9876dedd";
 
     public static Context getAppContext(){
         return mContext;
@@ -25,7 +22,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "App ___ onCreate()");
-//        Bugly.init(getApplicationContext(), APP_ID, true);
         mContext = this;
     }
 

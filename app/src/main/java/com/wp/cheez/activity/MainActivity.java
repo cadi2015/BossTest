@@ -7,17 +7,10 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+
 import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
@@ -26,11 +19,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.tencent.bugly.Bugly;
 import com.wp.cheez.BuildConfig;
 import com.wp.cheez.R;
-import com.wp.cheez.application.App;
 import com.wp.cheez.config.AppConfig;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.fragment.FragmentSecondApp;
@@ -39,6 +29,15 @@ import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.StatusBarUtil;
 
 import java.lang.reflect.Field;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 /**
@@ -332,7 +331,6 @@ public class MainActivity extends AppCompatActivity {
         mAppConfig = AppConfig.getInstance(getApplicationContext());
         mTabShortVideoIsSelected = mAppConfig.getBool(KEY_TAB_SHORT_VIDEO_SELECTED, true);
         mTabCrushIsSelected = mAppConfig.getBool(KEY_TAB_CRUSH_IS_SELECTED, false);
-        Bugly.init(App.getAppContext(), App.APP_ID, false);
         if (BuildConfig.DEBUG) {
             Log.d(TAG, "Build.M^^^ == " + Build.MANUFACTURER);
         }
