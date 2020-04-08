@@ -41,9 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             if (haveContent) {
                 FrameLayout contentView = (FrameLayout) findViewById(R.id.base_fl_content_view);
-                getLayoutInflater().inflate(contentViewId, contentView);
+                getLayoutInflater().inflate(contentViewId, contentView); //自定义View树的根结点，直接成为contentView的直接子View
             }
-
             return;
         }
         if (haveContent) {

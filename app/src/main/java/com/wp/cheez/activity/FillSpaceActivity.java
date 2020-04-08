@@ -88,13 +88,11 @@ public class FillSpaceActivity extends BaseActivity {
      */
     private class MyBtnClickLis implements View.OnClickListener{
          //AsyncTask的一个对象，就只能执行一次，Google牛逼，想多次执行，只能再new一个AsyncTask出来了
-//        private WeakReference<MyFileTask> weakReference; //弱引用，帮助GC回收
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btn_start:
                     myFileTask = new MyFileTask();
-//                    weakReference = new WeakReference<>(myFileTask);
 
                     Log.d(TAG, "AsyncTask getStatus() == " + myFileTask.getStatus());
                     if(myFileTask.getStatus() == AsyncTask.Status.PENDING){
@@ -146,7 +144,6 @@ public class FillSpaceActivity extends BaseActivity {
         //工作线程发出的更新，该方法在ui线程执行
         @Override
         protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
         }
 
         //在工作线程中执行的方法，哈哈，写入文件就在这里
@@ -155,7 +152,7 @@ public class FillSpaceActivity extends BaseActivity {
             try {
                 int baseLimitWithByte = 500;
                 FileOutputStream fileOutputStream = openFileOutput(fillFileName, Context.MODE_APPEND);
-                int base = 2048;
+                int base = 4096;
                 int variable = 1;
                 byte[] bytes = new byte[base];
                 while (!isCancelled() && DeviceUtil.getFreeExternalMemory() > baseLimitWithByte){
@@ -163,14 +160,19 @@ public class FillSpaceActivity extends BaseActivity {
                         break;
                     }
                     fileOutputStream.write(bytes);
-                    bytes = new byte[ variable++ * base];
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateSpaceSize();
+                        }
+                    });
                 }
                 fileOutputStream.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
             }
             return null;
         }

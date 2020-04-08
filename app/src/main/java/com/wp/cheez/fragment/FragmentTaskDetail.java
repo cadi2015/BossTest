@@ -57,7 +57,7 @@ public class FragmentTaskDetail extends Fragment {
     private void init() {
         mContext = getActivity();
         ReadExcel readExcel = new ReadExcel(mContext);
-        mRawRes = selectRaw(((Activity) mContext).getIntent());
+        mRawRes = selectRaw(((Activity) mContext).getIntent()); //我巧妙的使用了Intent，当年，真青涩……
         mListOfExcel = readExcel.readFirstCell(mRawRes);
         mClipboardManager = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
         mLvPositionKey = getListViewKey(mRawType);

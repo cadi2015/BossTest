@@ -42,14 +42,21 @@ public class ProcessMsgAdapter extends BaseAdapter {
         return position;
     }
 
+    /**
+     *
+     * @param position 当前item
+     * @param convertView Item的View树的根结点
+     * @param parent ListView
+     * @return Item的View树的根结点
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView title;
         TextView content;
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.layout_process_detail_lv_item, null);
-            title = (TextView) convertView.findViewById(R.id.layout_process_detail_tv_title);
-            content = (TextView) convertView.findViewById(R.id.layout_process_detail_tv_content);
+            convertView = layoutInflater.inflate(R.layout.layout_process_detail_lv_item, parent,false);
+            title = convertView.findViewById(R.id.layout_process_detail_tv_title);
+            content = convertView.findViewById(R.id.layout_process_detail_tv_content);
             ViewCache viewCache = new ViewCache();
             viewCache.title = title;
             viewCache.content = content;
@@ -66,8 +73,8 @@ public class ProcessMsgAdapter extends BaseAdapter {
     }
 
     private final class ViewCache {
-        public TextView title;
-        public TextView content;
+        TextView title;
+        TextView content;
     }
 
 }

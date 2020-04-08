@@ -27,18 +27,16 @@ public class DeviceUtil {
     private static final int MCC_CHINA = 460;
 
     public static String getAndroidDeviceId (Context context) {
-        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.System.ANDROID_ID);
+        String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         return ANDROID_ID;
     }
 
     public static int getScreenWidthPx(Activity activity){
-        int width = displayMetrics(activity).widthPixels;
-        return width;
+        return displayMetrics(activity).widthPixels;
     }
 
     public static int getScreenHeightPx(Activity activity){
-        int height = displayMetrics(activity).heightPixels;
-        return height;
+        return displayMetrics(activity).heightPixels;
     }
 
     public static float getScreenDensity(Activity activity){
