@@ -2,6 +2,7 @@ package com.wp.cheez.fragment;
 
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.wp.cheez.R;
 import com.wp.cheez.activity.InstallAppDetailActivity;
+import com.wp.cheez.application.App;
 import com.wp.cheez.utils.LogHelper;
 import com.wp.cheez.utils.PackageUtil;
 
@@ -71,16 +73,15 @@ public class FragmentInstallAppList extends Fragment {
     }
 
     private void setupViews() {
-        mRvInstallAppList = (RecyclerView) mRootView.findViewById(R.id.install_app_rv_list);
+        mRvInstallAppList = mRootView.findViewById(R.id.install_app_rv_list);
         mRvInstallAppList.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvInstallAppList.setAdapter(new MyRecViewAdapter(mInstallAppList));
     }
 
-    private class MyRecViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class MyRecViewAdapter extends RecyclerView.Adapter<FragmentInstallAppList.MyRecViewHolder> {
         List<ApplicationInfo> installApkList;
 
         MyRecViewAdapter(List<ApplicationInfo> list) {
-            super();
             installApkList = list;
         }
 
@@ -90,58 +91,50 @@ public class FragmentInstallAppList extends Fragment {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            MyRecViewHolder myRecViewHolder = new MyRecViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.layout_rv_item_with_app_list, null));
-            return myRecViewHolder;
+        public FragmentInstallAppList.MyRecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new MyRecViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.layout_rv_item_with_app_list, parent,false));
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if (holder instanceof MyRecViewHolder) {
-                ApplicationInfo applicationInfo = installApkList.get(position);
-                Log.d(TAG, "applicationInfo flags = " + applicationInfo.flags);
-                Log.d(TAG, "applicationInfo flags = " + Integer.toBinaryString(applicationInfo.flags));
-                Log.d(TAG, "applicationInfo FLAG_SYSTEM = " + Integer.toBinaryString(ApplicationInfo.FLAG_SYSTEM));
-                Log.d(TAG, "applicationInfo FLAG_UPDATED_SYSTEM_APP = " + Integer.toBinaryString(ApplicationInfo.FLAG_UPDATED_SYSTEM_APP));
-                Log.d(TAG, "\n");
-                String apkName = applicationInfo.loadLabel(getContext().getPackageManager()).toString();
-                String packageName = applicationInfo.packageName;
-                Drawable apkIcon = applicationInfo.loadIcon(getContext().getPackageManager());
-                MyRecViewHolder myRecViewHolder = (MyRecViewHolder) holder;
-                myRecViewHolder.tvId.setText(String.valueOf(position + 1));
-                myRecViewHolder.tvAppName.setText(apkName);
-                myRecViewHolder.tvAppPackageName.setText(packageName);
-                myRecViewHolder.ivAppIcon.setBackground(apkIcon);
-            }
+        public void onBindViewHolder(FragmentInstallAppList.MyRecViewHolder holder, int position) {
+            ApplicationInfo applicationInfo = installApkList.get(position);
+            PackageManager pm = App.getAppContext().getPackageManager();
+            String apkName = applicationInfo.loadLabel(pm).toString();
+            String packageName = applicationInfo.packageName;
+            Drawable apkIcon = applicationInfo.loadIcon(pm);
+            holder.tvId.setText(String.valueOf(position + 1));
+            holder.tvAppName.setText(apkName);
+            holder.tvAppPackageName.setText(packageName);
+            holder.ivAppIcon.setBackground(apkIcon);
         }
     }
 
-    private class MyRecViewHolder extends RecyclerView.ViewHolder {
+    private static class MyRecViewHolder extends RecyclerView.ViewHolder {
         TextView tvId;
         ImageView ivAppIcon;
         TextView tvAppName;
         TextView tvAppPackageName;
         Button btnCheck;
 
-        public MyRecViewHolder(View itemView) {
+        MyRecViewHolder(View itemView) {
             super(itemView);
             setupViews();
         }
-
         private void setupViews() {
-            tvId = (TextView) itemView.findViewById(R.id.rv_item_tv_id);
-            ivAppIcon = (ImageView) itemView.findViewById(R.id.rv_item_iv_app_icon);
-            tvAppName = (TextView) itemView.findViewById(R.id.rv_item_tv_app_name);
-            tvAppPackageName = (TextView) itemView.findViewById(R.id.rv_item_tv_app_type);
-            btnCheck = (Button) itemView.findViewById(R.id.rv_item_btn_check);
-            btnCheck.setOnClickListener(new View.OnClickListener(){
+            tvId = itemView.findViewById(R.id.rv_item_tv_id);
+            ivAppIcon = itemView.findViewById(R.id.rv_item_iv_app_icon);
+            tvAppName = itemView.findViewById(R.id.rv_item_tv_app_name);
+            tvAppPackageName = itemView.findViewById(R.id.rv_item_tv_app_type);
+            btnCheck = itemView.findViewById(R.id.rv_item_btn_check);
+            btnCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onClick(View v)");
                     Log.d(TAG, "tvAppPackageName = " + tvAppPackageName.getText().toString());
-                    Intent intent = new Intent(getContext(), InstallAppDetailActivity.class);
+                    Intent intent = new Intent(App.getAppContext(), InstallAppDetailActivity.class);
                     intent.putExtra("packageName", tvAppPackageName.getText().toString());
-                    startActivity(intent);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    App.getAppContext().startActivity(intent);
                 }
             });
         }

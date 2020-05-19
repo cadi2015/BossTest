@@ -32,11 +32,22 @@ public class ProcessMsgAdapter extends BaseAdapter {
         return processMsg.length;
     }
 
+    /**
+     *
+     * @param position item位置
+     * @return item的数据项对象
+     */
     @Override
     public Object getItem(int position) {
         return processMsg[position];
     }
 
+
+    /**
+     *
+     * @param position
+     * @return 返回position是最佳方案
+     */
     @Override
     public long getItemId(int position) {
         return position;
@@ -72,7 +83,7 @@ public class ProcessMsgAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private final class ViewCache {
+    private static class ViewCache {
         TextView title;
         TextView content;
     }
