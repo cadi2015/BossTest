@@ -11,6 +11,7 @@ public class SharedConstant {
     public static final String DIALOG_KEY_CHECK_BOX_SELECTED_FLOAT_WINDOW;
     public static final String SELECT_FRIST_APP_PKG_KEY;
     public static final String SELECT_SECOND_APP_PKG_KEY;
+
     static {
         SHARED_BOSS_CONFIG_NAME = "boss_config";
         GUIDE_KEY_IS_FIRST = "is_first";

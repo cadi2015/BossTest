@@ -7,16 +7,16 @@ public class AppConfig {
 
     private static AppConfig instance;
     private Context mContext;
-    private AppConfig(Context context){
+
+    private AppConfig(Context applicationContext) {
         super();
-        mContext = context;
+        mContext = applicationContext;
     }
 
-    public static AppConfig getInstance(Context context){
-
-        if(instance == null) {
+    public static AppConfig getInstance(Context context) {
+        if (instance == null) {
             synchronized (AppConfig.class) {
-                if(instance  == null) {
+                if (instance == null) {
                     instance = new AppConfig(context);
                 }
             }
@@ -25,31 +25,31 @@ public class AppConfig {
         return instance;
     }
 
-    private  SharedPreferences getSp(Context context){
+    private SharedPreferences getSp(Context context) {
         SharedPreferences sp = context.getSharedPreferences(SharedConstant.SHARED_BOSS_CONFIG_NAME, Context.MODE_PRIVATE);
         return sp;
     }
 
-    public  void  put(String key, String value){
+    public void put(String key, String value) {
         SharedPreferences sp = getSp(mContext);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(key,value);
+        editor.putString(key, value);
         editor.apply();
     }
 
-    public String getStr(String key,String defValue){
+    public String getStr(String key, String defValue) {
         SharedPreferences sp = getSp(mContext);
-        return sp.getString(key,defValue);
+        return sp.getString(key, defValue);
     }
 
     public boolean getBool(String key, boolean defValue) {
         return getSp(mContext).getBoolean(key, defValue);
     }
 
-    public void putBool(String key, boolean defValue){
+    public void putBool(String key, boolean defValue) {
         SharedPreferences sp = getSp(mContext);
         SharedPreferences.Editor editor = sp.edit();
-        editor.putBoolean(key,defValue);
+        editor.putBoolean(key, defValue);
         editor.apply();
     }
 

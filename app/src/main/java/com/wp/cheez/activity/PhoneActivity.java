@@ -9,6 +9,9 @@ import com.wp.cheez.fragment.FragmentPhone;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
+/**
+ * 设备信息情况
+ */
 public class PhoneActivity extends BaseActivity{
     @Override
     public boolean isDisplayHomeAsUp() {

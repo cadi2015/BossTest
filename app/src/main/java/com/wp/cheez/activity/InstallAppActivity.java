@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager;
 
 /**
  * Created by cadi on 2017/4/14.
+ * 手机上安装了哪些App
  */
 
 public class InstallAppActivity extends BaseActivity {
@@ -19,7 +20,6 @@ public class InstallAppActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().add(R.id.install_app_frame_layout_position, new FragmentInstallAppList()).commit();
-
     }
 
     @Override

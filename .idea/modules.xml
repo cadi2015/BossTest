@@ -3,10 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BossTest.iml" filepath="$PROJECT_DIR$/BossTest.iml" group="BossTest" />
-      <module fileurl="file://$PROJECT_DIR$/app/BossTest-app.iml" filepath="$PROJECT_DIR$/app/BossTest-app.iml" group="BossTest/app" />
-      <module fileurl="file://$PROJECT_DIR$/library/BossTest-library.iml" filepath="$PROJECT_DIR$/library/BossTest-library.iml" group="BossTest/library" />
-      <module fileurl="file://$PROJECT_DIR$/CheezTester.iml" filepath="$PROJECT_DIR$/CheezTester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/BossTest-app.iml" filepath="$PROJECT_DIR$/app/BossTest-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library/BossTest-library.iml" filepath="$PROJECT_DIR$/library/BossTest-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gitCloneAndroidProject-BossTest.iml" filepath="$PROJECT_DIR$/gitCloneAndroidProject-BossTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>
