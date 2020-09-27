@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mFabDevice;
     private FloatingActionButton mFabTool;
     private FloatingActionButton mFabWebView;
+    private FloatingActionButton mFabTemp;
     private CoordinatorLayout mCoordinatorLayout;
     private int mActionBarHeight;
     private TabLayout.Tab mFirstTab;
@@ -155,6 +156,14 @@ public class MainActivity extends AppCompatActivity {
         mFabWebView.setOnClickListener(fabBtnClickLis);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rl_base);
         relativeLayout.setPadding(0,getStatusBarHeight()+getActionBarHeight(),0,0);//再加个actionBar的高度就好
+        mFabTemp = findViewById(R.id.main_fab_temp);
+        mFabTemp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,TempActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateTab(){

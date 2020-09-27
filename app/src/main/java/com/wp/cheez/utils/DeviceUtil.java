@@ -26,23 +26,48 @@ public class DeviceUtil {
     private static DisplayMetrics dm;
     private static final int MCC_CHINA = 460;
 
+    /**
+     * 获取Android Device Id
+     * @param context
+     * @return
+     */
     public static String getAndroidDeviceId (Context context) {
         String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         return ANDROID_ID;
     }
 
+    /**
+     * 获取屏幕宽度，单位像素
+     * @param activity
+     * @return
+     */
     public static int getScreenWidthPx(Activity activity){
         return displayMetrics(activity).widthPixels;
     }
 
+    /**
+     * 获取屏幕高度，单位：像素
+     * @param activity
+     * @return
+     */
     public static int getScreenHeightPx(Activity activity){
         return displayMetrics(activity).heightPixels;
     }
 
+    /**
+     * 获取屏幕密度
+     * @param activity
+     * @return
+     */
     public static float getScreenDensity(Activity activity){
         return displayMetrics(activity).density;
     }
 
+    /**
+     * 获取屏幕dpi
+     * @param activity
+     * @return
+     */
     public static int getScreenDensityDpi(Activity activity){
         return displayMetrics(activity).densityDpi;
     }

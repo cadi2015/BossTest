@@ -5,19 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        >
+        android:paddingTop="5dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,230 +27,242 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
                     android:text="强度:"
                     android:textColor="@color/colorRed"
-                    android:textSize="15sp"
-                    android:layout_marginLeft="10dp"/>
+                    android:textSize="15sp" />
+
                 <SeekBar
                     android:id="@+id/performance_seek_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/performance_tv_hint"
-                    android:max="299"
                     android:focusable="true"
-                    android:progress="19"
+                    android:max="299"
                     android:maxHeight="4dp"
                     android:minHeight="4dp"
-                    android:thumb="@drawable/selector_seek_bar"
+                    android:progress="19"
                     android:progressDrawable="@drawable/lay_list_seek_bar"
-                    />
+                    android:thumb="@drawable/selector_seek_bar" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal"
-                android:gravity="center">
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="35dp"
-                card_view:cardBackgroundColor="@color/colorRed"
-                card_view:cardCornerRadius="20dp"
-                card_view:cardPreventCornerOverlap="true"
-                android:id="@+id/performance_cv_insert">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/performance_tv_insert"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/performance_cv_insert"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textColor="@color/color_guide_txt_white"
-                    android:textSize="14sp"
-                    tools:text="测试用的文案" />
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    card_view:cardBackgroundColor="@color/colorRed"
+                    card_view:cardCornerRadius="20dp"
+                    card_view:cardPreventCornerOverlap="true">
 
-                <ProgressBar
-                    android:id="@+id/performance_progress_bar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:visibility="gone"
-                    android:layout_marginRight="10dp"
-                    style="?android:attr/progressBarStyleSmall"/>
-            </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/performance_tv_insert"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textColor="@color/color_guide_txt_white"
+                        android:textSize="14sp"
+                        tools:text="测试用的文案" />
+
+                    <ProgressBar
+                        android:id="@+id/performance_progress_bar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="10dp"
+                        android:visibility="gone" />
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="35dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/performance_cv_insert"
                     android:layout_weight="1"
                     card_view:cardBackgroundColor="@color/colorAccent"
                     card_view:cardCornerRadius="20dp"
-                    card_view:cardPreventCornerOverlap="true"
-                    android:layout_toRightOf="@id/performance_cv_insert"
-                    android:layout_marginLeft="5dp">
-            <TextView
-                android:id="@+id/performance_tv_remove_failed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="删除所有无效任务"
-                android:textColor="@color/color_guide_txt_white"
-                android:textSize="14sp"
-                />
+                    card_view:cardPreventCornerOverlap="true">
+
+                    <TextView
+                        android:id="@+id/performance_tv_remove_failed"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="删除所有无效任务"
+                        android:textColor="@color/color_guide_txt_white"
+                        android:textSize="14sp" />
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
+
             <include
                 layout="@layout/view_divider_blue"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingTop="10dp"
-                >
+                android:paddingTop="10dp">
+
                 <Button
+                    android:id="@+id/performance_btn_process_msg"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/btn_height_performance"
-                    android:paddingLeft="10dp"
-                    android:textSize="@dimen/btn_txt_size_performance"
-                    android:gravity="left|center_vertical"
                     android:background="@drawable/temp_bg"
-                    android:id="@+id/performance_btn_process_msg"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="10dp"
                     android:text="UI与DP进程信息(Memory、Cpu、实时监控)"
-                    android:textAllCaps="false"/>
+                    android:textAllCaps="false"
+                    android:textSize="@dimen/btn_txt_size_performance" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_below="@id/performance_btn_process_msg"
-                    android:layout_marginTop="10dp">
-                <Button
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="开始Fps监测"
-                    android:visibility="gone"
-                    android:textSize="@dimen/btn_txt_size_performance"
-                    android:gravity="center_vertical|left"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/btn_height_performance"
-                    android:background="@drawable/temp_bg"
-                    android:id="@+id/performance_btn_fps_start"
-                    />
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/btn_height_performance"
-                    android:background="@drawable/temp_bg"
-                    android:text="停止FPS监测"
-                    android:visibility="gone"
-                    android:textSize="@dimen/btn_txt_size_performance"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:gravity="left|center_vertical"
-                    android:id="@+id/performance_btn_fps_stop"
-                    />
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/performance_btn_fps_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_height_performance"
+                        android:background="@drawable/temp_bg"
+                        android:gravity="center_vertical|left"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="开始Fps监测"
+                        android:textSize="@dimen/btn_txt_size_performance"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/performance_btn_fps_stop"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/btn_height_performance"
+                        android:background="@drawable/temp_bg"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="停止FPS监测"
+                        android:textSize="@dimen/btn_txt_size_performance"
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-    </android.support.design.widget.CoordinatorLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
+
         <Button
+            android:id="@+id/performance_btn_log_lib"
             android:layout_width="match_parent"
             android:layout_height="@dimen/btn_height_performance"
-            android:paddingLeft="10dp"
-            android:gravity="left|center_vertical"
-            android:textSize="@dimen/btn_txt_size_performance"
             android:background="@drawable/temp_bg"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
             android:text="获取下载库版本"
-            android:id="@+id/performance_btn_log_lib"
-            />
+            android:textSize="@dimen/btn_txt_size_performance" />
+
         <TextView
-            android:layout_marginTop="10dp"
+            android:id="@+id/performance_tv_show_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/btn_txt_size_performance"
-            android:paddingLeft="10dp"
             android:layout_below="@id/performance_btn_log_lib"
-            tools:text="实时日志"
-            android:textColor="@color/colorAccent"
-            android:visibility="gone"
-            android:scrollbars="vertical"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
             android:scrollbarStyle="insideInset"
-            android:id="@+id/performance_tv_show_log"/>
+            android:scrollbars="vertical"
+            android:textColor="@color/colorAccent"
+            android:textSize="@dimen/btn_txt_size_performance"
+            android:visibility="gone"
+            tools:text="实时日志" />
     </RelativeLayout>
+
     <Button
+        android:id="@+id/performance_btn_clean_data"
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height_performance"
         android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:textSize="@dimen/btn_txt_size_performance"
-        android:gravity="left|center_vertical"
         android:background="@drawable/temp_bg"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
         android:text="一键清空Ui与Dp数据"
-        android:id="@+id/performance_btn_clean_data"/>
+        android:textSize="@dimen/btn_txt_size_performance" />
+
     <Button
+        android:id="@+id/performance_btn_kill_dp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height_performance"
-        android:paddingLeft="10dp"
-        android:gravity="left|center_vertical"
-        android:background="@drawable/temp_bg"
-        android:textSize="@dimen/btn_txt_size_performance"
         android:layout_alignParentRight="true"
-        android:text="一键杀死Dp进程"
         android:layout_marginTop="10dp"
-        android:id="@+id/performance_btn_kill_dp"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_height_performance"
         android:background="@drawable/temp_bg"
         android:gravity="left|center_vertical"
-        android:layout_marginTop="10dp"
-        android:text="一键杀死Ui进程"
-        android:textSize="@dimen/btn_txt_size_performance"
         android:paddingLeft="10dp"
-        android:id="@+id/performance_btn_kill_ui"/>
+        android:text="一键杀死Dp进程"
+        android:textSize="@dimen/btn_txt_size_performance" />
+
+    <Button
+        android:id="@+id/performance_btn_kill_ui"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/btn_height_performance"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/temp_bg"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp"
+        android:text="一键杀死Ui进程"
+        android:textSize="@dimen/btn_txt_size_performance" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/btn_height_performance"
-        android:textSize="@dimen/btn_txt_size_performance"
-        android:layout_toStartOf="@+id/performance_iv_youliao"
-        android:background="@drawable/temp_bg"
-        android:text="一键卸载所有第三方App"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="10dp"
-        android:id="@+id/performance_btn_uninstall_app"
-        android:layout_centerVertical="true"/>
+
+        <Button
+            android:id="@+id/performance_btn_uninstall_app"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/btn_height_performance"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/performance_iv_youliao"
+            android:background="@drawable/temp_bg"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="一键卸载所有第三方App"
+            android:textSize="@dimen/btn_txt_size_performance" />
+
         <ImageView
+            android:id="@+id/performance_iv_youliao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"
             android:layout_alignParentRight="true"
-            tools:background="@drawable/frame_by_frame_youliao"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:visibility="gone"
-            android:id="@+id/performance_iv_youliao"/>
+            tools:background="@drawable/frame_by_frame_youliao" />
     </RelativeLayout>
 
     <Button
+        android:id="@+id/performance_btn_monkey"
         android:layout_width="match_parent"
         android:layout_height="@dimen/btn_height_performance"
         android:layout_marginTop="10dp"
-        android:textSize="@dimen/btn_txt_size_performance"
         android:background="@drawable/temp_bg"
-        android:text="一键Monkey"
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp"
-        android:id="@+id/performance_btn_monkey"/>
+        android:text="一键Monkey"
+        android:textSize="@dimen/btn_txt_size_performance" />
 </LinearLayout>

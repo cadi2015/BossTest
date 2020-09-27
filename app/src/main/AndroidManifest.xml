@@ -102,18 +102,20 @@
 
         <service android:name=".service.MonitorService"></service>
         <service android:name=".service.FpsService"></service>
-        <service android:name=".service.UninstallAppService"></service>
+        <service android:name=".service.UninstallAppService"/>
         <activity
             android:name=".activity.InstallAppActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.InstallAppDetailActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.PhoneActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".activity.LocationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activity.TempActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data android:name="android.max_aspect" android:value="2.1" />
     </application>

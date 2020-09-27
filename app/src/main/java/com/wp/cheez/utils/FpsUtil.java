@@ -45,7 +45,7 @@ public class FpsUtil {
     public static final int getFrameNum() {
         try {
             if (process == null) {
-                process = Runtime.getRuntime().exec("su");
+                process = Runtime.getRuntime().exec("su"); //卧槽，我竟然提取root权限……
                 os = new DataOutputStream(process.getOutputStream());
                 ir = new BufferedReader(new InputStreamReader(
                         process.getInputStream()));

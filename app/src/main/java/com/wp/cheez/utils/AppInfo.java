@@ -11,10 +11,15 @@ import android.util.Log;
 public class AppInfo {
     private static final String TAG = "AppInfo";
 
-    AppInfo() {
+    private AppInfo() {
         super();
     }
 
+    /**
+     * 获取VersionCode
+     * @param context
+     * @return
+     */
     public static int getVersionCode(Context context) {
 
         if (context == null) {

@@ -1,12 +1,12 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-9:12
+ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:3:1-8:12
 	package
 		ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:4:5-37
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
@@ -22,16 +22,16 @@ INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/ma
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 uses-sdk
-ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
-INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
+INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 	android:targetSdkVersion
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
-		ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:5-43
+		ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml:8:15-40
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
+		ADDED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
 		INJECTED from /Users/wp/Downloads/gitCloneProjectAndroid/BossTest/library/src/main/AndroidManifest.xml
