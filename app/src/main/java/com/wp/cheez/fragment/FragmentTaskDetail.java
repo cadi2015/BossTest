@@ -27,6 +27,13 @@ import java.util.List;
 
 /**
  * Created by cadi on 2016/6/22.
+ * 不用协议的下载链接
+ *  http
+ *  ed2k
+ *  thunder
+ *  ftp
+ *  magnet
+ *  various
  */
 public class FragmentTaskDetail extends Fragment {
     private static final String TAG = "FragmentTaskDetail";

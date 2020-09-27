@@ -13,6 +13,11 @@ import com.wp.cheez.utils.LogHelper;
 public class DownloadTaskReceiver extends BroadcastReceiver {
     private static final String TAG = LogHelper.makeTag(DownloadTaskReceiver.class);
 
+    /**
+     * 这个onReceive方法会被回到
+     * @param context 上下文
+     * @param intent Intent对象
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive(Context context, Intent, intent)");

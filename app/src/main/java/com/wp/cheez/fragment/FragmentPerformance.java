@@ -403,7 +403,7 @@ public class FragmentPerformance extends Fragment {
     private void registerReceiver() {
         IntentFilter intentFilterDownload = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         IntentFilter intentFilterUninstall = new IntentFilter("bossTest.intent.action.UNINSTALL_FINISH");
-        mContext.registerReceiver(mReceiverDownload, intentFilterDownload);
+        mContext.registerReceiver(mReceiverDownload, intentFilterDownload); //动态注册广播，第二个参数为IntentFilter对象
         mContext.registerReceiver(mReceiverUninstall, intentFilterUninstall);
     }
 

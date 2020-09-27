@@ -93,7 +93,6 @@ public class GuideActivity extends FragmentActivity {
                     break;
                 case 3:
                     mTvShow.setText(R.string.guide_page_3);
-//                    mBtnStart.setVisibility(View.VISIBLE);
                     mIvNext.setVisibility(View.GONE);
                     break;
                 default:

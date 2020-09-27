@@ -48,25 +48,32 @@ public class UninstallAppService extends IntentService {
         mUninstallAppCount = uninstallApps();
     }
 
+    /**
+     * root手机可用
+     * @return 返回卸载了多少个应用，这她妈的是我写的吗？
+     */
     private int uninstallApps() {
         List<ApplicationInfo> apps = PackageUtil.getInstance(App.getAppContext()).getAllApplication();
         int temp = 0;
-        List<String> commandList = new ArrayList();
+        List<String> commandList = new ArrayList<>();
         for (ApplicationInfo applicationInfo : apps) {
             if (((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) || ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0)
                     || applicationInfo.processName.equals("com.wp.bosstest") || applicationInfo.processName.equals("cn.kuaipan.android")
                     || applicationInfo.processName.equals("com.xunlei.downloadprovider") || applicationInfo.processName.equals("com.tencent.mm")
                     || applicationInfo.processName.equals("com.tencent.mobileqq")) {
-                continue;
+                continue; //不卸载系统App、不卸载我们迅雷的应用
             }
             String command = "pm uninstall " + applicationInfo.processName;
             commandList.add(command);
             Log.d(TAG, "appInfo " + temp++ + " : " + "packageName = " + applicationInfo.packageName + ", processName = " + applicationInfo.processName);
         }
-        ShellUtils.execCommand(commandList, true);
+        ShellUtils.execCommand(commandList, true); //最后调用shell命令删除App
         return commandList.size();
     }
 
+    /**
+     * Service销毁前，发出一个广播
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();

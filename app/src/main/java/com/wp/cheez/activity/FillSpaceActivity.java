@@ -17,6 +17,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * 填充空间功能（必须回归项目之一，so库会经常更新）
+ */
 public class FillSpaceActivity extends BaseActivity {
     private static String TAG = LogHelper.makeTag(FillSpaceActivity.class);
     private Button mBtnStart;

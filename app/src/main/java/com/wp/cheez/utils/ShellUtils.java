@@ -128,7 +128,7 @@ public class ShellUtils {
 
         DataOutputStream os = null;
         try {
-            process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
+            process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH); //草，看见exec了……
             os = new DataOutputStream(process.getOutputStream());
             for (String command : commands) {
                 if (command == null) {

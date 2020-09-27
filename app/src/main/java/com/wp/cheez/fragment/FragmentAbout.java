@@ -32,7 +32,7 @@ public class FragmentAbout extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_about, null);
+        mRootView = inflater.inflate(R.layout.fragment_about, null); //将作为占位View(一般是个FrameLayout)的直接子元素
         init();
         setupViews();
         return mRootView;
