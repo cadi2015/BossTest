@@ -100,7 +100,7 @@ public class FragmentTaskDetail extends Fragment {
     }
 
     private void setUpViews() {
-        mLvShow = (ListView) mRootView.findViewById(R.id.task_detail_lv);
+        mLvShow = mRootView.findViewById(R.id.task_detail_lv);
         mLvShow.setAdapter(new MyListAdapter(mListOfExcel));
         mLvShow.setOnItemClickListener(new MyOnItemClickLis());
         mLvShow.setOnScrollListener(new MyOnScrLis());
