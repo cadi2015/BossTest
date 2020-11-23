@@ -1,5 +1,7 @@
 package com.wp.cheez.fragment;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -30,9 +32,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
+import java.security.Permission;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -72,6 +79,19 @@ public class FragmentTool extends Fragment {
         return mRootView;
     }
 
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void checkPermission(){
+        if (ActivityCompat.checkSelfPermission(mContext,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},9999);
+        }
+    }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated(View view, Bundle savedInstanceState)");
@@ -93,12 +113,13 @@ public class FragmentTool extends Fragment {
         } else {
             mTvShow.setText(mService_online);
         }
-
+        String adActionStr;
         if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + ".ad_show")) {
-            mBtnAd.setText("删除.ad_show");
+            adActionStr = "删除";
         } else {
-            mBtnAd.setText("添加.ad_show");
+            adActionStr = "添加";
         }
+        mBtnAd.setText(adActionStr + ".ad_show");
 
         if (fileIsExists(mRootPath + File.separator + "market_staging")) {
             mBtnSwitchMarketPre.setText("应用商店自升级删除preView环境");
@@ -123,6 +144,7 @@ public class FragmentTool extends Fragment {
             mTvDpInfo.setText("未安装");
         }
         showAlertDialog();
+        checkPermission();
     }
 
     @Override
@@ -145,17 +167,17 @@ public class FragmentTool extends Fragment {
     }
 
     private void initViews() {
-        mBtnSwitch = (Button) mRootView.findViewById(R.id.tool_btn_switch);
-        mTvShow = (TextView) mRootView.findViewById(R.id.tool_tv_current_show);
-        mBtnAd = (Button) mRootView.findViewById(R.id.tool_btn_ad);
-        mBtnBt = (Button) mRootView.findViewById(R.id.tool_btn_bt);
-        mBtnBrowserDownloadList = (Button) mRootView.findViewById(R.id.tool_btn_browser_download_list);
-        mBtnMarketDownloadList = (Button) mRootView.findViewById(R.id.tool_btn_market_download_list);
-        mBtnSlogConfig = (Button) mRootView.findViewById(R.id.tool_btn_slog_config);
-        mTvUiInfo = (TextView) mRootView.findViewById(R.id.tool_tv_ui_info);
-        mTvDpInfo = (TextView) mRootView.findViewById(R.id.tool_tv_dp_info);
-        mProBarBt = (ProgressBar) mRootView.findViewById(R.id.tool_pro_bar_bt);
-        mBtnSwitchMarketPre = (Button) mRootView.findViewById(R.id.tool_btn_market_switch_pre);
+        mBtnSwitch = mRootView.findViewById(R.id.tool_btn_switch);
+        mTvShow = mRootView.findViewById(R.id.tool_tv_current_show);
+        mBtnAd = mRootView.findViewById(R.id.tool_btn_ad);
+        mBtnBt = mRootView.findViewById(R.id.tool_btn_bt);
+        mBtnBrowserDownloadList = mRootView.findViewById(R.id.tool_btn_browser_download_list);
+        mBtnMarketDownloadList = mRootView.findViewById(R.id.tool_btn_market_download_list);
+        mBtnSlogConfig = mRootView.findViewById(R.id.tool_btn_slog_config);
+        mTvUiInfo = mRootView.findViewById(R.id.tool_tv_ui_info);
+        mTvDpInfo = mRootView.findViewById(R.id.tool_tv_dp_info);
+        mProBarBt = mRootView.findViewById(R.id.tool_pro_bar_bt);
+        mBtnSwitchMarketPre = mRootView.findViewById(R.id.tool_btn_market_switch_pre);
         mBtnMakeLog = (Button) mRootView.findViewById(R.id.tool_btn_make_log);
         View.OnClickListener myClick = new MyBtnClick();
         mBtnSwitch.setOnClickListener(myClick);
@@ -186,15 +208,14 @@ public class FragmentTool extends Fragment {
         }
     }
 
+
     private class MyBtnClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tool_btn_switch:
                     ServiceApi currentApi = getCurrentServiceApi();
-                    Log.d(TAG, "rootPath = " + mRootPath);
                     File dlFile = new File(mRootPath + File.separator + SERVICE_DIR_NAME);
-                    Log.d(TAG, ".dlprovider = " + dlFile);
                     if (dlFile.isDirectory() && dlFile.exists()) {
                         if (currentApi == ServiceApi.Test) {
                             if (createFile(dlFile.getPath(), SERVICE_PRE_NAME)) {
@@ -220,7 +241,9 @@ public class FragmentTool extends Fragment {
 
                         }
                     } else {
-                        Toast.makeText(mContext, ".dlprovider目录不存在", Toast.LENGTH_SHORT).show();
+                        if (dlFile.mkdir()) {
+                            Toast.makeText(mContext, ".dlprovider目录创建成功", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     break;
                 case R.id.tool_btn_ad:
@@ -247,18 +270,13 @@ public class FragmentTool extends Fragment {
                 case R.id.tool_btn_bt:
                     mBtnBt.setClickable(false);
                     mBtnBt.setEnabled(false);
-                    mProBarBt.setVisibility(View.VISIBLE);
-                    new MyTask().execute(); //这里采用非ui线程进行copy行为，不然ui线程直接anr了
+                    new MyTask(mContext, mRootPath, mProBarBt, mBtnBt).execute(); //这里采用非ui线程进行copy行为，不然ui线程直接anr了
                     break;
                 case R.id.tool_btn_browser_download_list:
-                    Intent broIntent = new Intent();
-                    broIntent.setAction("android.intent.action.VIEW_DOWNLOADS_LIST");
-                    startActivity(broIntent);
-                    break;
                 case R.id.tool_btn_market_download_list:
-                    Intent marIntent = new Intent();
-                    marIntent.setAction("android.intent.action.VIEW_DOWNLOADS");
-                    startActivity(marIntent);
+                    Intent broIntent = new Intent();
+                    broIntent.setAction(DownloadManager.ACTION_VIEW_DOWNLOADS);
+                    startActivity(broIntent);
                     break;
                 case R.id.tool_btn_market_switch_pre:
                     if (createFile(mRootPath, "market_staging")) {
@@ -272,7 +290,7 @@ public class FragmentTool extends Fragment {
                     }
                     break;
                 case R.id.tool_btn_make_log:
-                    callPhoneMakeLog();
+                    callPhoneMakeLog(); //隐式Intent，打开拨号盘
                     break;
                 case R.id.tool_btn_slog_config:
                     createFile(mRootPath, "slog.config");
@@ -331,12 +349,70 @@ public class FragmentTool extends Fragment {
         return removeSuccess;
     }
 
-    private class MyTask extends AsyncTask {
+    private static class MyTask extends AsyncTask {
+
+        private String mRootPath;
+        private WeakReference<Context> mWeakContext;
+        private WeakReference<ProgressBar> mWeakProgressBar;
+        private WeakReference<Button> mWeakBtn;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mWeakProgressBar.get().setVisibility(View.VISIBLE);
+        }
+
+        public MyTask(Context context, String rootPath, ProgressBar progressBar, Button btn) {
+            mWeakContext = new WeakReference<>(context);
+            mWeakProgressBar = new WeakReference<>(progressBar);
+            mWeakBtn = new WeakReference<>(btn);
+            this.mRootPath = rootPath;
+        }
+
+        private int copyBtToSdcard(String dirName) {
+            AssetManager assetManager = mWeakContext.get().getAssets();
+            File btDir = new File(mRootPath + File.separator + dirName);
+            if(!btDir.exists()) {
+                btDir.mkdir();
+            }
+            int successFileCount = 0;
+            String[] fileNames = null;
+            try {
+                fileNames = assetManager.list("bt");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            for (String name : fileNames) {
+                try {
+                    Log.d(TAG, "assets name = " + name);
+                    InputStream inputStream = assetManager.open("bt" + File.separator + name); //先把文件输入字节流
+                    File outFile = new File(btDir, name);
+                    byte[] bytes = new byte[1024]; //每次读取到内存1kb 先整个byte数组对象(buffer)用来持有byte
+                    int length; //用于记录读取到内存中的字节数
+                    OutputStream outputStream = new FileOutputStream(outFile); //整个输出字节流到文件
+                    while ((length = inputStream.read(bytes)) > 0) { // 程序从输入字节流中读取到byte数组对象里（buffer），每次读取1024字节
+                        outputStream.write(bytes, 0, length);
+                        //读取多少个字节，就写入多少个字节，第一个参数表示数据源，第二个表示一个偏移量，表示从源数据的哪个字节开始写入，第三个参数表示要写入的字节数
+                        //最大应该不能超过bytes的最大值，比如bytes表示的数据源只有9个字节，那么你要写入的最大值即为9个字节，超出也没有意义啊
+                        // OutputStream的write（）方法中，超出即会抛出一个异常 throw new IndexOutOfBoundsException()
+                        //FileOutputStream中，并没有这么做，write（）方法只是调用了一个native方法
+                    }
+                    inputStream.close();
+                    outputStream.flush();
+                    outputStream.close();
+                    successFileCount++;
+                    publishProgress(successFileCount);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return successFileCount;
+        }
+
         @Override
         protected Object doInBackground(Object... params) {
             Log.d(TAG, " ******** doInBackground (Object[] params)*********");
             int count = copyBtToSdcard("测试bt种子文件");
-            publishProgress(count);
             return null;
         }
 
@@ -344,7 +420,7 @@ public class FragmentTool extends Fragment {
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
             Log.d(TAG, "********* onPostExecute(Object o)");
-            mProBarBt.setVisibility(View.GONE);
+            mWeakProgressBar.get().setVisibility(View.GONE);
         }
 
         @Override
@@ -352,9 +428,9 @@ public class FragmentTool extends Fragment {
             super.onProgressUpdate(values);
             Log.d(TAG, "values = " + values[0]);
             Log.d(TAG, "******** onProgressUpdate(Object[]) values) *********");
-            Toast.makeText(mContext, "拷贝" + values[0] + "个bt文件完成,请在SD卡根目录使用", Toast.LENGTH_LONG).show();
-            mBtnBt.setClickable(true);
-            mBtnBt.setEnabled(true);
+            Toast.makeText(mWeakContext.get(), "拷贝" + values[0] + "个bt文件完成,请在SD卡根目录使用", Toast.LENGTH_LONG).show();
+            mWeakBtn.get().setClickable(true);
+            mWeakBtn.get().setEnabled(true);
         }
     }
 
@@ -365,40 +441,5 @@ public class FragmentTool extends Fragment {
         return temp;
     }
 
-
-    private int copyBtToSdcard(String dir) {
-        AssetManager assetManager = mContext.getAssets();
-        File btDir = new File(mRootPath + File.separator + dir);
-        int successFileCount = 0;
-        if (!btDir.exists()) {
-            btDir.mkdir();
-        }
-        String[] fileNames = null;
-        try {
-            fileNames = assetManager.list("bt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for (String name : fileNames) {
-            try {
-                Log.d(TAG, "assets name = " + name);
-                InputStream inputStream = assetManager.open("bt" + File.separator + name); //先把文件整成输入字节流
-                File outFile = new File(btDir, name);
-                byte[] bytes = new byte[1024]; //每次读取到内存1kb 先整个byte数组对象(buffer)用来持有byte
-                int length; //将输入字节流撸到byte数组对象（该数组的持有的每一个元素是byte）
-                OutputStream outputStream = new FileOutputStream(outFile); //整个输出字节流到文件
-                while ((length = inputStream.read(bytes)) > 0) { // 程序从输入字节流中读取到byte数组里（buffer），每次读取1024字节
-                    outputStream.write(bytes, 0, length); //然后byte数组(buffer)写入到输出字节流里，直接再到文件里
-                }
-                inputStream.close();
-                outputStream.flush();
-                outputStream.close();
-                successFileCount++;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return successFileCount;
-    }
 
 }

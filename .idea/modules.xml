@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BossTest.iml" filepath="$PROJECT_DIR$/BossTest.iml" group="BossTest" />
-      <module fileurl="file://$PROJECT_DIR$/app/BossTest-app.iml" filepath="$PROJECT_DIR$/app/BossTest-app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/BossTest-library.iml" filepath="$PROJECT_DIR$/library/BossTest-library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/gitCloneAndroidProject-BossTest.iml" filepath="$PROJECT_DIR$/gitCloneAndroidProject-BossTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BossTest.iml" filepath="$PROJECT_DIR$/BossTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/BossTest.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/BossTest.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/BossTest.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/BossTest.library.iml" />
     </modules>
   </component>
 </project>

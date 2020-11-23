@@ -6,11 +6,12 @@
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
     <ListView
+        android:layout_alignParentTop="true"
         android:scrollbarStyle="outsideOverlay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/task_lv_show_url"
-        android:layout_above="@+id/task_include_more">
+        android:layout_above="@id/task_include_more">
     </ListView>
     <include
         android:id="@+id/task_include_more"
