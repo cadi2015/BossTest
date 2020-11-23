@@ -7,10 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
 import android.util.Log;
 import android.view.Display;
 import android.view.MenuItem;
@@ -19,12 +15,15 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.wp.cheez.BuildConfig;
 import com.wp.cheez.R;
 import com.wp.cheez.config.AppConfig;
 import com.wp.cheez.config.SharedConstant;
-import com.wp.cheez.fragment.FragmentSecondApp;
 import com.wp.cheez.fragment.FragmentFirstApp;
+import com.wp.cheez.fragment.FragmentSecondApp;
 import com.wp.cheez.utils.PackageUtil;
 import com.wp.cheez.utils.StatusBarUtil;
 
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_content);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_drawer);
         mDrawerLayout.setDrawerListener(new MyDrawerLis());
-        mTabLayout = (TabLayout) findViewById(R.id.main_tab_layout_bottom);
+        mTabLayout = findViewById(R.id.main_tab_layout_bottom);
         mTabLayout.setOnTabSelectedListener(new MyOnTabSelLis());
         mTvAboutThis = (TextView) findViewById(R.id.layout_drawer_lower_part_tv_about_this);
         mFirstTab = mTabLayout.newTab().setText(mPackageUtil.getAppName(mAppConfig.getStr(SharedConstant.SELECT_FRIST_APP_PKG_KEY,PackageUtil.SHORT_VIDEO_PACKAGE_NAME)));

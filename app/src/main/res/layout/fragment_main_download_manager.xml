@@ -6,7 +6,7 @@
     android:orientation="vertical"
     >
 
-    <com.viewpagerindicator.TabPageIndicator
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/main_fragment_download_manager_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

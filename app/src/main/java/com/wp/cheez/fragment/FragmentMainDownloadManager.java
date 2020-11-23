@@ -7,11 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.tabs.TabLayout;
 import com.viewpagerindicator.IconPagerAdapter;
-import com.viewpagerindicator.TabPageIndicator;
 import com.wp.cheez.R;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.utils.LogHelper;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -26,7 +28,7 @@ public class FragmentMainDownloadManager extends Fragment {
     private String[] titles = {"工具", "任务", "性能", "设备"};
     private View mRootView;
     private ViewPager mViewPager;
-    private TabPageIndicator mTabPage;
+    private TabLayout mTabPage;
     private SharedPreferences mSharedPreConfig;
 
     @Override
@@ -60,11 +62,11 @@ public class FragmentMainDownloadManager extends Fragment {
 
 
     private void setupViews(){
-        mTabPage = (TabPageIndicator) mRootView.findViewById(R.id.main_fragment_download_manager_indicator);
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.main_fragment_download_manager_pager);
+        mTabPage =  mRootView.findViewById(R.id.main_fragment_download_manager_indicator);
+        mViewPager =  mRootView.findViewById(R.id.main_fragment_download_manager_pager);
         mViewPager.setAdapter(new CustomAdapter(getChildFragmentManager()));
-        mTabPage.setOnPageChangeListener(new MyPageChangeLis());
-        mTabPage.setViewPager(mViewPager);
+        mTabPage.setupWithViewPager(mViewPager);
+        mTabPage.addOnTabSelectedListener(new MyPageChangeLis());
     }
 
 
@@ -72,7 +74,7 @@ public class FragmentMainDownloadManager extends Fragment {
     public void onActivityCreated( Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated(Bundle savedInstanceState)");
-        mTabPage.setCurrentItem(mSharedPreConfig.getInt(KEY_TAB_ITEM, 0));
+        mTabPage.getTabAt(mSharedPreConfig.getInt(KEY_TAB_ITEM, 0)).select();
     }
 
     @Override
@@ -144,22 +146,23 @@ public class FragmentMainDownloadManager extends Fragment {
 
 
 
-    private class MyPageChangeLis implements ViewPager.OnPageChangeListener {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
+    private class MyPageChangeLis implements TabLayout.OnTabSelectedListener {
 
         @Override
-        public void onPageSelected(int position) {
-            Log.d(TAG, "onPageSelected(int position) position = " + position);
+        public void onTabSelected(TabLayout.Tab tab) {
+            Log.d(TAG, "onPageSelected(int position) position = " + tab.getPosition());
             SharedPreferences.Editor editor = mSharedPreConfig.edit();
-            editor.putInt(KEY_TAB_ITEM, position);
+            editor.putInt(KEY_TAB_ITEM, tab.getPosition());
             editor.apply();
         }
 
         @Override
-        public void onPageScrollStateChanged(int state) {
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
 
         }
     }
