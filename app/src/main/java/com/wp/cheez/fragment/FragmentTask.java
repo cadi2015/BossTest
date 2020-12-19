@@ -34,7 +34,6 @@ public class FragmentTask extends Fragment {
     private LinearLayout mLinearLayoutMore;
     ClipboardManager mClipboardManager;
     public static Fragment mFragment;
-
     public static Fragment newInstance() {
         if (mFragment == null) {
             mFragment = new FragmentTask();
@@ -53,7 +52,6 @@ public class FragmentTask extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "FragmentTask onCreate(Bundle savedInstanceState)");
     }
 
 
@@ -71,14 +69,13 @@ public class FragmentTask extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d(TAG, "FragmentTask onActivityCreated(Bundle savedInstanceState)");
     }
 
     private void setupViews() {
-        mlvShowUrl = (ListView) mRootView.findViewById(R.id.task_lv_show_url);
+        mlvShowUrl = mRootView.findViewById(R.id.task_lv_show_url);
         LinearLayout lvHeaderView = (LinearLayout) LayoutInflater.from(mActivity).inflate(R.layout.layout_task_lv_header, null);
         mlvShowUrl.addHeaderView(lvHeaderView, null, false);
-        mLinearLayoutMore = (LinearLayout)mRootView.findViewById(R.id.layout_task_footer_ll);
+        mLinearLayoutMore = mRootView.findViewById(R.id.layout_task_footer_ll);
         mLinearLayoutMore.setOnClickListener(new MyClickLis());
         String[] temp = {"http://bt.2tu.cc/5EE49B5834F061E86754764810EA899202E62EE2/[迅雷下载www.2tu.cc]致美丽的你EP04.rmvb", "ftp://dygod3:dygod3@y069.dydytt.net:6261/美女的诞生/[阳光电影-www.ygdy8.com]美女的诞生-01.rmvb",
                 "http://bt.box.n0808.com/FB/FE/FB5260D4444945B4DC604D09A640B6AE6DF5BFFE.torrent", "ed2k://|file|[迅雷下载www.DY123.cc]真心英雄.BD1280高清国粤双语中字.mp4|1191888666|8D05E0620D46BF13289AB32DF1821F28|h=FFRMNFIUREQRDY6ONW3HZM3TCXRT4RKT|/"
