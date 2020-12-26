@@ -45,7 +45,6 @@ public class PackageUtil {
         if (context == null) {
             return null;
         }
-
         if (packageUtil == null) { //这里可能多个线程对象进来
             synchronized (PackageUtil.class) { //第一个线程对象先拿到Class对象锁(因为是静态方法，所以Class对象锁，而不用实例对象锁,开始执行，第二个线程对象等待第一个线程对象释放锁
                 if (packageUtil == null) { //如果不做==null判断，会创建两次PackageUtil对象,我做了判断，第二个线程对象就不会再new了

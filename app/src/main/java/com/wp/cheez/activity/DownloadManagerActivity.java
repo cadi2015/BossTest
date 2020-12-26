@@ -4,13 +4,12 @@ import android.os.Bundle;
 
 import com.wp.cheez.R;
 import com.wp.cheez.fragment.FragmentMainDownloadManager;
-import com.wp.cheez.fragment.FragmentTool;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class TempActivity extends BaseActivity {
+public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

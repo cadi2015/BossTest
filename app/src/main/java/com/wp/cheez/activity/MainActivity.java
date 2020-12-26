@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         mFabTemp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this,TempActivity.class);
+                Intent intent = new Intent(MainActivity.this, DownloadManagerActivity.class);
                 startActivity(intent);
             }
         });
