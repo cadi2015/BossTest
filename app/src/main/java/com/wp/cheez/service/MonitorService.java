@@ -21,6 +21,9 @@ import com.wp.cheez.window.IconCallback;
 import com.wp.cheez.window.Magnet;
 
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -43,6 +46,7 @@ public class MonitorService extends Service implements IconCallback {
     private TextView mTvDpCpu;
     private Timer mTimer;
     private Handler mMainHandler;
+    private Map<String,TextView> viewMap = new HashMap<>();
 
     @Override
     public void onFlingAway() {
@@ -81,7 +85,7 @@ public class MonitorService extends Service implements IconCallback {
     private void init() {
         Magnet.Builder magnetBuilder = new Magnet.Builder(App.getAppContext(), false);
         mMagnet = magnetBuilder.setIconView(mMagnetRootView).setIconCallback(this).setShouldFlingAway(false).build();
-        mMainHandler = new MyHandler();
+        mMainHandler = new MyHandler(viewMap,this);
         mMagnet.show();
     }
 
@@ -91,6 +95,10 @@ public class MonitorService extends Service implements IconCallback {
         mTvDpMem = (TextView) mMagnetRootView.findViewById(R.id.magnet_tv_dp_mem);
         mTvUiCpu = (TextView) mMagnetRootView.findViewById(R.id.magnet_tv_ui_cpu);
         mTvDpCpu = (TextView) mMagnetRootView.findViewById(R.id.magnet_tv_dp_cpu);
+        viewMap.put(KEY_UI_MEMORY,mTvUiMem);
+        viewMap.put(KEY_DP_MEMORY,mTvDpMem);
+        viewMap.put(KEY_UI_CPU,mTvUiCpu);
+        viewMap.put(KEY_DP_CPU,mTvDpCpu);
     }
 
     private View getMagnetRootView() {
@@ -98,7 +106,13 @@ public class MonitorService extends Service implements IconCallback {
         return layoutInflater.inflate(R.layout.layout_window_magnet_moniter, null);
     }
 
-    private class MyHandler extends Handler {
+    private static  class MyHandler extends Handler {
+        private final WeakReference<Map<String,TextView>> viewMapReference;
+        private final WeakReference<Context> contextWeakReference;
+        public MyHandler(Map<String,TextView> map,Context context){
+            viewMapReference = new WeakReference<>(map);
+            contextWeakReference = new WeakReference<>(context);
+        }
         @Override
         public void handleMessage(Message msg) {
             if (msg != null) {
@@ -107,10 +121,10 @@ public class MonitorService extends Service implements IconCallback {
                 String dpMemory = myBundle.getString(KEY_DP_MEMORY);
                 String uiCpu = myBundle.getString(KEY_UI_CPU);
                 String dpCpu = myBundle.getString(KEY_DP_CPU);
-                mTvUiMem.setText(getString(R.string.ui_memory_msg, uiMemory));
-                mTvDpMem.setText(getString(R.string.dp_memory_msg, dpMemory));
-                mTvUiCpu.setText(getString(R.string.ui_cpu_time, uiCpu));
-                mTvDpCpu.setText(getString(R.string.dp_cpu_time, dpCpu));
+                viewMapReference.get().get(KEY_UI_MEMORY).setText(contextWeakReference.get().getString(R.string.ui_memory_msg, uiMemory));
+                viewMapReference.get().get(KEY_DP_MEMORY).setText(contextWeakReference.get().getString(R.string.dp_memory_msg, dpMemory));
+                viewMapReference.get().get(KEY_UI_CPU).setText(contextWeakReference.get().getString(R.string.ui_cpu_time, uiCpu));
+                viewMapReference.get().get(KEY_DP_CPU).setText(contextWeakReference.get().getString(R.string.dp_cpu_time, dpCpu));
             }
         }
     }
@@ -138,8 +152,8 @@ public class MonitorService extends Service implements IconCallback {
             String dpTotalPss = dpMsg[2];
             String uiCpuTime;
             String dpCpuTime;
-            uiCpuTime = ProcessUtil.getProcessCpuRate(Integer.valueOf(uiPid));
-            dpCpuTime = ProcessUtil.getProcessCpuRate(Integer.valueOf(dpPid));
+            uiCpuTime = ProcessUtil.getProcessCpuRate(Integer.parseInt(uiPid));
+            dpCpuTime = ProcessUtil.getProcessCpuRate(Integer.parseInt(dpPid));
             Message message = new Message();
             Bundle bundle = new Bundle();
             bundle.putString(KEY_UI_MEMORY, uiTotalPss);

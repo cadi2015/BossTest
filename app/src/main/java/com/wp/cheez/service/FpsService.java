@@ -16,6 +16,7 @@ import com.wp.cheez.utils.LogHelper;
 import com.wp.cheez.window.IconCallback;
 import com.wp.cheez.window.Magnet;
 
+import java.lang.ref.WeakReference;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -36,18 +37,22 @@ public class FpsService extends Service implements IconCallback{
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         View rootView = inflater.inflate(R.layout.layout_window_magnet_fps, null);
         mTvFps = (TextView) rootView.findViewById(R.id.magnet_fps_tv_value);
-        mHandler = new MyHandler();
+        mHandler = new MyHandler(mTvFps);
         mTimer = new Timer();
         mMagnet = builder.setIconView(rootView).setInitialPosition(-300, 0).setIconCallback(this).build();
         mMagnet.show();
     }
 
 
-    private class MyHandler extends Handler {
+    private static class MyHandler extends Handler {
+        private final WeakReference<TextView> weakReference;
+        public MyHandler(TextView textView){
+            weakReference = new WeakReference<>(textView);
+        }
         @Override
         public void handleMessage(Message msg) {
             Bundle bundle = msg.getData();
-            mTvFps.setText(String.valueOf(bundle.getFloat("fps")));
+            weakReference.get().setText(String.valueOf(bundle.getFloat("fps")));
         }
     }
 
