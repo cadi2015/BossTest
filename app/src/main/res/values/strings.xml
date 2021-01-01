@@ -30,7 +30,7 @@
     <string name="btn_clean">Clean</string>
 
     <string name="free_space">Free Space:</string>
-    <string name="free_space_size_with_unit">%1$1.1f %2$s</string>
+    <string name="free_space_size_with_unit">%1$1.1l %2$s</string>
 
     <string name="title_devices_info">Devices Information</string>
     <string name="title_Memory_info">Memory Information</string>

@@ -9,7 +9,6 @@ import com.wp.cheez.fragment.FragmentAbout;
  * Created by cadi on 2016/8/10.
  */
 public class AboutActivity extends BaseActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

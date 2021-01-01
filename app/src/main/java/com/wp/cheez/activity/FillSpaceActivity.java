@@ -10,25 +10,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import com.wp.cheez.R;
 import com.wp.cheez.utils.DeviceUtil;
 import com.wp.cheez.utils.LogHelper;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 /**
  * 填充空间功能（必须回归项目之一，so库会经常更新）
  */
 public class FillSpaceActivity extends BaseActivity {
-    private static String TAG = LogHelper.makeTag(FillSpaceActivity.class);
+    private static final String TAG = LogHelper.makeTag(FillSpaceActivity.class);
     private Button mBtnStart;
     private Button mBtnStop;
     private Button mBtnClean;
     private TextView mTvSpaceSize;
     private ProgressBar mPb;
-    private String fillFileName = "temp";
-    private int delayTime = 3000;
+    private static final String FILL_FILE_NAME = "temp";
+    private static final int DELAY_TIME = 3000;
     private MyHandler mHandler;
     private boolean mLoopStop = false;
     private MyFileTask myFileTask;
@@ -71,7 +74,7 @@ public class FillSpaceActivity extends BaseActivity {
         public void run() {
             updateSpaceSize();
             if(!mLoopStop) {
-                mHandler.postDelayed(this, delayTime);
+                mHandler.postDelayed(this, DELAY_TIME);
             }
         }
     }
@@ -95,14 +98,14 @@ public class FillSpaceActivity extends BaseActivity {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btn_start:
-                    myFileTask = new MyFileTask();
+                    myFileTask = new MyFileTask(mBtnStart,mBtnStop,mBtnClean,mPb,FillSpaceActivity.this);
 
                     Log.d(TAG, "AsyncTask getStatus() == " + myFileTask.getStatus());
                     if(myFileTask.getStatus() == AsyncTask.Status.PENDING){
                         myFileTask.execute();
                     }
                     mHandler = new MyHandler();
-                    mHandler.postDelayed(new MyRunnable(), delayTime);
+                    mHandler.postDelayed(new MyRunnable(), DELAY_TIME);
                     mPb.setVisibility(View.VISIBLE);
                     mBtnClean.setEnabled(false);
                     break;
@@ -113,7 +116,7 @@ public class FillSpaceActivity extends BaseActivity {
                     mLoopStop = true;
                     break;
                 case R.id.btn_clean:
-                    boolean success = deleteFile(fillFileName);
+                    boolean success = deleteFile(FILL_FILE_NAME);
                     if(success){
                         updateSpaceSize();
                     }
@@ -125,23 +128,36 @@ public class FillSpaceActivity extends BaseActivity {
 
 
 
-    private class MyFileTask extends AsyncTask<Void,Void,Boolean>{
+    private static class MyFileTask extends AsyncTask<Void,Void,Boolean>{
         //工作线程开始前，先调用的方法
+        private final WeakReference<Button> btnStartReference;
+        private final WeakReference<Button> btnStopReference;
+        private final WeakReference<Button> btnCleanReference;
+        private final WeakReference<ProgressBar> pbReference;
+        private final WeakReference<FillSpaceActivity> activityReference;
+        public MyFileTask(Button btnStart,Button btnStop,Button btnClean,ProgressBar pb,FillSpaceActivity activity){
+            btnStartReference = new WeakReference<>(btnStart);
+            btnStopReference = new WeakReference<>(btnStop);
+            btnCleanReference = new WeakReference<>(btnClean);
+            pbReference = new WeakReference<>(pb);
+            activityReference = new WeakReference<>(activity);
+        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mBtnStart.setVisibility(View.GONE);
-            mBtnStop.setVisibility(View.VISIBLE);
+            btnStartReference.get().setVisibility(View.GONE);
+            btnStopReference.get().setVisibility(View.VISIBLE);
         }
 
         //工作线程执行完后，调用的方法
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            mBtnStop.setVisibility(View.GONE);
-            mBtnStart.setVisibility(View.VISIBLE);
-            mBtnClean.setEnabled(true);
-            mPb.setVisibility(View.GONE);
+            btnStopReference.get().setVisibility(View.GONE);
+            btnStartReference.get().setVisibility(View.VISIBLE);
+            btnCleanReference.get().setEnabled(true);
+            pbReference.get().setVisibility(View.GONE);
         }
 
         //工作线程发出的更新，该方法在ui线程执行
@@ -154,7 +170,7 @@ public class FillSpaceActivity extends BaseActivity {
         protected Boolean doInBackground(Void... voids) {
             try {
                 int baseLimitWithByte = 500;
-                FileOutputStream fileOutputStream = openFileOutput(fillFileName, Context.MODE_APPEND);
+                FileOutputStream fileOutputStream = activityReference.get().openFileOutput(FILL_FILE_NAME, Context.MODE_APPEND);
                 int base = 4096;
                 int variable = 1;
                 byte[] bytes = new byte[base];
@@ -163,10 +179,10 @@ public class FillSpaceActivity extends BaseActivity {
                         break;
                     }
                     fileOutputStream.write(bytes);
-                    runOnUiThread(new Runnable() {
+                    activityReference.get().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            updateSpaceSize();
+                            activityReference.get().updateSpaceSize();
                         }
                     });
                 }
@@ -184,9 +200,9 @@ public class FillSpaceActivity extends BaseActivity {
         @Override
         protected void onCancelled(Boolean aBoolean) {
             super.onCancelled(aBoolean);
-            mBtnStop.setVisibility(View.GONE);
-            mBtnStart.setVisibility(View.VISIBLE);
-            mPb.setVisibility(View.GONE);
+            btnStopReference.get().setVisibility(View.GONE);
+            btnStartReference.get().setVisibility(View.VISIBLE);
+            pbReference.get().setVisibility(View.GONE);
         }
     }
 

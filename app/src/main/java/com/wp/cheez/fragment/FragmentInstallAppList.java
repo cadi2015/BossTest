@@ -20,7 +20,6 @@ import com.wp.cheez.utils.LogHelper;
 import com.wp.cheez.utils.PackageUtil;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -52,9 +51,7 @@ public class FragmentInstallAppList extends Fragment {
 
     private List<ApplicationInfo> filterSystemAppAndUpdateApp(List<ApplicationInfo> list) {
         List<ApplicationInfo> filteredList = new ArrayList<>();
-        Iterator<ApplicationInfo> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            ApplicationInfo applicationInfo = iterator.next();
+        for (ApplicationInfo applicationInfo : list) {
             if ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0 || (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) {
                 continue;
             }
@@ -129,8 +126,6 @@ public class FragmentInstallAppList extends Fragment {
             btnCheck.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "onClick(View v)");
-                    Log.d(TAG, "tvAppPackageName = " + tvAppPackageName.getText().toString());
                     Intent intent = new Intent(App.getAppContext(), InstallAppDetailActivity.class);
                     intent.putExtra("packageName", tvAppPackageName.getText().toString());
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

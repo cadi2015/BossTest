@@ -10,13 +10,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 public class DownloadManagerActivity extends BaseActivity {
-
+    private static final String MAIN_DOWNLOAD_MANAGER_TAG = "fk";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        ft.add(R.id.fl_content,new FragmentMainDownloadManager(),"fk");
+        ft.add(R.id.fl_content,new FragmentMainDownloadManager(),MAIN_DOWNLOAD_MANAGER_TAG);
         ft.commit();
     }
 
