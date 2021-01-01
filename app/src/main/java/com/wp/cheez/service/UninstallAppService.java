@@ -72,7 +72,7 @@ public class UninstallAppService extends IntentService {
     }
 
     /**
-     * Service销毁前，发出一个广播
+     * Service销毁前调用此方法，发出一个广播
      */
     @Override
     public void onDestroy() {
