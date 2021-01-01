@@ -18,10 +18,6 @@ import com.wp.cheez.utils.LogHelper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * Created by prem on 7/20/14.
- * Desc: Class holding the Magnet Icon, and performing touchEvents on the view.
- */
 public class Magnet implements View.OnTouchListener {
     private static final String TAG = LogHelper.makeTag(Magnet.class);
     protected static final int TOUCH_TIME_THRESHOLD = 200;
@@ -49,16 +45,6 @@ public class Magnet implements View.OnTouchListener {
     public static class Builder {
 
         protected Magnet magnet;
-
-        /**
-         * Used to instantiate your subclass of {@link Magnet}
-         *
-         * @param clazz your subclass
-         * @throws NoSuchMethodException
-         * @throws IllegalAccessException
-         * @throws InvocationTargetException
-         * @throws InstantiationException
-         */
         public <T extends Magnet> Builder(Class<T> clazz, Context context) {
             final Constructor<T> constructor;
             try {
@@ -80,12 +66,6 @@ public class Magnet implements View.OnTouchListener {
             }
         }
 
-        /**
-         * Instantiate a {@link Magnet}
-         */
-        public Builder(Context context) {
-            magnet = new Magnet(context);
-        }
 
         public Builder(Context context, boolean isAddRemoveView) {
             magnet = new Magnet(context, isAddRemoveView);

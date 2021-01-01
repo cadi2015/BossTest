@@ -3,9 +3,6 @@ package com.wp.cheez.window;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 
-/**
- * Created by prem on 7/20/14.
- */
 class FlingListener extends GestureDetector.SimpleOnGestureListener {
 
     private static final float FLING_THRESHOLD_VELOCITY = 50f;
