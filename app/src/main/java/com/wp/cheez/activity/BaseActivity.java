@@ -71,19 +71,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean judge (String str) {
-        if(str == null) {
-            return false;
-        }
-        for(int left = 0 ,right=(str.length() - 1); left <= right;left++,right--){
-            char startChar = str.charAt(left);
-            char endChar = str.charAt(right);
-            if(startChar != endChar){
-                return false;
-            }
-        }
-        return true;
-    }
-
 
 }

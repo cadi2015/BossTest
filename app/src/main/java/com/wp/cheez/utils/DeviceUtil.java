@@ -28,72 +28,77 @@ public class DeviceUtil {
 
     /**
      * 获取Android Device Id
+     *
      * @param context
      * @return
      */
-    public static String getAndroidDeviceId (Context context) {
+    public static String getAndroidDeviceId(Context context) {
         String ANDROID_ID = Settings.System.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
         return ANDROID_ID;
     }
 
     /**
      * 获取屏幕宽度，单位像素
+     *
      * @param activity
      * @return
      */
-    public static int getScreenWidthPx(Activity activity){
+    public static int getScreenWidthPx(Activity activity) {
         return displayMetrics(activity).widthPixels;
     }
 
     /**
      * 获取屏幕高度，单位：像素
+     *
      * @param activity
      * @return
      */
-    public static int getScreenHeightPx(Activity activity){
+    public static int getScreenHeightPx(Activity activity) {
         return displayMetrics(activity).heightPixels;
     }
 
     /**
      * 获取屏幕密度
+     *
      * @param activity
      * @return
      */
-    public static float getScreenDensity(Activity activity){
+    public static float getScreenDensity(Activity activity) {
         return displayMetrics(activity).density;
     }
 
     /**
      * 获取屏幕dpi
+     *
      * @param activity
      * @return
      */
-    public static int getScreenDensityDpi(Activity activity){
+    public static int getScreenDensityDpi(Activity activity) {
         return displayMetrics(activity).densityDpi;
     }
 
-    public static float getScreenScaledDensity(Activity activity){
+    public static float getScreenScaledDensity(Activity activity) {
         return displayMetrics(activity).scaledDensity;
     }
 
-    public static float getScreenXdpi(Activity activity){
+    public static float getScreenXdpi(Activity activity) {
         return displayMetrics(activity).xdpi;
     }
 
-    public static float getScreenYdpi(Activity activity){
+    public static float getScreenYdpi(Activity activity) {
         return displayMetrics(activity).ydpi;
     }
 
-    public static String getImei(Activity activity){
+    public static String getImei(Activity activity) {
         TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
-        if(ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE ) != PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             return "没有权限";
         }
         return tm.getDeviceId();
     }
 
-    private static DisplayMetrics displayMetrics(Activity activity){
-        if(dm == null){
+    private static DisplayMetrics displayMetrics(Activity activity) {
+        if (dm == null) {
             dm = new DisplayMetrics();
         }
         activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -105,13 +110,13 @@ public class DeviceUtil {
         WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = wifi.getConnectionInfo();
         String wifiMac = info.getMacAddress();
-        if(!isEmpty(wifiMac)){
+        if (!isEmpty(wifiMac)) {
         }
         return wifiMac;
     }
 
-    public static String getSimId (Context context) {
-        TelephonyManager tm = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+    public static String getSimId(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 //        String SimSerialNumber = tm.getSimSerialNumber();
 //        return SimSerialNumber;
         return "";
@@ -121,7 +126,7 @@ public class DeviceUtil {
      * 返回mcc
      */
     public static String getMccByTM(Activity activity, boolean isFull) {
-        if (activity == null){
+        if (activity == null) {
             return "";
         }
         if (ActivityCompat.checkSelfPermission(App.getAppContext(),
@@ -133,12 +138,12 @@ public class DeviceUtil {
                     getSystemService(Context.TELEPHONY_SERVICE);
             if (tm != null && tm.getSubscriberId() != null && tm.getSubscriberId().length() > 3) {
                 String mcc;
-                if(isFull) {
+                if (isFull) {
                     mcc = tm.getSubscriberId();
                 } else {
                     mcc = tm.getSubscriberId().substring(0, 3);
                 }
-                return  mcc;
+                return mcc;
             }
         }
         return "";
@@ -149,8 +154,7 @@ public class DeviceUtil {
     private static final int REQUEST_PHONE_STATE = 13;
 
     public static String getSerialNumber(Context context) {
-        String SerialNumber = android.os.Build.SERIAL;
-        return SerialNumber;
+        return android.os.Build.SERIAL;
     }
 
 
@@ -179,24 +183,23 @@ public class DeviceUtil {
     }
 
 
-
-    public static String spaceSizeWithUnit(Context context, long byteSize){
+    public static String spaceSizeWithUnit(Context context, long byteSize) {
         long size;
         String unit;
-        if(byteSize <= 1024) {
+        if (byteSize <= 1024) {
             size = byteSize;
             unit = "BYTE";
-        } else if(byteSize / 1024 <= 1024){
+        } else if (byteSize / 1024 <= 1024) {
             size = byteSize / 1024;
             unit = "KB";
-        } else if(byteSize / 1024 / 1024 <= 1024){
+        } else if (byteSize / 1024 / 1024 <= 1024) {
             size = byteSize / 1024 / 1024;
             unit = "MB";
         } else {
             size = byteSize / 1024 / 1024 / 1024;
             unit = "GB";
         }
-        return context.getString(R.string.free_space_size_with_unit,size,unit);
+        return context.getString(R.string.free_space_size_with_unit, size, unit);
     }
 
 }
