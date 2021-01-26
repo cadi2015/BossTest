@@ -184,19 +184,19 @@ public class DeviceUtil {
 
 
     public static String spaceSizeWithUnit(Context context, long byteSize) {
-        long size;
+        float size;
         String unit;
         if (byteSize <= 1024) {
             size = byteSize;
             unit = "BYTE";
         } else if (byteSize / 1024 <= 1024) {
-            size = byteSize / 1024;
+            size = byteSize / 1024f;
             unit = "KB";
-        } else if (byteSize / 1024 / 1024 <= 1024) {
-            size = byteSize / 1024 / 1024;
+        } else if (byteSize / 1024f / 1024f <= 1024f) {
+            size = byteSize / 1024f / 1024f;
             unit = "MB";
         } else {
-            size = byteSize / 1024 / 1024 / 1024;
+            size = byteSize / 1024f / 1024f / 1024f;
             unit = "GB";
         }
         return context.getString(R.string.free_space_size_with_unit, size, unit);

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
-import com.viewpagerindicator.IconPagerAdapter;
 import com.wp.cheez.R;
 import com.wp.cheez.config.SharedConstant;
 import com.wp.cheez.utils.LogHelper;
@@ -85,7 +84,7 @@ public class FragmentMainDownloadManager extends Fragment {
 
 
 
-    private class CustomAdapter extends FragmentPagerAdapter implements IconPagerAdapter { //FragmentPagerAdapter扩展自PagerAdapter   is a 的关系哦 亲
+    private class CustomAdapter extends FragmentPagerAdapter {
 
         public CustomAdapter(FragmentManager fm) {
             super(fm);
@@ -113,8 +112,6 @@ public class FragmentMainDownloadManager extends Fragment {
             }
             return fragment;
         }
-
-
         @Override
         public CharSequence getPageTitle(int position) {
             return titles[position];
@@ -123,24 +120,6 @@ public class FragmentMainDownloadManager extends Fragment {
         @Override
         public int getCount() {
             return titles.length;
-        }
-
-        @Override
-        public int getIconResId(int i) {
-            Log.d(TAG, "getIconResId(int i), i = " + i);
-            switch (i) {
-                case 0:
-                    return R.drawable.tab_tool;
-                case 1:
-                    return R.drawable.tab_download;
-                case 2:
-                    return R.drawable.tab_performance;
-                case 3:
-                    return R.drawable.tab_phone;
-                default:
-                    break;
-            }
-            return -1;
         }
     }
 

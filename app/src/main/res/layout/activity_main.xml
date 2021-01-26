@@ -65,7 +65,7 @@
                 app:elevation="0dp"
                 app:backgroundTint="@android:color/transparent"
                 android:id="@+id/main_fab_temp"
-                android:src="@drawable/ic_tool_black_24dp"
+                android:src="@drawable/icon_progress1"
                 android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"/>
             <com.google.android.material.floatingactionbutton.FloatingActionButton

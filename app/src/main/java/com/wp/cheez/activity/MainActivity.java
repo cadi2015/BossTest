@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.main_fab_web_view:
                     Intent intentWeb = new Intent(MainActivity.this, WebActivity.class);
-                    intentWeb.putExtra("jumpUrl", "http://qa.www.cheez.com/crushu/faq/dist/index.html#/");
+                    intentWeb.putExtra("jumpUrl", "http://www.baidu.com");
                     startActivity(intentWeb);
                     break;
                 default:
