@@ -22,7 +22,7 @@ public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     public boolean isDisplayHomeAsUp() {
-        return false;
+        return true;
     }
 
     @Override
@@ -32,11 +32,11 @@ public class DownloadManagerActivity extends BaseActivity {
 
     @Override
     public boolean isDisplayToolBar() {
-        return false;
+        return true;
     }
 
     @Override
     public String getToolBarTitle() {
-        return null;
+        return "下载管理中心";
     }
 }

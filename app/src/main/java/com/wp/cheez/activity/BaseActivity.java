@@ -32,9 +32,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initContentView() {
         int contentViewId = getContentViewId();
-        boolean isShowToolBar = isDisplayToolBar();
         boolean haveContent = (contentViewId != 0);
-        if (isShowToolBar) {
+        if (isDisplayToolBar()) {
             setContentView(R.layout.activity_base);
             Toolbar toolbar = (Toolbar) findViewById(R.id.with_tool_bar);
             setSupportActionBar(toolbar);
