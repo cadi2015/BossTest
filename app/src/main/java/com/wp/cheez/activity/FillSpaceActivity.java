@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -32,24 +33,15 @@ public class FillSpaceActivity extends BaseActivity {
     private ProgressBar mPb;
     private static final String FILL_FILE_NAME = "temp";
     private static final int DELAY_TIME = 3000;
-    private MyHandler mHandler;
+    private Handler mHandler;
     private boolean mLoopStop = false;
     private MyFileTask myFileTask;
-
-    /**
-     * 静态内部类，不去隐式的持有外部类对象的引用
-     */
-    private static class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
+        mHandler = new Handler(Looper.getMainLooper());
     }
 
     private void setupViews() {
@@ -82,29 +74,23 @@ public class FillSpaceActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (myFileTask != null) {
-            myFileTask.cancel(true);
-            mBtnClean.setEnabled(true);
-        }
-        mLoopStop = true;
     }
 
     /**
      * 我这里一开犯的错误就是，我用同一个AsyncTask对象想执行多次
      */
     private class MyBtnClickLis implements View.OnClickListener {
+
         //AsyncTask的一个对象，就只能执行一次，Google牛逼，想多次执行，只能再new一个AsyncTask出来了
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_start:
                     myFileTask = new MyFileTask(mBtnStart, mBtnStop, mBtnClean, mPb, FillSpaceActivity.this);
-
                     Log.d(TAG, "AsyncTask getStatus() == " + myFileTask.getStatus());
                     if (myFileTask.getStatus() == AsyncTask.Status.PENDING) {
                         myFileTask.execute();
                     }
-                    mHandler = new MyHandler();
                     mHandler.postDelayed(new MyRunnable(), DELAY_TIME);
                     mPb.setVisibility(View.VISIBLE);
                     mBtnClean.setEnabled(false);
@@ -149,7 +135,6 @@ public class FillSpaceActivity extends BaseActivity {
             btnStopReference.get().setVisibility(View.VISIBLE);
         }
 
-        //工作线程执行完后，调用的方法
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
@@ -159,20 +144,19 @@ public class FillSpaceActivity extends BaseActivity {
             pbReference.get().setVisibility(View.GONE);
         }
 
-        //工作线程发出的更新，该方法在ui线程执行
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-
         @Override
         protected Boolean doInBackground(Void... voids) {
+            FileOutputStream fileOutputStream;
             try {
                 int baseLimitWithByte = 100000;
-                FileOutputStream fileOutputStream = activityReference.get().openFileOutput(FILL_FILE_NAME, Context.MODE_APPEND);
+                fileOutputStream = activityReference.get().openFileOutput(FILL_FILE_NAME, Context.MODE_APPEND);
                 int base = 4800;
                 int i = 0;
                 byte[] bytes = new byte[base];
                 while (true) {
+                    if (isCancelled()) {
+                        break;
+                    }
                     fileOutputStream.write(bytes);
                     if (i == 10000000) {
                         activityReference.get().runOnUiThread(new Runnable() {
@@ -195,7 +179,7 @@ public class FillSpaceActivity extends BaseActivity {
                 e.printStackTrace();
             } finally {
             }
-            return null;
+            return true;
         }
 
         //这个肯定是调用将AsyncTask的onCancelled后，回调的方法
