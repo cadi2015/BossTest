@@ -39,7 +39,7 @@ public class FillSpaceActivity extends BaseActivity {
     /**
      * 静态内部类，不去隐式的持有外部类对象的引用
      */
-    private static class MyHandler extends Handler{
+    private static class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -47,33 +47,33 @@ public class FillSpaceActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate( Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViews();
     }
 
-    private void setupViews(){
+    private void setupViews() {
         mBtnStart = (Button) findViewById(R.id.btn_start);
         mBtnStop = (Button) findViewById(R.id.btn_stop);
-        mBtnClean = (Button)findViewById(R.id.btn_clean);
+        mBtnClean = (Button) findViewById(R.id.btn_clean);
         mPb = (ProgressBar) findViewById(R.id.p_bar_file_write);
         MyBtnClickLis myBtnClickLis = new MyBtnClickLis();
-        mTvSpaceSize = (TextView)findViewById(R.id.tv_space_size);
+        mTvSpaceSize = (TextView) findViewById(R.id.tv_space_size);
         updateSpaceSize();
         mBtnStart.setOnClickListener(myBtnClickLis);
         mBtnStop.setOnClickListener(myBtnClickLis);
         mBtnClean.setOnClickListener(myBtnClickLis);
     }
 
-    private void updateSpaceSize(){
+    private void updateSpaceSize() {
         mTvSpaceSize.setText(DeviceUtil.spaceSizeWithUnit(this, DeviceUtil.getFreeExternalMemory()));
     }
 
-    private class MyRunnable implements Runnable{
+    private class MyRunnable implements Runnable {
         @Override
         public void run() {
             updateSpaceSize();
-            if(!mLoopStop) {
+            if (!mLoopStop) {
                 mHandler.postDelayed(this, DELAY_TIME);
             }
         }
@@ -82,7 +82,7 @@ public class FillSpaceActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(myFileTask != null ) {
+        if (myFileTask != null) {
             myFileTask.cancel(true);
             mBtnClean.setEnabled(true);
         }
@@ -92,16 +92,16 @@ public class FillSpaceActivity extends BaseActivity {
     /**
      * 我这里一开犯的错误就是，我用同一个AsyncTask对象想执行多次
      */
-    private class MyBtnClickLis implements View.OnClickListener{
-         //AsyncTask的一个对象，就只能执行一次，Google牛逼，想多次执行，只能再new一个AsyncTask出来了
+    private class MyBtnClickLis implements View.OnClickListener {
+        //AsyncTask的一个对象，就只能执行一次，Google牛逼，想多次执行，只能再new一个AsyncTask出来了
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_start:
-                    myFileTask = new MyFileTask(mBtnStart,mBtnStop,mBtnClean,mPb,FillSpaceActivity.this);
+                    myFileTask = new MyFileTask(mBtnStart, mBtnStop, mBtnClean, mPb, FillSpaceActivity.this);
 
                     Log.d(TAG, "AsyncTask getStatus() == " + myFileTask.getStatus());
-                    if(myFileTask.getStatus() == AsyncTask.Status.PENDING){
+                    if (myFileTask.getStatus() == AsyncTask.Status.PENDING) {
                         myFileTask.execute();
                     }
                     mHandler = new MyHandler();
@@ -117,7 +117,7 @@ public class FillSpaceActivity extends BaseActivity {
                     break;
                 case R.id.btn_clean:
                     boolean success = deleteFile(FILL_FILE_NAME);
-                    if(success){
+                    if (success) {
                         updateSpaceSize();
                     }
                     break;
@@ -126,16 +126,15 @@ public class FillSpaceActivity extends BaseActivity {
     }
 
 
-
-
-    private static class MyFileTask extends AsyncTask<Void,Void,Boolean>{
+    private static class MyFileTask extends AsyncTask<Void, Void, Boolean> {
         //工作线程开始前，先调用的方法
         private final WeakReference<Button> btnStartReference;
         private final WeakReference<Button> btnStopReference;
         private final WeakReference<Button> btnCleanReference;
         private final WeakReference<ProgressBar> pbReference;
         private final WeakReference<FillSpaceActivity> activityReference;
-        public MyFileTask(Button btnStart,Button btnStop,Button btnClean,ProgressBar pb,FillSpaceActivity activity){
+
+        public MyFileTask(Button btnStart, Button btnStop, Button btnClean, ProgressBar pb, FillSpaceActivity activity) {
             btnStartReference = new WeakReference<>(btnStart);
             btnStopReference = new WeakReference<>(btnStop);
             btnCleanReference = new WeakReference<>(btnClean);
@@ -165,26 +164,29 @@ public class FillSpaceActivity extends BaseActivity {
         protected void onProgressUpdate(Void... values) {
         }
 
-        //在工作线程中执行的方法，哈哈，写入文件就在这里
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                int baseLimitWithByte = 500;
+                int baseLimitWithByte = 100000;
                 FileOutputStream fileOutputStream = activityReference.get().openFileOutput(FILL_FILE_NAME, Context.MODE_APPEND);
-                int base = 4096;
-                int variable = 1;
+                int base = 4800;
+                int i = 0;
                 byte[] bytes = new byte[base];
-                while (!isCancelled() && DeviceUtil.getFreeExternalMemory() > baseLimitWithByte){
-                    if(isCancelled()){
-                        break;
-                    }
+                while (true) {
                     fileOutputStream.write(bytes);
-                    activityReference.get().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            activityReference.get().updateSpaceSize();
+                    if (i == 10000000) {
+                        activityReference.get().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                activityReference.get().updateSpaceSize();
+                            }
+                        });
+                        i = 0;
+                        if (DeviceUtil.getFreeExternalMemory() < baseLimitWithByte) {
+                            break;
                         }
-                    });
+                    }
+                    i++;
                 }
                 fileOutputStream.close();
             } catch (FileNotFoundException e) {
@@ -205,10 +207,6 @@ public class FillSpaceActivity extends BaseActivity {
             pbReference.get().setVisibility(View.GONE);
         }
     }
-
-
-
-
 
 
     @Override
