@@ -45,8 +45,8 @@ public class PackageUtil {
         if (context == null) {
             return null;
         }
-        if (packageUtil == null) { //这里可能多个线程对象进来
-            synchronized (PackageUtil.class) { //第一个线程对象先拿到Class对象锁(因为是静态方法，所以Class对象锁，而不用实例对象锁,开始执行，第二个线程对象等待第一个线程对象释放锁
+        if (packageUtil == null) { //这里可能多个线程对象进来，为了避免加锁，释放锁的开销，所以这里做了判断，只有对象没有创建时，有必要这样
+            synchronized (PackageUtil.class) { //第一个线程对象先拿到Class对象锁(因为是静态方法，所以Class对象锁，而不用实例对象锁,开始执行，第二个线程对象在这里等待第一个线程对象释放锁
                 if (packageUtil == null) { //如果不做==null判断，会创建两次PackageUtil对象,我做了判断，第二个线程对象就不会再new了
                     packageUtil = new PackageUtil(context);
                 }
@@ -75,12 +75,13 @@ public class PackageUtil {
     }
 
     public PackageInfo getPackageInfoDefault(String packageName) {
-        PackageInfo packageInfo = null;
+        PackageInfo packageInfo;
         try {
             packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             System.err.println("名字找不到，我就草了");
+            return null;
         }
         return packageInfo;
     }
@@ -92,7 +93,7 @@ public class PackageUtil {
 
     public String getAppName(String packageName) {
         PackageInfo info = getPackageInfoDefault(packageName);
-        if(info != null){
+        if (info != null) {
             String appName = info.applicationInfo.loadLabel(packageManager).toString();
             return appName;
         }

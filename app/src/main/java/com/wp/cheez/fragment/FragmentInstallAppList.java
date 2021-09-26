@@ -5,7 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +51,9 @@ public class FragmentInstallAppList extends Fragment {
     private List<ApplicationInfo> filterSystemAppAndUpdateApp(List<ApplicationInfo> list) {
         List<ApplicationInfo> filteredList = new ArrayList<>();
         for (ApplicationInfo applicationInfo : list) {
-            if ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0 || (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) {
+            if (applicationInfo.processName.contains("camera") || applicationInfo.processName.contains("provider")) {
+
+            } else if ((applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) > 0 || (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0) {
                 continue;
             }
             filteredList.add(applicationInfo);
@@ -89,7 +90,7 @@ public class FragmentInstallAppList extends Fragment {
 
         @Override
         public FragmentInstallAppList.MyRecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new MyRecViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.layout_rv_item_with_app_list, parent,false));
+            return new MyRecViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.layout_rv_item_with_app_list, parent, false));
         }
 
         @Override
@@ -117,6 +118,7 @@ public class FragmentInstallAppList extends Fragment {
             super(itemView);
             setupViews();
         }
+
         private void setupViews() {
             tvId = itemView.findViewById(R.id.rv_item_tv_id);
             ivAppIcon = itemView.findViewById(R.id.rv_item_iv_app_icon);

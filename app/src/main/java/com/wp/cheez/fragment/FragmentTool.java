@@ -34,12 +34,9 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
-import java.security.Permission;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -49,7 +46,9 @@ public class FragmentTool extends Fragment {
     private static final String TAG = "FragmentTool";
     private static final String SERVICE_TEST_NAME = ".is_api_test";
     private static final String SERVICE_PRE_NAME = ".is_api_pre";
+    private static final String SERVICE_IS_SHOW_AD = ".ad_show";
     private static final String SERVICE_DIR_NAME = ".dlprovider";
+    private static final String SERVICE_MARKET = "market_staging";
     private View mRootView;
     private Button mBtnSwitch;
     private Button mBtnBt;
@@ -114,14 +113,14 @@ public class FragmentTool extends Fragment {
             mTvShow.setText(mService_online);
         }
         String adActionStr;
-        if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + ".ad_show")) {
+        if (fileIsExists(mRootPath + File.separator + SERVICE_DIR_NAME + File.separator + SERVICE_IS_SHOW_AD)) {
             adActionStr = "删除";
         } else {
             adActionStr = "添加";
         }
         mBtnAd.setText(adActionStr + ".ad_show");
 
-        if (fileIsExists(mRootPath + File.separator + "market_staging")) {
+        if (fileIsExists(mRootPath + File.separator + SERVICE_MARKET)) {
             mBtnSwitchMarketPre.setText("应用商店自升级删除preView环境");
         }
 
@@ -279,7 +278,7 @@ public class FragmentTool extends Fragment {
                     startActivity(broIntent);
                     break;
                 case R.id.tool_btn_market_switch_pre:
-                    if (createFile(mRootPath, "market_staging")) {
+                    if (createFile(mRootPath, SERVICE_MARKET)) {
                         Toast.makeText(mContext, "创建成功", Toast.LENGTH_SHORT).show();
                         mBtnSwitchMarketPre.setText("应用商店自升级删除preView环境");
                     } else {

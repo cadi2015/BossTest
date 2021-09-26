@@ -331,6 +331,8 @@ public class MainActivity extends AppCompatActivity {
             }
             if(showNotFoundAppFlag) {
                 Toast.makeText(MainActivity.this, "没有找到启动的App", Toast.LENGTH_SHORT).show();
+                Intent startInstallAppListIntent = new Intent(MainActivity.this,InstallAppActivity.class);
+                startActivity(startInstallAppListIntent);
             }
         }
     }
